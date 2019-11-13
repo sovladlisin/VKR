@@ -1,0 +1,7 @@
+{
+    "python.pythonPath": "service_core_venv\\Scripts\\python.exe",
+    "editor.formatOnSave": true,
+    "python.linting.pylintArgs": [
+        "--load-plugins=pylint_django"
+    ],
+}

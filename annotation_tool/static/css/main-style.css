@@ -1,0 +1,304 @@
+
+.createLink{
+        position: relative;
+    cursor: pointer;
+    top: -23px;
+    right: -15px;
+    width: 30px;
+    height: 30px;
+    font-size: 16pt;
+    color: white;
+}
+
+.tooltip{
+    left: -20px;
+    font-size: 10pt;
+    line-height: 15px;
+
+}
+.block{
+    width: 900px;
+    margin: 50px auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 8px;
+    grid-auto-rows: minmax(30px, auto);
+}
+
+.line{
+    width: 425px;
+    float: left;
+
+}
+.line p{
+    padding-left: 20px;
+    line-height: 30px;
+    text-align: left;
+    vertical-align: middle;
+    color: black;
+    background-color: white;
+    border: 0;
+    border-radius: 15px;
+}
+.block .id{
+    float: left;
+    border-radius: 130px;
+}
+
+.block .id p{
+    border-radius: 15px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    vertical-align: middle;
+    color: black;
+    background-color: white;
+    border: 0;
+}
+
+.menu {
+    width: 900px;
+    float: left;
+    margin: 50px 0 0 0;
+    background: white;
+}
+
+#confirm-first p:hover, #confirm-second p:hover, #confirm-connection p:hover{
+    background: #367a53;
+    color: white;
+    cursor: pointer;
+    transition: 1s;
+}
+
+#content {
+    width: 900px;
+    margin: 50px 0 0 0;
+    float: left;
+    background: white;
+    padding: 50px;
+    line-height: 23px;
+}
+
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(36,51,60);
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 20px;
+}
+.container{
+    width: 280px;
+    margin: 10px auto;
+    overflow: auto;
+
+}
+.container div{
+    float: left;
+}
+.container div p{
+    width: 280px;
+    display: table-cell;
+    vertical-align: middle;
+    color: white;
+
+    text-align: left;
+    background-color: rgb(36,51,60);
+    padding: 0;line-height: 50px;
+    padding-left: 10px;
+    padding-top: 5px;
+
+}
+.container .closebtn {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    font-size: 36px;
+    margin-left: 50px;
+    border: none;
+    color: white;
+    background-color: rgb(36,51,60);
+
+
+}
+
+
+.openbtn{
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background-color: rgb(36,51,60);
+    border: none;
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    font-size: 24px;
+    border-radius: 35px;
+}
+.openbtn:hover{
+    cursor: pointer;
+    transition: 0.2s;
+    width: 250px;
+
+}
+#first-link, #second-link{
+    border: solid 1px white;
+}
+.options{
+    display: none;
+    height: 200px;
+    overflow: auto;
+    width: 278px;
+    float: left;
+    border: solid 1px white;
+    margin: 5px 0 5px 0;
+}
+.options button{
+    border: none;
+    padding: 0;
+    margin: 0;
+    height: 50px;
+}
+.options button p{
+    border: none;
+    padding: 0;
+    margin: 0;
+    height: 50px;
+    line-height: 50px;
+}
+
+.options button p:hover{
+    cursor: pointer;
+    background-color: rgb(50, 66, 75);
+    transition: 0.5s;
+}
+
+#confirm-first, #confirm-second, #confirm-connection{
+    width: 280px;
+    float: left;
+    height: 50px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    display: none;
+
+}
+#confirm-first p, #confirm-second p, #confirm-connection p{
+    width: 280px;
+    height: 50px;
+    background: rgb(39,166,142);
+    display: table-cell;
+    vertical-align: middle;
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    line-height: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+.openlink, .articlelink{
+    position: fixed;
+    bottom: 125px;
+    left: 30px;
+    background-color: rgb(39,166,142);
+    border: none;
+    width: 70px;
+    height: 70px;
+    padding: 10px -1px;
+    font-size: 24px;
+    line-height: 1.33;
+    border-radius: 35px;
+}
+.openlink:hover, .articlelink:hover{
+    cursor: pointer;
+    width: 250px;
+    transition: 0.2s;
+    text-decoration: none;
+
+}
+.openlink p, .openbtn p, .articlelink p{
+    width: 250px;
+    display: table-cell;
+    vertical-align: middle;
+    color: white;
+    text-align: center;
+    padding: 0;
+    line-height: 70px;
+    text-decoration: none;
+    text-underline: none;
+    font-size: 30pt;
+}
+.openbtn p{
+    line-height: 0;
+}
+
+.openlink:hover p:after{
+    visibility: visible;
+    content: 'История изменений';
+    animation: fadein 2s;
+    -moz-animation: fadein 2s; /* Firefox */
+    -webkit-animation: fadein 2s; /* Safari and Chrome */
+    -o-animation: fadein 2s; /* Opera */
+}
+.articlelink:hover p:after{
+    visibility: visible;
+    content: 'Список текстов';
+    animation: fadein 2s;
+    -moz-animation: fadein 2s; /* Firefox */
+    -webkit-animation: fadein 2s; /* Safari and Chrome */
+    -o-animation: fadein 2s; /* Opera */
+}
+.openbtn:hover p, .openlink:hover p, .articlelink:hover p{
+    font-size: 12pt;
+    visibility: hidden;
+}
+.openbtn:hover p:after{
+    visibility: visible;
+    content: 'Панель управления';
+    animation: fadein 2s;
+    -moz-animation: fadein 2s; /* Firefox */
+    -webkit-animation: fadein 2s; /* Safari and Chrome */
+    -o-animation: fadein 2s; /* Opera */
+}
+
+.sideinfo {
+    height: 300px;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    bottom: 100px;
+    right: 0;
+    background-color: rgb(36,51,60);
+    overflow-x: hidden;
+    transition: 0.5s;
+    opacity: 0.9;
+}
+.sideinfo .container{
+    width: 400px;
+    overflow: auto;
+}
+.sideinfo .container div{
+    float: left;
+    display: table;
+    width: 400px;
+    height: 60px;
+}
+.sideinfo .container div p{
+    height: 60px;
+    width: 400px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 10pt;
+    color: white;
+}

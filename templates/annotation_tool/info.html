@@ -1,0 +1,35 @@
+{% load tags %}
+<div class="item-current"><p>Текущий элемент:</p></div>
+    {% autoescape off %}
+    {{item}}
+    {% endautoescape %}
+
+    <div class="item-slaves">
+        <p>Потомки</p>
+        <div class="createLink" data-master-pk="{{ obj.pk }}" data-master-model-name="{{ obj|get_class }}">
+            +
+        </div>
+    </div>
+
+{% if slaves %}
+    {% autoescape off %}
+    {{ slaves }}
+    {% endautoescape %}
+{% endif %}
+
+
+    <div class="item-masters">
+        <p>Родители</p>
+        <div class="createLink" data-slave-pk="{{ obj.pk }}" data-slave-model-name="{{ obj|get_class }}">
+            +
+        </div>
+    </div>
+{% if masters %}
+
+    {% autoescape off %}
+    {{ masters }}
+    {% endautoescape %}
+{% endif %}
+
+
+

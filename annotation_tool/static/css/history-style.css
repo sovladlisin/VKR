@@ -1,0 +1,71 @@
+.content {
+    width: 900px;
+    margin: 50px auto;
+}
+
+.block{
+    width: 900px;
+    height: 100px;
+    background: white;
+    margin-bottom: 30px;
+}
+.block div{
+    float: left;
+    height: 100px;
+    width: 300px;
+    display: table;
+}
+.block div p{
+    width: 300px;
+    display: table-cell;
+    vertical-align: middle;
+    color: rgb(36,51,60);
+    text-align: center;
+    padding: 0;
+}
+.openlink{
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background-color: rgb(39,166,142);
+    border: none;
+    width: 70px;
+    height: 70px;
+    padding: 10px -1px;
+    font-size: 24px;
+    line-height: 1.33;
+    border-radius: 35px;
+    text-decoration: none;
+}
+.openlink:hover{
+    cursor: pointer;
+    transition: 0.2s;
+    width: 250px;
+    text-decoration: none;
+
+}
+.openlink:hover p{
+    visibility: hidden;
+    font-size: 12pt;
+}
+.openlink p{
+    width: 250px;
+    display: table-cell;
+    vertical-align: middle;
+    color: white;
+    text-align: center;
+    padding: 0;
+    font-size: 30pt;
+    line-height: 70px;
+    text-decoration: none;
+    text-underline: none;
+
+}
+.openlink:hover p:after{
+    visibility: visible;
+    content: 'Вернуться к тексту';
+    animation: fadein 2s;
+    -moz-animation: fadein 2s; /* Firefox */
+    -webkit-animation: fadein 2s; /* Safari and Chrome */
+    -o-animation: fadein 2s; /* Opera */
+}

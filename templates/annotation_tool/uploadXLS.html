@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load widget_tweaks %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/fixer-style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/article-style.css' %}">
+
+</head>
+<body>
+
+{#<form action="{% url "annotation_tool:uploadXML" %}" method="post" enctype="multipart/form-data">#}
+{#            {% csrf_token %}#}
+{#            <input type="file"#}
+{#                   title="Upload excel file"#}
+{#                   name="excel_file"#}
+{#                   style="border: 1px solid black; padding: 5px;"#}
+{#                   required="required">#}
+{#            <p>#}
+{#            <input type="submit"#}
+{#                   value="Upload"#}
+{#                   style="border: 1px solid green; padding:5px; border-radius: 2px; cursor: pointer;">#}
+{#</form>#}
+
+
+<div class="content">
+    <form enctype="multipart/form-data" action="" method="post"> <!-- Do not forget to add: enctype="multipart/form-data" -->
+            {% csrf_token %}
+        <div class="block-file">
+            <label>
+                {% render_field form.file %}
+                <span>Выберите Excel документ</span>
+            </label>
+        </div>
+
+
+    <input type="submit" value="Загрузить текст">
+</form>
+</div>
+</body>
+</html>

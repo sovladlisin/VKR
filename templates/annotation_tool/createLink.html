@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% load tags %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://github.com/brianreavis/selectize.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main-style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/fixer-style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/createLink-style.css' %}">
+     <link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}">
+ <link rel="stylesheet" type="text/css" href="{% static 'css/window-style.css' %}">
+    <script src= "{% static 'js/preload.js' %}"></script>
+    <script src= "{% static 'js/createLink.js' %}"></script>
+</head>
+<body>
+<div class="head">
+    <div>Выбранный родитель:</div>
+    <div id="master">{{ master }}</div>
+    <div>Выбранный потомок:</div>
+    <div id="slave">{{ slave }}</div>
+    <div id="relation">Выбранная связь:</div>
+    <select id="relation-select">
+    {% for rel in relations  %}
+        <option value="{{rel.pk}}">{{rel.name}}</option>
+    {% endfor %}
+    </select>
+    {% comment %} {% if relation %}
+        {{ relation.name }}
+    {% endif %} {% endcomment %}
+    <div id="addLink">Создать связь</div>
+    
+</div>
+<div class="menu-choice">
+    <div class="side-master">
+        <div class="title">
+            <p>Выбор родителя</p>
+        </div>
+        {% for line in lines %}
+            <div class="line-choice" data-pk="{{line.pk}}" data-role="master">
+                <p>{{line.position}} - {{line.text_right}}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="side-slave">
+        <div class="title">
+            <p>Выбор потомка</p>
+        </div>
+        {% for line in lines %}
+            <div class="line-choice" data-pk="{{line.pk}}"  data-role="slave">
+                <p>{{line.position}} - {{line.text_right}}</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>

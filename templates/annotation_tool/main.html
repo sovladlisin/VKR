@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% load tags %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main-style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/fixer-style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tooltip-style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/window-style.css' %}">
+
+    <script src= "{% static 'js/tooltip.js' %}"></script>
+    <script src= "{% static 'js/preload.js' %}"></script>
+{#    <script src= "{% static 'js/prep.js' %}"></script>#}
+    <script src= "{% static 'js/SelectionTool.js' %}"></script>
+    <script src= "{% static 'js/LinkController.js' %}"></script>
+    <script src= "{% static 'js/WindowController.js' %}"></script>
+</head>
+<body>
+<div class="se-pre-con"></div>
+<div id="window-container"></div>
+
+<a href="{% url 'annotation_tool:blocks'%}" class="articlelink"  style="background-color:rgb(255,103,102);font-size:30px;cursor:pointer;bottom: 222px;"><p>&#9870;</p></a>
+<button class="openbtn"  style="font-size:30px;cursor:pointer"><p>&#9741;</p></button>
+
+    <div class="block" id="block" data-pk="{{ pk }}">
+        {% if lines %}
+
+            {% for line in lines %}
+                    <div style="grid-column: 1; grid-row: {{line.position}}" class="id" id="{{ line.pk }}" data-callable="1" data-pk="{{ line.pk }}" data-model="{{ line|get_class}}">
+                        <p>{{line.position}}</p>
+                    </div>
+                    <div style="grid-column: 2; grid-row: {{line.position}}" class="line"><p>{{ line.text_left }}</p></div>
+                    <div style="grid-column: 3; grid-row: {{line.position}}" class="line" ><p>{{ line.text_right }}</p></div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/fixer-style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/article-style.css' %}">
+    <script src="{% static 'js/preload.js' %}"></script>
+</head>
+<a href="{% url 'annotation_tool:uploadDOCX'%}" class="uploadlink">
+    <p>&#9870;</p>
+</a>
+
+<body>
+    <div class="se-pre-con"></div>
+    <div class="content">
+        <div class="block">
+            <p>Выберите блок для маркировки:</p>
+        </div>
+        {% if blocks %}
+        {% for block in blocks %}
+        <div class="article">
+            <a href="{% url 'annotation_tool:workspace' pk=block.pk %}">{{ block.title }}</a>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="article">
+            <a href="">Нет блоков</a>
+        </div>
+        {% endif %}
+    </div>
+    <a href="{% url 'annotation_tool:addRelation'%}">ДОБАВИТЬ ВИД СВЯЗИ</a>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+.menu-choice{
+    width: 900px;
+    margin: 50px auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    grid-auto-rows: minmax(30px, auto);
+}
+.line-choice{
+    height: 20px;
+}
+.line-choice p{
+    height: 20px;
+    line-height: 20px;
+    font-size: 10pt;
+    color: black;
+    background-color: aliceblue;
+}
+.line-choice:hover p{
+    background-color: rgb(36,51,60);;
+    color: white;
+    transition: 1s;
+    cursor: pointer;
+}
+.side-master{
+    width: 445px;
+    grid-column: 1;
+    grid-row: 1;
+}
+.side-slave{
+    width: 425px;
+    grid-column: 2;
+    grid-row: 1;
+}
+.title{
+    width: 445px;
+    height: 50px;
+    color: white;
+}
+.title p{
+    width: 445px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 14pt;
+}
+.side-master .title p{
+    background-color: rgb(39,166,142);
+}
+.side-slave .title p{
+    background-color: rgb(255,103,102);
+}
+

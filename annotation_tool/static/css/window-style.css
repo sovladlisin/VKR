@@ -1,0 +1,141 @@
+.window {
+    position: absolute;
+    z-index: 9;
+    background-color: #f1f1f1;
+    text-align: left;
+    width: 900px;
+    max-height: 700px;
+    border: 3px solid;
+    border-color: rgb(36,51,60);
+
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(36,51,60,1);
+    -moz-box-shadow: 0px 0px 6px 0px rgba(36,51,60,1);
+    box-shadow: 0px 0px 6px 0px rgba(36,51,60,1);
+}
+
+.window-header {
+    z-index: 10;
+    background-color:rgb(36,51,60);
+    color: #fff;
+    height: 50px;
+    width: 900px;
+}
+.window-header p{
+    width: 900px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}
+.item-info{
+    width: 900px;
+    overflow: auto;
+    max-height: 620px ;
+}
+[data-callable='1']{
+    cursor: pointer;
+}
+[data-callable='1']:hover{
+    color: rgb(255,103,102);
+    font-weight: bold;
+}
+
+.close-window{
+    position: absolute;
+    cursor: pointer;
+    top: -15px;
+    right: -15px;
+    width: 30px;
+    height: 30px;
+}
+.close-window p{
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 50px;
+    color: white;
+    border: 3px solid;
+    border-color: rgb(36,51,60);
+    background-color: rgb(255,103,102);
+}
+.close-window p:hover{
+    background-color: rgb(255, 82, 70);
+}
+.item-class{
+    width: 900px;
+    height: 30px;
+
+}
+.item-class p{
+    float: left;
+    width: 900px;
+    line-height: 30px;
+    background-color: white;
+    cursor: pointer;
+}
+.item-class:hover p{
+    background-color: rgb(36,51,60);;
+    color: white;
+}
+.item-field{
+    width: 900px;
+    background-color: white;
+    min-height: 30px;
+    display: table;
+}
+.item-field p{
+    display: table-cell;
+    vertical-align: middle;
+    min-height: 30px;
+    background-color: white;
+    padding: 10px 0 10px 10px;
+}
+.item-expand-info{
+    display: none;
+    width: 900px;
+    background: white;
+    overflow: auto;
+    max-height: 300px;
+}
+
+.item-current, .item-masters, .item-slaves, .item-dep{
+    width: 900px;
+    height: 30px;
+}
+.item-current p{
+    width: 900px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: beige;
+}
+.item-slaves p{
+    width: 900px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: rgb(39,166,142);;
+}
+.item-masters p{
+    width: 900px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: rgb(255,103,102);
+}
+.item-dep{
+    width: 900px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: beige;
+}
+table.item-info-table{
+    width: 900px;
+}
+table.item-info-table tr{
+    border-bottom: 1px solid;
+    border-color: rgb(36,51,60);
+}
+

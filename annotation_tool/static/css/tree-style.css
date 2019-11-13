@@ -1,0 +1,68 @@
+.content {
+    width: 600px;
+    margin: 50px auto;
+}
+
+#nav-block{
+    width: 500px;
+    height: 0;
+    margin: 100px auto;
+    z-index: 99;
+    overflow-y: hidden;
+    transition: 1s;
+    background-color: white;
+}
+
+.nav-element{
+    width: 500px;
+    background-color: white;
+    height: 50px;
+}
+.nav-element p{
+    float: left;
+    line-height: 50px;
+    text-align: left;
+    color: #333333;
+}
+.nav-link{
+    float: right;
+    line-height: 50px;
+
+    width: 50px;
+    text-align: center;
+}
+#nav-btn-confirm {
+    float: left;
+    width: 500px;
+    height: 50px;
+    border: none;
+}
+#nav-btn-confirm p{
+    width: 500px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    color: white;
+    background-color: #367a53;
+}
+
+.root{
+    height: 300px;
+    overflow: auto;
+}
+
+#side-class-info {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      right: 0;
+      background-color: rgb(36,51,60);
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 20px;
+}
+
+
+
