@@ -59,10 +59,12 @@ $(document).ready(function () {
                     if (role === "master") {
                         $("#master").empty();
                         $("#master").append(result.template)
+                        assignSlideToItems($('.item-class'));
                     }
                     if (role === "slave") {
                         $("#slave").empty();
                         $("#slave").append(result.template)
+                        assignSlideToItems($('.item-class'));
                     }
                 }
             }, dataType: "json",
