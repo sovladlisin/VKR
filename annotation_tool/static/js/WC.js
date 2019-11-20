@@ -1,10 +1,13 @@
 class WC {
 
-    constructor(container, url) {
+    constructor(container, hidden_container, url) {
         this.container = container;
+        this.hidden_container = hidden_container;
         console.log('creating', container);
         this.url = url;
         this.windows = {};
+        this.hidden_windows = {};
+
         this.assign();
 
 
@@ -12,6 +15,16 @@ class WC {
 
     assign() {
         var self = this;
+        $("body").on("click", ".hide-window", function () {
+            console.log('hiding');
+            var window = self.findWindow(this);
+            self.hideWindow(window.id);
+        });
+        $("body").on("click", ".hidden-window", function () {
+            console.log('showing');
+            self.showWindow($(this).attr('id'));
+            $(this).remove();
+        });
         $("body").on("click", ".add-dep", function () {
             console.log('addingDEP');
             var name = $(this).prev().val();
@@ -21,7 +34,6 @@ class WC {
             window.addPlaceholder(name, role);
         });
         $("body").on("mousedown", ".window-header", function () {
-            console.log('deleting');
             $('.window').css("z-index", "1");
             $(this).closest('.window').css("z-index", "99");
         });
@@ -73,12 +85,40 @@ class WC {
             helper: "clone",
             appendTo: "body",
             zIndex: 1000,
+            start: function (event, ui) {
+                $(ui.helper).animate({
+                    width: "30px"
+                }, 200, function () {
+                    // Animation complete.
+                });
+                $(ui.helper).find('div').animate({
+                    opacity: "0"
+                }, 200, function () {
+                    // Animation complete.
+                });
+                $(ui.helper).find('p').animate({
+                    opacity: "0"
+                }, 200, function () {
+                    // Animation complete.
+                });
+            }
         });
     }
 
     findWindow(node) {
         var win_id = $(node).closest('.window').attr('id');
         return this.windows[win_id];
+    }
+    hideWindow(id) {
+        var window = this.windows[id];
+        window.hide();
+        this.hidden_windows[id] = window;
+        $(this.hidden_container).append('<div class="hidden-window" id="' + id + '"><p>' + id + '</p></div>');
+    }
+    showWindow(id) {
+        var window = this.hidden_windows[id];
+        this.hidden_windows[id] = undefined;
+        window.show();
     }
 
     createWindow(pk, model) {

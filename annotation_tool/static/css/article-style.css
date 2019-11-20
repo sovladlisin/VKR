@@ -62,58 +62,8 @@
     transition: 0.5s;
 }
 
-.block-file input[type="file"]{
-
-display: none;/* скрываем input file */
-
-}
-
-/* задаем стили кнопки выбора файла*/
-
-.block-file {
 
 
-
-overflow: hidden;
-
-width: 900px;
-
-height: 70px;
-
-background: #367a53;
-color: #fff;
-text-align: center;
-
-}
-
-.block-file:hover {
-
-background: #409c6d;
-    transition: 1s;
-}
-
-/* Растягиваем label на всю область блока .file-upload */
-
-.block-file label {
-
-width: 100%;
-
-height: 100%;
-
-cursor: pointer;
-
-}
-
-/* стиль текста на кнопке*/
-
-.block-file span {
-width: 900px;
-    height: 70px;
-line-height: 70px;
-text-decoration: none;
-
-
-}
 .uploadlink{
     position: fixed;
     bottom: 30px;

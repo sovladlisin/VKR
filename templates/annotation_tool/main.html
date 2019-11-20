@@ -10,24 +10,24 @@
     <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'css/main-style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/all.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/fixer-style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/tooltip-style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/window-style.css' %}">
 
+
+
     <script src= "{% static 'js/tooltip.js' %}"></script>
     <script src= "{% static 'js/preload.js' %}"></script>
-{#    <script src= "{% static 'js/prep.js' %}"></script>#}
     <script src= "{% static 'js/SelectionTool.js' %}"></script>
-    <script src= "{% static 'js/LinkController.js' %}"></script>
-    <script src= "{% static 'js/WindowController.js' %}"></script>
-
     <script src= "{% static 'js/WC.js' %}"></script>
     <script src= "{% static 'js/Window.js' %}"></script>
 </head>
 <body>
 <div class="se-pre-con"></div>
 <div id="window-container"></div>
+<div id="hidden-window-container"></div>
 <div id="side-item-info"></div>
 
 <a href="{% url 'annotation_tool:blocks'%}" class="articlelink"  style="background-color:rgb(255,103,102);font-size:30px;cursor:pointer;bottom: 222px;"><p>&#9870;</p></a>
@@ -35,7 +35,6 @@
 
     <div class="block" id="block" data-pk="{{ pk }}">
         {% if lines %}
-
             {% for line in lines %}
                     {% comment %} <div style="grid-column: 1; grid-row: {{line.position}}" class="id" id="{{ line.pk }}" data-callable="1" data-pk="{{ line.pk }}" data-model="{{ line|get_class}}">
                         <p>{{line.position}}</p>
@@ -43,11 +42,25 @@
                     </div> {% endcomment %}
                     <div class="item" data-pk="{{line.pk}}" data-model="{{ line|get_class }}">
                         <p>Строка - {{ line.position }}</p>
-                        <div class="item-delete"><p>x</p></div>
-                        <div class="item-open"><p>o</p></div>
+                        <div class="item-delete"><p><i class="fas fa-times"></i></p></div>
+                        <div class="item-open"><p><i class="far fa-sticky-note"></i></p></div>
+                        <div class="item-info">
+                            <div class="content">
+                                <div class="label"><p>Оригинал:</p></div>
+                                <div class="value"><p data-callable="1" data-pk="{{line.pk}}" data-model="{{ line|get_class }}">Оригинал</p></div>
+                                <div class="label"><p>Содержится в блоке::</p></div>
+                                <div class="value"><p data-callable="1" data-pk="{{line.block.pk}}" data-model="{{ line.block|get_class }}">{{ line.block.title }}</p></div>
+                                <div class="label"><p>Позиция:</p></div>
+                                <div class="value"><p>{{ line.position }}</p></div>
+                                <div class="label"><p>Оригинальный текст:</p></div>
+                                <div class="value"><p>{{ line.text_left }}</p></div>
+                                <div class="label"><p>Переведенный текст:</p></div>
+                                <div class="value"><p>{{ line.text_right }}</p></div>
+                            </div>
+                        </div>
                     </div>
-                    <div style="grid-column: 2; grid-row: {{line.position}}" class="line"><p>{{ line.text_left }}</p></div>
-                    <div style="grid-column: 3; grid-row: {{line.position}}" class="line" ><p>{{ line.text_right }}</p></div>
+                    <div style="" class="line"><p>{{ line.text_left }}</p></div>
+                    <div style="" class="line" ><p>{{ line.text_right }}</p></div>
             {% endfor %}
         {% endif %}
     </div>

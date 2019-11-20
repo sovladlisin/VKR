@@ -1,8 +1,8 @@
 {% load tags %}
 <div id="{{item.pk}}{{item|get_class}}"class="item" data-pk="{{item.pk}}" data-model="{{ item|get_class }}">
     <p>Строка - {{ item.position }}</p>
-    <div class="item-delete"><p>x</p></div>
-    <div class="item-open"><p>o</p></div>
+    <div class="item-delete"><p><i class="fas fa-times"></i></p></div>
+    <div class="item-open"><p><i class="far fa-sticky-note"></i></p></div>
     <div class="item-info">
         <div class="content">
             <div class="label"><p>Оригинал:</p></div>

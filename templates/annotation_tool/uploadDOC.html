@@ -5,40 +5,62 @@
     <title>Title</title>
     {% load widget_tweaks %}
     {% load static %}
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'css/fixer-style.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/article-style.css' %}">
-
+    <link rel="stylesheet" type="text/css" href="{% static 'css/upload-style.css' %}">
+    
+    <script src= "{% static 'js/uploadFile.js' %}"></script>
 </head>
 <body>
 
-{#<form action="{% url "annotation_tool:uploadXML" %}" method="post" enctype="multipart/form-data">#}
-{#            {% csrf_token %}#}
-{#            <input type="file"#}
-{#                   title="Upload excel file"#}
-{#                   name="excel_file"#}
-{#                   style="border: 1px solid black; padding: 5px;"#}
-{#                   required="required">#}
-{#            <p>#}
-{#            <input type="submit"#}
-{#                   value="Upload"#}
-{#                   style="border: 1px solid green; padding:5px; border-radius: 2px; cursor: pointer;">#}
-{#</form>#}
-
-
-<div class="content">
-    <form enctype="multipart/form-data" action="" method="post"> <!-- Do not forget to add: enctype="multipart/form-data" -->
+    <div class="content">
+        <form enctype="multipart/form-data" action="" method="post">
             {% csrf_token %}
-        <div class="block-file">
-            <label>
-                {% render_field form.file %}
-                <span>Выберите DOCX документ</span>
-            </label>
-        </div>
+            <div class="block-file">
+                <label>
+                    {% render_field form.file %}
+                    <span>Выберите DOCX документ</span>
+                </label>
+            </div>
+            <input type="submit" style="opacity: 0">
+        </form>
+    </div>
 
-
-    <input type="submit" value="Загрузить текст">
-</form>
-</div>
+    
+<div id="wrapper">
+   	  <div id="slider-wrap">
+      	  <ul id="slider">
+          	 <li data-color="#1abc9c" style="background: url('{% static 'images/test.png' %}')">
+                <div>
+                    <h3>Slide #1</h3>
+                    <span>Sub-title #1</span>
+                </div>                
+             </li>
+             
+             <li data-color="#3498db">
+                <div>
+                    <h3>Slide #2</h3>
+                    <span>Sub-title #2</span>
+                </div>
+                <i class="fa fa-gears"></i>
+             </li> 
+          </ul>
+           <!--controls-->
+          <div class="btns" id="next"><i class="fa fa-arrow-right"></i></div>
+          <div class="btns" id="previous"><i class="fa fa-arrow-left"></i></div>
+          <div id="counter"></div>
+          
+          <div id="pagination-wrap">
+            <ul>
+            </ul>
+          </div>
+          <!--controls-->  
+                 
+      </div>
+  
+   </div>
 
 
 </body>

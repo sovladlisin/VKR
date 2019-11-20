@@ -2,7 +2,7 @@ $(document).ready(function () {
     let tooltips = [];
     window.links = [];
     downloadLinkedItems();
-    let WindowController = new WC($('#window-container'), '/annotation_tool/info');
+    let WindowController = new WC($('#window-container'), $('#hidden-window-container'), '/annotation_tool/info');
 
 
     $(".block .item").hover(
@@ -10,8 +10,8 @@ $(document).ready(function () {
             highlightElements([[$(this), 0]], "rgb(36,51,60)", "white", false);
             let links = getLineLinkedItems(this);
             if (links[0].length > 0 || links[1].length > 0) {
-                highlightElements(links[0], "rgb(255,103,102)", "white", true, "Родитель");
-                highlightElements(links[1], "rgb(32,150,124)", "white", true, "Потомок");
+                highlightElements(links[0], "#ff4641", "white", true, "Родитель");
+                highlightElements(links[1], "#00bfa5", "white", true, "Потомок");
             }
 
 
@@ -60,20 +60,21 @@ function getLineLinkedItems(item) {
 }
 
 function highlightElements(elements, color, text_color, apply_tooltip, type) {
+
     elements.forEach(function (node, i, masters) {
-        if (apply_tooltip) {
-            $(node[0]).tipso({
-                background: color,
-                speed: 1,
-                width: "150px",
-                animationIn: 'fadeInLeft',
-                animationOut: 'fadeOutLeft',
-                position: 'left',
-                useTitle: false,
-                content: node[1]
-            });
-            $(node[0]).tipso('show');
-        }
+        //     if (apply_tooltip) {
+        //         $(node[0]).tipso({
+        //             background: color,
+        //             speed: 1,
+        //             width: "150px",
+        //             animationIn: 'fadeInLeft',
+        //             animationOut: 'fadeOutLeft',
+        //             position: 'left',
+        //             useTitle: false,
+        //             content: node[1]
+        //         });
+        //         $(node[0]).tipso('show');
+        //     }
 
         $(node[0]).next().find('p').css("background-color", color);
         $(node[0]).next().find('p').css("color", text_color);

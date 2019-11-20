@@ -1,21 +1,58 @@
 .window {
     position: fixed;
+    top: 10%;
+    left: 20%;
     z-index: 9;
-    background-color: #f1f1f1;
+    background-color: #eaf4f4;
     text-align: left;
     width: 900px;
+    overflow: hidden;
     max-height: 700px;
-    border: 3px solid;
-    border-color: rgb(36,51,60);
+    /* border: 0px solid; */
+    border-color: #232d41;
+    border-radius: 20px;
+    -webkit-box-shadow: 0px 4px 0px 2px rgb(35,45,65, 0.3);
+    -moz-box-shadow: 0px 4px 0px 2px rgb(35,45,65, 0.3);
+    box-shadow: 0px 4px 0px 2px rgb(35,45,65, 0.3);
+}
 
-    -webkit-box-shadow: 0px 0px 6px 0px rgba(36,51,60,1);
-    -moz-box-shadow: 0px 0px 6px 0px rgba(36,51,60,1);
-    box-shadow: 0px 0px 6px 0px rgba(36,51,60,1);
+#hidden-window-container{
+    position: fixed;
+    margin: 10px;
+    width: 160px;
+    border-radius: 30px;
+    display: grid;
+    grid-template-columns: auto;
+    grid-gap: 5px;
+    justify-items: center;
+}
+#hidden-window-container .hidden-window{
+    height: 30px;
+    background: #232d41;
+    color: white;
+    border-radius: 15px;
+    margin: 0px 0;
+    font-size: 10pt;
+    transition: 0.5s;
+    -webkit-box-shadow: 0px 5px 0px 0px rgb(35,45,65, 0.4);
+    -moz-box-shadow: 0px 5px 0px 0px rgb(35,45,65, 0.4);
+    box-shadow: 0px 3px 0px 0px rgb(35,45,65, 0.4);
+}
+#hidden-window-container .hidden-window:hover{
+    margin-left: 40px;
+    cursor: pointer;
+    background-color:#ff4641;
+}
+#hidden-window-container .hidden-window>p{
+    line-height: 30px;
+    width: inherit;
+    text-align: center;
+    padding: 0 10px;
 }
 
 .window-header {
     z-index: 10;
-    background-color:rgb(36,51,60);
+    background-color: #232d41;
     color: #fff;
     height: 50px;
     width: 900px;
@@ -35,76 +72,55 @@
 }
 
 
-.close-window{
+.close-window, .save-window, .item-restore, .hide-window{
     position: absolute;
     cursor: pointer;
-    top: 3px;
-    right: 10px;
     width: 30px;
     height: 30px;
+    top: 8px;
 }
-.close-window p{
-    cursor: pointer;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    line-height: 30px;
-    border-radius: 50px;
-    color: white;
-    border: 3px solid;
-    border-color: rgb(36,51,60);
-    background-color: rgb(255,103,102);
+.hide-window{
+    right: 80px;
+}
+.close-window{
+    right: 10px;
 }
 .save-window{
-    position: absolute;
-    cursor: pointer;
-    top: 3px;
-    right: 47px;
-    width: 30px;
-    height: 30px;
-}
-.save-window p{
-    cursor: pointer;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    line-height: 30px;
-    border-radius: 50px;
-    color: white;
-    border: 3px solid;
-    border-color: rgb(36,51,60);
-    background-color: rgb(39,166,142);
-    font-size: 16pt;
+    right: 45px;
 }
 .item-restore{
     opacity: 0;
-    position: absolute;
-    cursor: pointer;
-    top: 3px;
-    right: 84px;
-    width: 30px;
-    height: 30px;
+    right: 115px;
 }
-.item-restore>p{
+.item-restore>p, .close-window>p, .save-window>p, .hide-window>p{
     cursor: pointer;
     width: 30px;
     height: 30px;
     text-align: center;
-    line-height: 30px;
+    line-height: 33px;
     border-radius: 50px;
     color: white;
-    border: 3px solid;
-    border-color: rgb(36,51,60);
-    background-color: rgb(253,216,53);
-    font-size: 16pt;
+    /* border: 3px solid; */
+    /* border-color: rgb(36,51,60); */
+    /* background-color: rgb(255,203,0); */
+    font-size: 10pt;
+    transition: 0.5s;
+}
+.item-restore p:hover{
+    background-color:  rgb(255,203,0);
 }
 .close-window p:hover{
-    background-color: rgb(255, 82, 70);
+    background-color: #ff4641;
+}
+.save-window p:hover{
+    background-color: rgb(39,166,142);
+}
+.hide-window p:hover{
+    background-color: rgb(64,196,255);
 }
 
-
 div.item[data-model='Line']{
-    background-color: rgb(39,166,142);
+    background-color: #00bfa5;
 }
 div.item[data-model='Class']{
     background-color: rgb(255,103,102);
@@ -116,14 +132,20 @@ div.item[data-model='Block']{
     background-color: rgb(64,196,255);
 }
 
-
+.item-carry{
+    width: 30px;
+}
+.item-carry div, .item-carry p{
+    visibility: hidden;
+    opacity: 0;
+}
 .item{
     height: 30px;
     margin: 10px 5px;
     cursor: pointer;
     display: inline-block;
     border-radius: 30px;
-
+    margin: 10px;
 }
 .item>p{
     line-height: 30px;
@@ -194,32 +216,12 @@ div.item[data-model='Block']{
 }
 
 .placeholder{
-    width: 280px;
+    width: 260px;
     height: 110px;
     overflow: auto;
     display: grid;
     grid-template-columns: auto auto;
-}
-
-.item-field{
-    width: 900px;
-    background-color: white;
-    min-height: 30px;
-    display: table;
-}
-.item-field p{
-    display: table-cell;
-    vertical-align: middle;
-    min-height: 30px;
-    background-color: white;
-    padding: 10px 0 10px 10px;
-}
-.item-expand-info{
-    display: none;
-    width: 900px;
-    background: white;
-    overflow: auto;
-    max-height: 300px;
+    justify-items: center;
 }
 
 .item-current, .item-masters, .item-slaves, .item-dep{
@@ -234,10 +236,15 @@ div.item[data-model='Block']{
     background-color: beige;
 }
 .item-slaves, .item-masters{
-    width: 900px;
-    min-height: 200px;
-    overflow: auto;
-
+    width: 880px;
+    margin: 15px auto;
+    height: 210px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: rgb(255, 255, 255,0.4);
+    -webkit-box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.3);
+    box-shadow: 0px 2px 0px 0px rgb(35,45,65, 0.3);
 }
 .item-slaves .title, .item-masters .title{
     height: 30px;
@@ -247,7 +254,7 @@ div.item[data-model='Block']{
 }
 .item-slaves .title:hover p:before, .item-masters .title:hover p:before{
     cursor: pointer;
-    content: 'Добавить тип связи в элемент'
+    content: "Добавить новый вид связи";
 }
 
 .item-slaves .title p{
@@ -255,21 +262,25 @@ div.item[data-model='Block']{
     height: 30px;
     line-height: 30px;
     text-align: center;
-    background-color: rgb(39,166,142);
+    background-color: #00bfa5;
+    color: white;
 }
 .item-masters .title p{
     width: 900px;
     height: 30px;
     line-height: 30px;
     text-align: center;
-    background-color: rgb(255,103,102);
+    color: white;
+    background-color: #ff4641;
 }
 .dep-container{
     grid-template-columns: auto auto auto;
-    grid-gap: 25px;
-    grid-auto-rows: minmax(50px, 130px);
+    grid-gap: 20px;
     display: grid;
-    margin: 25px 5px;
+    height: 130px;
+    padding: 25px 28px;
+    overflow: auto;
+    justify-items: center;
 }
 .dep-container .item-dep{
     border-radius: 30px;
@@ -277,15 +288,19 @@ div.item[data-model='Block']{
 
 
 .item-dep{
-    width: 280px;
+    width: 260px;
+    /* display: inline-block; */
     height: 130px;
-    background: wheat;
-   
+    background: white;
+    /* padding: 10px; */
+    -webkit-box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.3);
+    box-shadow: 0px 2px 0px 0px rgb(35,45,65, 0.3);
 }
 .item-dep>p{
     text-align: center;
     line-height: 30px;
-    background-color: beige;
+    /* background-color: beige; */
 }
 table.item-info-table{
     width: 900px;
@@ -354,18 +369,23 @@ table.item-info-table tr{
     height: 28px;
     border-radius: 25px;
     border: none;
-    background: rgb(245,222,179);
+    background: white;
     padding: 0px 13px;
+    color:#232d41;
 }
 .dep-input div.add-dep{
     float: left;
     height: 30px;
     width: 30px;
-    background: rgb(39,166,142);
     border-radius: 30px;
     margin-left: 5px;
     cursor: pointer;
+    transition: 0.5s;
+}
+.dep-input div.add-dep:hover{
+    background: #00bfa5;
 }
 .dep-input div.add-dep p{
-    line-height: 30px;
+    line-height: 33px;
+    font-size: 10pt;
 }

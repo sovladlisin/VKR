@@ -26,7 +26,7 @@ class Window {
     $(titles).each(function () {
       var title = this;
       $(this).tipso({
-        background: 'white',
+        background: '#232d41',
         speed: 1,
         width: "350px",
         animationIn: 'fadeInDown',
@@ -35,11 +35,32 @@ class Window {
         useTitle: false,
         tooltipHover: true,
         content: function () {
-          return '<div class="dep-input"><input type="text" size="40"><div class="add-dep" data-placeholder-role="' + $(title).data('role') + '" data-window-pk="' + self.id + '"><p>+</p></div></div>';
+          return '<div class="dep-input"><input type="text" size="40"><div class="add-dep" data-placeholder-role="' + $(title).data('role') + '" data-window-pk="' + self.id + '"><p><i class="fas fa-plus"></i></p></div></div>';
         }
       });
     })
 
+  }
+
+  hide() {
+    this.width = $(this.node).width();
+    this.height = $(this.node).height();
+    $(this.node).animate({
+      opacity: 0,
+      height: "toggle",
+      width: 'toggle',
+    }, 500, function () {
+    });
+  }
+  show() {
+    var self = this;
+    $(this.node).css('display', 'block');
+    $(this.node).animate({
+      opacity: 1,
+      height: self.height,
+      width: self.width,
+    }, 500, function () {
+    });
   }
 
   close() {
@@ -94,6 +115,7 @@ class Window {
   }
 
   deleteItem(item) {
+    var self = this;
     self.saved_item['item'] = item;
     self.saved_item['dep-name'] = $(item).closest('.placeholder').data('dep-name');
     self.saved_item['dep-role'] = $(item).closest('.placeholder').data('dep-role');
@@ -101,6 +123,7 @@ class Window {
     $(item).remove();
   }
   restoreItem() {
+    var self = this;
     if (Object.keys(self.saved_item).length) {
       var dep_name = self.saved_item['dep-name'];
       var dep_role = self.saved_item['dep-role'];
@@ -114,18 +137,61 @@ class Window {
   }
 
 
-
   makeItemsDraggable(nodes) {
     $(nodes).draggable({
       cursor: 'move',
       helper: "clone",
       appendTo: "body",
       zIndex: 1000,
+      connectToSortable: ".placeholder",
+      revert: "true",
+      start: function (event, ui) {
+        $(ui.helper).find('div').animate({
+          opacity: "0"
+        }, 200, function () {
+          // Animation complete.
+        });
+      },
+      stop: function (event, ui) {
+        $(ui.helper).find('div').animate({
+          opacity: "1"
+        }, 200, function () {
+          // Animation complete.
+        });
+      }
     });
     $(nodes).each(function (i) {
       $(this).attr('id', guidGenerator());
     });
   }
+  // makeItemsDraggable(nodes) {
+  //   $(nodes).draggable({
+  //     cursor: 'move',
+  //     helper: "clone",
+  //     appendTo: "body",
+  //     zIndex: 1000,
+  //     start: function (event, ui) {
+  //       $(ui.helper).animate({
+  //         width: "30px"
+  //       }, 200, function () {
+  //         // Animation complete.
+  //       });
+  //       $(ui.helper).find('div').animate({
+  //         opacity: "0"
+  //       }, 200, function () {
+  //         // Animation complete.
+  //       });
+  //       $(ui.helper).find('p').animate({
+  //         opacity: "0"
+  //       }, 200, function () {
+  //         // Animation complete.
+  //       });
+  //     }
+  //   });
+  //   $(nodes).each(function (i) {
+  //     $(this).attr('id', guidGenerator());
+  //   });
+  // }
 
 
 
@@ -136,19 +202,12 @@ class Window {
   addItem(placeholder, item) {
     console.log('addingItem', self.id);
     self = this;
-    var new_item = item;
-    new_item.id = guidGenerator();
-    var pk = $(item).data('pk');
-    var model = $(item).data('model');
-    if (('window' + pk + model) != self.id) {
-      if ($(placeholder).find("div[data-pk$='" + pk + "'][data-model$='" + model + "']").length === 0) {
-        $(placeholder).append(new_item)
-        self.makeItemsDraggable(new_item);
-      }
-    }
+    $(placeholder).append(item);
+    self.registerItem(placeholder, item)
   }
 
   addPlaceholder(name, role) {
+    var self = this;
     var html = '';
     html += '<div class="item-dep"> <p>' + name + ':</p>'
     html += '<div class ="placeholder"  data-dep-name="' + name + '" data-dep-role="' + role + '">'
@@ -161,23 +220,37 @@ class Window {
 
   }
 
-
-  makePlaceholdersDraggable(nodes) {
-    self = this;
-    $(nodes).droppable({
-      drop: function (event, ui) {
-        console.log('dropping');
-        var item = ui.draggable.clone().detach();
-        item.id = guidGenerator();
-        var drop_window = $(this).closest('.window');
-        var window = self.WC.windows[$(drop_window).attr('id')]
-        window.addItem($(this), item);
-      }
-    });
-    $(nodes).sortable({ revert: true });
-    $(nodes).disableSelection();
+  registerItem(placeholder, item) {
+    var self = this;
+    console.log('registering');
+    item.id = guidGenerator();
+    var pk = $(item).data('pk');
+    var model = $(item).data('model');
+    if (('window' + pk + model) == self.id) {
+      console.log('test1')
+      $(item).remove();
+    }
+    else if ($(placeholder).find("div[data-pk$='" + pk + "'][data-model$='" + model + "']").length > 1) {
+      console.log($(placeholder).find("div[data-pk$='" + pk + "'][data-model$='" + model + "']").length)
+      $(item).remove();
+    }
+    else { self.makeItemsDraggable([item]) }
   }
 
+  makePlaceholdersDraggable(nodes) {
+    var win = this;
+    $(nodes).sortable({
+      helper: "clone",
+      revert: true,
+      update: function (event, ui) {
+        var item = ui.item;
+        $(item).attr('style', '');
+        win.registerItem(this, item);
+      }
+    });
+    //     $(nodes).sortable({ revert: true });
+    $(nodes).disableSelection();
+  }
 }
 
 function dragElement(elmnt) {
