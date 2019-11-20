@@ -2,9 +2,9 @@
     height: auto;
     width: 0;
     z-index: 99;
-    position: absolute;
+    position: fixed;
     top: 0;
-    left: 0;
+    right: 0;
     padding: 10px;
     margin: 10px;
     transition: 0.3s;

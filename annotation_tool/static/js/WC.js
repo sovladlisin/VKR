@@ -70,7 +70,9 @@ class WC {
         });
         $('.item').draggable({
             cursor: 'move',
-            helper: "clone"
+            helper: "clone",
+            appendTo: "body",
+            zIndex: 1000,
         });
     }
 
