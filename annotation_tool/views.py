@@ -111,6 +111,59 @@ def Test(request):
     return render(request, "test.html", {'genres': Class.objects.all()})
 
 
+def destroyAllLinks(element):
+    tag = element.tags.first()
+    Link.objects.filter(first_item=tag).delete()
+    Link.objects.filter(second_item=tag).delete()
+
+
+@csrf_exempt
+def SaveWindow(request):
+    if request.is_ajax():
+        pk = request.POST.get('pk')
+        model = request.POST.get('model')
+        masters = json.loads(request.POST.get('masters'))
+        slaves = json.loads(request.POST.get('slaves'))
+
+        Model = apps.get_model(app_label="annotation_tool", model_name=model)
+        current_item = Model.objects.get(pk=pk)
+        destroyAllLinks(current_item)
+
+        master_links = []
+        if masters is not None:
+            for k, elements in masters.items():
+                if Relation.objects.filter(name=k).exists():
+                    relation = Relation.objects.get(name=k)
+                else:
+                    relation = Relation(name=k)
+                    relation.save()
+                for item in elements:
+                    Model = apps.get_model(
+                        app_label="annotation_tool", model_name=item[0])
+                    object = Model.objects.get(pk=item[1])
+                    link = Link(relation=relation, first_item=object.tags.first(
+                    ), second_item=current_item.tags.first())
+                    link.save()
+
+        slave_links = []
+        if slaves is not None:
+            for k, elements in slaves.items():
+                if Relation.objects.filter(name=k).exists():
+                    relation = Relation.objects.get(name=k)
+                else:
+                    relation = Relation(name=k)
+                    relation.save()
+                for item in elements:
+                    Model = apps.get_model(
+                        app_label="annotation_tool", model_name=item[0])
+                    object = Model.objects.get(pk=item[1])
+                    link = Link(relation=relation, first_item=current_item.tags.first(
+                    ), second_item=object.tags.first())
+                    link.save()
+
+        return HttpResponse("Success!")
+
+
 @csrf_exempt
 def CreateLink(request):
     if request.is_ajax():
@@ -184,6 +237,7 @@ def Info(request):
     if request.is_ajax():
         pk = request.GET.get('pk')
         model_name = request.GET.get('model_name')
+        window_id = pk + model_name
         Model = apps.get_model(
             app_label="annotation_tool", model_name=model_name)
         if Model.objects.filter(pk=pk).exists():
@@ -194,21 +248,23 @@ def Info(request):
             masters_html = ""
 
             for key, item in slaves.items():
-                slaves_html += '<div class="item-dep"> <p>' + key + ':</p></div>'
+                slaves_html += '<div class="item-dep"> <p>' + key + ':</p>'
+                slaves_html += '<div class ="placeholder"  data-dep-name="' + \
+                    key+'" data-dep-role="slaves">'
                 for i in item:
-                    slaves_html += '<div class ="item">'
                     slaves_html += showcase(i.pk, i.__class__.__name__)
-                    slaves_html += '</div>'
+                slaves_html += '</div></div>'
 
             for key, item in masters.items():
-                masters_html += '<div class="item-dep"> <p>' + key + ':</p></div>'
+                masters_html += '<div class="item-dep"> <p>' + key + ':</p>'
+                masters_html += '<div class ="placeholder" data-dep-name="' + \
+                    key+'" data-dep-role="masters">'
                 for i in item:
-                    masters_html += '<div class ="item">'
                     masters_html += showcase(i.pk, i.__class__.__name__)
-                    masters_html += '</div>'
+                masters_html += '</div></div>'
 
             html = render_to_string('annotation_tool/info.html',
-                                    {'item': item_html, 'masters': masters_html, 'slaves': slaves_html, 'obj': obj})
+                                    {'item': item_html, 'masters': masters_html, 'slaves': slaves_html, 'obj': obj, 'id': window_id})
             response = {}
             response['template'] = html
             return HttpResponse(json.dumps(response))

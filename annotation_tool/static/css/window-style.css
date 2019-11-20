@@ -26,11 +26,6 @@
     line-height: 50px;
     text-align: center;
 }
-.item-info{
-    width: 900px;
-    overflow: auto;
-    max-height: 620px ;
-}
 [data-callable='1']{
     cursor: pointer;
 }
@@ -39,11 +34,12 @@
     font-weight: bold;
 }
 
+
 .close-window{
     position: absolute;
     cursor: pointer;
-    top: -15px;
-    right: -15px;
+    top: 3px;
+    right: 10px;
     width: 30px;
     height: 30px;
 }
@@ -59,25 +55,152 @@
     border-color: rgb(36,51,60);
     background-color: rgb(255,103,102);
 }
+.save-window{
+    position: absolute;
+    cursor: pointer;
+    top: 3px;
+    right: 47px;
+    width: 30px;
+    height: 30px;
+}
+.save-window p{
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 50px;
+    color: white;
+    border: 3px solid;
+    border-color: rgb(36,51,60);
+    background-color: rgb(39,166,142);
+    font-size: 16pt;
+}
+.item-restore{
+    opacity: 0;
+    position: absolute;
+    cursor: pointer;
+    top: 3px;
+    right: 84px;
+    width: 30px;
+    height: 30px;
+}
+.item-restore>p{
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 50px;
+    color: white;
+    border: 3px solid;
+    border-color: rgb(36,51,60);
+    background-color: rgb(253,216,53);
+    font-size: 16pt;
+}
 .close-window p:hover{
     background-color: rgb(255, 82, 70);
 }
-.item-class{
-    width: 900px;
+
+
+div.item[data-model='Line']{
+    background-color: rgb(39,166,142);
+}
+div.item[data-model='Class']{
+    background-color: rgb(255,103,102);
+}
+div.item[data-model='Object']{
+    background-color: rgb(235, 144, 26);
+}
+div.item[data-model='Block']{
+    background-color: rgb(64,196,255);
+}
+
+
+.item{
     height: 30px;
+    margin: 10px 5px;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 30px;
 
 }
-.item-class p{
-    float: left;
-    width: 900px;
+.item>p{
     line-height: 30px;
-    background-color: white;
-    cursor: pointer;
-}
-.item-class:hover p{
-    background-color: rgb(36,51,60);;
     color: white;
+    border-radius: 30px;
+    padding: 0 5px;
+    font-size: 8pt;
+    text-align: center;
+    cursor: pointer;
+    float: left;
+    height: 30px;
 }
+.item:hover .item-delete{
+    width: 30px;
+}
+.item:hover .item-open{
+    width: 30px;
+}
+.item:hover .item-delete>p{
+    opacity: 1;
+}
+.item:hover .item-open>p{
+    opacity: 1;
+}
+.item .item-info{
+    display: none;
+}
+.item-info{
+    width: 300px;
+    height: auto;
+    color: black;
+}
+.item-info .content{
+    width: 300px;
+    height: auto;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 8px;
+    grid-auto-rows: minmax(30px, auto);
+}
+.item-info .content .label{
+    grid-column: 1;
+    grid-row: auto;
+    width: 100px;
+    height: auto;
+    text-align: center;
+    background: rgb(255, 255, 255);
+    border-radius: 6px;
+}
+.item-info .content .label p{
+    font-size: 10pt;
+    color: rgb(36,51,60);
+    line-height: 20px;
+}
+.item-info .content .value{
+    grid-column: 2;
+    grid-row: auto;
+    width: 240px;
+    height: auto;
+    border-radius: 6px;
+    text-align: center;
+    background: #eaeaea;
+}
+.item-info .content .value p{
+    font-size: 10pt;
+    color: rgb(36,51,60);
+    line-height: 20px;
+}
+
+.placeholder{
+    width: 280px;
+    height: 110px;
+    overflow: auto;
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
 .item-field{
     width: 900px;
     background-color: white;
@@ -110,25 +233,58 @@
     text-align: center;
     background-color: beige;
 }
-.item-slaves p{
+.item-slaves, .item-masters{
+    width: 900px;
+    min-height: 200px;
+    overflow: auto;
+
+}
+.item-slaves .title, .item-masters .title{
+    height: 30px;
+}
+.item-slaves .title:hover p span, .item-masters .title:hover p span {
+    display:none
+}
+.item-slaves .title:hover p:before, .item-masters .title:hover p:before{
+    cursor: pointer;
+    content: 'Добавить тип связи в элемент'
+}
+
+.item-slaves .title p{
     width: 900px;
     height: 30px;
     line-height: 30px;
     text-align: center;
-    background-color: rgb(39,166,142);;
+    background-color: rgb(39,166,142);
 }
-.item-masters p{
+.item-masters .title p{
     width: 900px;
     height: 30px;
     line-height: 30px;
     text-align: center;
     background-color: rgb(255,103,102);
 }
+.dep-container{
+    grid-template-columns: auto auto auto;
+    grid-gap: 25px;
+    grid-auto-rows: minmax(50px, 130px);
+    display: grid;
+    margin: 25px 5px;
+}
+.dep-container .item-dep{
+    border-radius: 30px;
+}
+
+
 .item-dep{
-    width: 900px;
-    height: 30px;
-    line-height: 30px;
+    width: 280px;
+    height: 130px;
+    background: wheat;
+   
+}
+.item-dep>p{
     text-align: center;
+    line-height: 30px;
     background-color: beige;
 }
 table.item-info-table{
@@ -139,3 +295,77 @@ table.item-info-table tr{
     border-color: rgb(36,51,60);
 }
 
+.item-masters .masters-placeholder, .item-slaves .slaves-placeholder{
+    width: 900px;
+    float: left;
+}
+.item-delete, .item-open{
+    cursor: pointer;
+    float: right;
+    height: 30px;
+    width: 0px;
+    transition: 0.3s;
+}
+.item-open{
+    margin-right: -10px;
+}
+.item-delete>p{
+    cursor: pointer;
+    opacity: 0;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 30px;
+    color: white;
+    background-color: rgb(255,103,102);
+    font-size: 8pt;
+    margin: 5px;
+    transition: 0.3s;
+}
+.item-open>p{
+    cursor: pointer;
+    opacity: 0;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 30px;
+    color: white;
+    background-color: rgb(36,51,60);
+    font-size: 8pt;
+    margin: 5px 5px 5px 0;
+    transition: 0.3s;
+}
+
+.item:hover .item-delete>p{
+    /* width: 22px;
+    height: 22px; */
+    opacity: 1;
+    transition: 0.5s;
+}
+
+.dep-input{
+    height: 30px;
+}
+.dep-input input{
+    float: left;
+    width: 273px;
+    height: 28px;
+    border-radius: 25px;
+    border: none;
+    background: rgb(245,222,179);
+    padding: 0px 13px;
+}
+.dep-input div.add-dep{
+    float: left;
+    height: 30px;
+    width: 30px;
+    background: rgb(39,166,142);
+    border-radius: 30px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+.dep-input div.add-dep p{
+    line-height: 30px;
+}

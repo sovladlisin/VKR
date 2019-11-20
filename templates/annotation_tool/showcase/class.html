@@ -1,21 +1,18 @@
 {% load tags %}
-<div class="item-class" data-pk="{{item.pk}}" data-model="{{ item|get_class }}"><p style="width: 100px">Класс</p><p style="width: 800px">{{ item.name }}</p></div>
-<div class="item-expand-info">
-   <table class="item-info-table">
-       <tr><td><div class="item-field" >
-            <p style="width: 190px; color: rgb(36,51,60)">Оригинал:</p>
-            <p data-callable="1" data-pk="{{item.pk}}" data-model="{{ item|get_class }}" style="width: 690px">
-                Оригинал</p>
-        </div></td></tr>
-       <tr><td><div class="item-field" >
-           <p style="width: 190px; color: rgb(36,51,60)">Название:</p>
-           <p style="width: 690px">{{ item.name }}</p>
-       </div></td></tr>
-       <tr><td><div class="item-field" >
-           <p style="width: 190px; color: rgb(36,51,60)">Родитель:</p>
-           <p data-callable="1" data-pk="{{item.parent.pk}}" data-model="{{ item.parent|get_class }}" style="width: 690px">{{ item.parent.name }}</p>
-       </div></td></tr>
-    </table>
+<div id="{{item.pk}}{{item|get_class}}"class="item" draggable="true" ondragstart="drag(event)" data-pk="{{item.pk}}" data-model="{{ item|get_class }}">
+    <p>Класс - {{ item.pk }}</p>
+    <div class="item-info">
+        <div class="content">
+            <div class="label"><p>Оригинал:</p></div>
+            <div class="value"><p data-callable="1" data-pk="{{item.pk}}" data-model="{{ item|get_class }}">Оригинал</p></div>
+            <div class="label"><p>Название:</p></div>
+            <div class="value"><p>{{ item.name }}</p></div>
+            <div class="label"><p>Название на национальном языке:</p></div>
+            <div class="value"><p>{{ item.title_origin }}</p></div>
+            <div class="label"><p>Родитель:</p></div>
+            <div class="value"><p data-callable="1" data-pk="{{item.parent.pk}}" data-model="{{ item.parent|get_class }}" style="width: 690px">{{item.parent.pk}}</p></div>
+        </div>
+    </div>
 </div>
 
 

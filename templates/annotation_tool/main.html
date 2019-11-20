@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Title</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'css/main-style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/fixer-style.css' %}">
@@ -20,10 +21,14 @@
     <script src= "{% static 'js/SelectionTool.js' %}"></script>
     <script src= "{% static 'js/LinkController.js' %}"></script>
     <script src= "{% static 'js/WindowController.js' %}"></script>
+
+    <script src= "{% static 'js/WC.js' %}"></script>
+    <script src= "{% static 'js/Window.js' %}"></script>
 </head>
 <body>
 <div class="se-pre-con"></div>
 <div id="window-container"></div>
+<div id="side-item-info"></div>
 
 <a href="{% url 'annotation_tool:blocks'%}" class="articlelink"  style="background-color:rgb(255,103,102);font-size:30px;cursor:pointer;bottom: 222px;"><p>&#9870;</p></a>
 <button class="openbtn"  style="font-size:30px;cursor:pointer"><p>&#9741;</p></button>
@@ -32,8 +37,14 @@
         {% if lines %}
 
             {% for line in lines %}
-                    <div style="grid-column: 1; grid-row: {{line.position}}" class="id" id="{{ line.pk }}" data-callable="1" data-pk="{{ line.pk }}" data-model="{{ line|get_class}}">
+                    {% comment %} <div style="grid-column: 1; grid-row: {{line.position}}" class="id" id="{{ line.pk }}" data-callable="1" data-pk="{{ line.pk }}" data-model="{{ line|get_class}}">
                         <p>{{line.position}}</p>
+                        <div class="item-open" data-callable="1"><p>open</p></div>
+                    </div> {% endcomment %}
+                    <div class="item" data-pk="{{line.pk}}" data-model="{{ line|get_class }}">
+                        <p>Строка - {{ line.position }}</p>
+                        <div class="item-delete"><p>x</p></div>
+                        <div class="item-open"><p>o</p></div>
                     </div>
                     <div style="grid-column: 2; grid-row: {{line.position}}" class="line"><p>{{ line.text_left }}</p></div>
                     <div style="grid-column: 3; grid-row: {{line.position}}" class="line" ><p>{{ line.text_right }}</p></div>

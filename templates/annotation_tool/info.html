@@ -1,35 +1,44 @@
 {% load tags %}
-<div class="item-current"><p>Текущий элемент:</p></div>
-    {% autoescape off %}
-    {{item}}
-    {% endautoescape %}
 
-    <div class="item-slaves">
-        <p>Потомки</p>
-        <div class="createLink" data-master-pk="{{ obj.pk }}" data-master-model-name="{{ obj|get_class }}">
-            +
+<div class="window" id="window{{id}}" data-pk="{{obj.pk}}" data-model="{{obj|get_class}}" >
+    <div class="window-header" id="window{{id}}-header">
+        <p>{{id}}</p>
+        <div class="close-window"><p>x</p></div>
+        <div class="item-restore"><p>↫</p></div>
+        <div class="save-window"><p>☍</p></div>
+    </div>
+    <div class"item-info">
+        <div class="item-current"><p>Текущий элемент:</p></div>
+        {% autoescape off %}
+        {{item}}
+        {% endautoescape %}
+      
+        <div class="item-slaves">
+            <div class="title" data-role="slaves">
+                <p><span>Потомки</span></p>
+            </div>
+            <div class="dep-container">
+                {% autoescape off %}
+                {{ slaves }}
+                {% endautoescape %}
+            </div>
+        </div>
+
+        <div class="item-masters">
+            <div class="title" data-role="masters">
+                <p><span>Родители</span></p>
+            </div>
+            <div class="dep-container">
+                {% autoescape off %}
+                {{ masters }}
+                {% endautoescape %}
+            </div>
         </div>
     </div>
-
-{% if slaves %}
-    {% autoescape off %}
-    {{ slaves }}
-    {% endautoescape %}
-{% endif %}
+</div>
 
 
-    <div class="item-masters">
-        <p>Родители</p>
-        <div class="createLink" data-slave-pk="{{ obj.pk }}" data-slave-model-name="{{ obj|get_class }}">
-            +
-        </div>
-    </div>
-{% if masters %}
 
-    {% autoescape off %}
-    {{ masters }}
-    {% endautoescape %}
-{% endif %}
 
 
 

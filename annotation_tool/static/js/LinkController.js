@@ -5,6 +5,7 @@ class LinkController {
         this.pk = pk;
         this.WC = new WindowController(window_container);
         this.template = template;
+        this.saved_item = {};
     }
 
 
@@ -98,39 +99,10 @@ class LinkController {
 
                 // self.generateItemsFromIds(document.getElementById("item-info"+pk+class_name));
                 var windows = document.querySelector("#window" + pk + class_name);
+                self.generateRandomIds(windows.querySelectorAll(".item"));
+                self.assignSlideToItems(windows.querySelectorAll(".item"));
                 self.assignClickToItems(windows.querySelectorAll("[data-callable='1']"));
-                self.assignSlideToItems(windows.querySelectorAll(".item-class"));
             }
-        });
-        $('.createLink').click(function (event) {
-            event.preventDefault()
-
-            var block_pk = self.pk;
-            var master_pk = $(this).attr('data-master-pk');
-            var master_model_name = $(this).attr('data-master-model-name');
-            var slave_pk = $(this).attr('data-slave-pk');
-            var slave_model_name = $(this).attr('data-slave-model-name');
-            var relation_pk = $(this).attr('data-relation-pk')
-            var data = {
-                block_pk: block_pk,
-                master_pk: master_pk,
-                master_model_name: master_model_name,
-                slave_pk: slave_pk,
-                slave_model_name: slave_model_name,
-                relation_pk: relation_pk,
-            };
-            $.ajax({
-                type: "POST",
-                url: "/annotation_tool/createLink",
-                data: data,
-                async: false,
-                success: function (data) {
-                    var w = window.open('Создание связи между объектами');
-                    w.document.open();
-                    w.document.write(data);
-                    w.document.close();
-                }
-            });
         });
 
 
@@ -138,37 +110,74 @@ class LinkController {
             event.preventDefault();
             $(this).closest('.window').remove();
         });
+
+        $(".item-restore").click(function (event) {
+            event.preventDefault();
+            if (Object.keys(self.saved_item).length) {
+                console.log('restoring');
+                var window = $(this).closest('.window');
+                var dep_name = self.saved_item['dep-name'];
+                var dep_role = self.saved_item['dep-role'];
+                var placeholder = $(window).find(".placeholder[data-dep-name$='" + dep_name + "'][data-dep-role$='" + dep_role + "']")
+                $(placeholder).append(self.saved_item['item']);
+                self.assignSlideToItems([self.saved_item['item']]);
+                self.saved_item = {};
+                $(this).css('opacity', '0');
+            }
+        });
     }
 
-    generateItemsFromIds(nodes) {
-        var self = this;
-        var elements = $(nodes).children('.item');
-        elements.each(function (i) {
-            var pk = $(this).attr('data-pk');
-            var model = $(this).attr('data-model');
-            $(this).attr('data-callable', '0');
-            var data = {
-                pk: pk,
-                model_name: model
-            };
-            self.ajaxTemplate(data, "/annotation_tool/showcase");
-            $(this).append(self.template);
-            self.template = null;
+
+    generateRandomIds(nodes) {
+        $(nodes).each(function (i) {
+            $(this).attr('id', guidGenerator())
         })
     }
 
     assignSlideToItems(nodes) {
-        $(nodes).click(function () {
-            if ($(this).next().is(':visible')) {
-                $(this).find('p').css("background-color", "white");
-                $(this).find('p').css("color", "rgb(36,51,60)");
-                $(this).next().slideUp();
-            }
-            else {
-                $(this).next().slideDown();
-                $(this).find('p').css("background-color", "rgb(36,51,60)");
-                $(this).find('p').css("color", "white");
-            }
-        });
+        var self = this;
+        $(nodes).each(function (i) {
+            var data = '<div class="item-info">';
+            data += $(this).find('.item-info').html();
+            data += '</div>'
+            $(this).tipso({
+                background: "white",
+                width: 450,
+                color: "black",
+                position: 'top',
+                useTitle: false,
+                tooltipHover: true,
+                content: function () {
+                    return data;
+                }
+                ,
+                onShow: function () {
+                    self.assignClickToItems($("[data-callable='1']"));
+                }
+            });
+            var delete_buttons = $(this).find('.item-delete');
+            $(delete_buttons).click(function (event) {
+                event.preventDefault();
+                if ($(this).closest('.item').attr('id') === undefined) {
+                    console.log('Element is removed')
+                }
+                else {
+                    console.log('deleting');
+                    var nodeCopy = $(this).closest('.item');
+                    var window = $(this).closest('.window');
+                    nodeCopy.id = guidGenerator();
+                    self.saved_item['item'] = nodeCopy;
+                    self.saved_item['dep-name'] = $(this).closest('.placeholder').attr('data-dep-name');
+                    self.saved_item['dep-role'] = $(this).closest('.placeholder').attr('data-dep-role');
+                    $(window).find('.item-restore').css('opacity', '1');
+                    $(this).closest('.item').remove();
+                    console.log(self.saved_item)
+                }
+
+            });
+            // $(this).tipso('show');
+        })
+
+
     }
 }

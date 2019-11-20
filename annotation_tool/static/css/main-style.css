@@ -1,6 +1,20 @@
+#side-item-info{
+    height: auto;
+    width: 0;
+    z-index: 99;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px;
+    margin: 10px;
+    transition: 0.3s;
+    opacity: 0;
+    background: white;
+    border-radius: 20px;
+}
 
 .createLink{
-        position: relative;
+    position: relative;
     cursor: pointer;
     top: -23px;
     right: -15px;
@@ -17,12 +31,17 @@
 
 }
 .block{
-    width: 900px;
+    width: 1000px;
     margin: 50px auto;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 130px auto auto;
     grid-gap: 8px;
     grid-auto-rows: minmax(30px, auto);
+}
+.block .item{
+    margin:0; 
+    grid-column: 1;
+    grid-row: auto;
 }
 
 .line{
@@ -271,34 +290,4 @@
     -o-animation: fadein 2s; /* Opera */
 }
 
-.sideinfo {
-    height: 300px;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    bottom: 100px;
-    right: 0;
-    background-color: rgb(36,51,60);
-    overflow-x: hidden;
-    transition: 0.5s;
-    opacity: 0.9;
-}
-.sideinfo .container{
-    width: 400px;
-    overflow: auto;
-}
-.sideinfo .container div{
-    float: left;
-    display: table;
-    width: 400px;
-    height: 60px;
-}
-.sideinfo .container div p{
-    height: 60px;
-    width: 400px;
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
-    font-size: 10pt;
-    color: white;
-}
+

@@ -1,30 +1,20 @@
 {% load tags %}
-<div class="item-class" data-pk="{{item.pk}}" data-model="{{ item|get_class }}"><p style="width: 100px">Строка</p><p style="width: 800px">{{ item.position }} - {{ item.text_right }}</p></div>
-<div class="item-expand-info">
-    <table class="item-info-table">
-        <tr><td><div class="item-field" >
-            <p style="width: 190px; color: rgb(36,51,60)">Оригинал:</p>
-            <p data-callable="1" data-pk="{{item.pk}}" data-model="{{ item|get_class }}" style="width: 690px">
-                Оригинал</p>
-        </div></td></tr>
-        <tr><td><div class="item-field" >
-            <p style="width: 190px; color: rgb(36,51,60)">Содержится в блоке:</p>
-            <p data-callable="1" data-pk="{{item.block.pk}}" data-model="{{ item.block|get_class }}" style="width: 690px">
-                {{ item.block.title }}</p>
-        </div></td></tr>
-        <tr><td><div class="item-field" >
-            <p style="width: 190px; color: rgb(36,51,60)">Позиция:</p>
-            <p style="width: 690px">{{ item.position }}</p></div></td></tr>
-        <tr><td><div class="item-field" >
-            <p style="width: 190px; color: rgb(36,51,60)">Оригинальный текст:</p>
-            <p style="width: 690px">{{ item.text_left }}</p>
-        </div></td></tr>
-        <tr><td><div class="item-field" >
-            <p style="width: 190px; color: rgb(36,51,60)">Переведенный текст:</p>
-            <p style="width: 690px">{{ item.text_right }}</p>
-        </div></td></tr>
-    </table>
-
-{##}
-
+<div id="{{item.pk}}{{item|get_class}}"class="item" data-pk="{{item.pk}}" data-model="{{ item|get_class }}">
+    <p>Строка - {{ item.position }}</p>
+    <div class="item-delete"><p>x</p></div>
+    <div class="item-open"><p>o</p></div>
+    <div class="item-info">
+        <div class="content">
+            <div class="label"><p>Оригинал:</p></div>
+            <div class="value"><p data-callable="1" data-pk="{{item.pk}}" data-model="{{ item|get_class }}">Оригинал</p></div>
+            <div class="label"><p>Содержится в блоке::</p></div>
+            <div class="value"><p data-callable="1" data-pk="{{item.block.pk}}" data-model="{{ item.block|get_class }}">{{ item.block.title }}</p></div>
+            <div class="label"><p>Позиция:</p></div>
+            <div class="value"><p>{{ item.position }}</p></div>
+            <div class="label"><p>Оригинальный текст:</p></div>
+            <div class="value"><p>{{ item.text_left }}</p></div>
+            <div class="label"><p>Переведенный текст:</p></div>
+            <div class="value"><p>{{ item.text_right }}</p></div>
+        </div>
+    </div>
 </div>

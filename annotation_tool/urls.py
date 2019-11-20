@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^workspace/(?P<pk>\d+)/edit/$', views.Workspace, name='workspace'),
     path('info', views.Info, name='info'),
     path('createLink', views.CreateLink, name='createLink'),
+    path('saveWindow', views.SaveWindow, name='saveWindow'),
     path('showcase_test', views.showcase_test, name='showcase_test'),
     path('blocks', views.BlockSelection, name='blocks'),
     path('uploadXLS', views.UploadXLS, name='uploadXLS'),

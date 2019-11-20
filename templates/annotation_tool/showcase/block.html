@@ -1,84 +1,21 @@
 {% load tags %}
-<div class="item-class" data-pk="{{item.pk}}" data-model="{{ item|get_class }}"><p style="width: 100px">Блок</p><p style="width: 800px">{{ item.title }}</p></div>
-<div class="item-expand-info">
-    <table class="item-info-table">
-        <tr><td><div class="item-field" >
-            <p style="width: 190px; color: rgb(36,51,60)">Оригинал:</p>
-            <p data-callable="1" data-pk="{{item.pk}}" data-model="{{ item|get_class }}" style="width: 690px">
-                Оригинал</p>
-        </div></td></tr>
-    <tr><td><div class="item-field" >
-        <p style="width: 190px; color: rgb(36,51,60)">Название:</p>
-        <p style="width: 690px">{{ item.title }}</p>
-    </div></td></tr>
-    <tr><td><div class="item-field" >
-        <p style="width: 190px; color: rgb(36,51,60)">Название на национальном языке:</p>
-        <p style="width: 690px">{{ item.title_origin }}</p>
-    </div></td></tr>
-    <tr><td><div class="item-field" >
-        <p style="width: 190px; color: rgb(36,51,60)">Язык:</p>
-        <p style="width: 690px">{{ item.language }}</p>
-    </div></td></tr>
-    <tr><td><div class="item-field" >
-        <p style="width: 190px; color: rgb(36,51,60)">Диалект:</p>
-        <p style="width: 690px">{{ item.dialect }}</p>
-    </div></td></tr>
-    <tr><td><div class="item-field" >
-        <p style="width: 190px; color: rgb(36,51,60)">Жанр:</p>
-        <p style="width: 690px">{{ item.theme }}</p>
-    </div></td></tr>
-    <tr><td><div class="item-field" >
-        <p style="width: 190px; color: rgb(36,51,60)">Место записи:</p>
-        <p style="width: 690px">{{ item.place_of_recording }}</p>
-    </div></td></tr>
-    <tr><td><div class="item-field" >
-        <p style="width: 190px; color: rgb(36,51,60)">Время записи:</p>
-        <p style="width: 690px">{{ item.time_of_recording }}</p>
-    </div></td></tr>
-    <tr><td><div class="item-field" >
-        <p style="width: 190px; color: rgb(36,51,60)">Опубликовано:</p>
-        <p style="width: 690px">{{ item.publisher }}</p>
-    </div></td></tr>
-    <tr><td><div class="item-field" >
-        <p style="width: 190px; color: rgb(36,51,60)">Варианты:</p>
-        <p style="width: 690px">{{ item.versions }}</p>
-    </div></td></tr>
-    <tr><td><div class="item-field" >
-        <p style="width: 190px; color: rgb(36,51,60)">Ареал распространения:</p>
-        <p style="width: 690px">{{ item.area_of_distribution }}</p>
-    </div></td></tr>
-
-    <tr><td><div class="item-field" >
-        <p style="width: 190px; color: rgb(36,51,60)">ФИО:</p>
-        <p style="width: 690px">{{ item.initials }}</p>
-    </div></td></tr>
-    <tr><td><div class="item-field" >
-        <p style="width: 190px; color: rgb(36,51,60)">Подготовка текста:</p>
-        <p style="width: 690px">{{ item.text_preparation }}</p>
-    </div></td></tr>
-    <tr><td><div class="item-field" >
-        <p style="width: 190px; color: rgb(36,51,60)">Запись оригинала:</p>
-        <p style="width: 690px">{{ item.original_recording }}</p>
-    </div></td></tr>
-    <tr><td><div class="item-field" >
-        <p style="width: 190px; color: rgb(36,51,60)">Расшифровка текста:</p>
-        <p style="width: 690px">{{ item.text_decipher }}</p>
-    </div></td></tr>
-    <tr><td><div class="item-field" >
-        <p style="width: 190px; color: rgb(36,51,60)">Перевод на русский язык:</p>
-        <p style="width: 690px">{{ item.translation }}</p>
-    </div></td></tr>
-    <tr><td><div class="item-field" >
-        <p style="width: 190px; color: rgb(36,51,60)">Редактор:</p>
-        <p style="width: 690px">{{ item.manager }}</p>
-    </div></td></tr>
-    <tr><td><div class="item-field" >
-        <p style="width: 190px; color: rgb(36,51,60)">Подготовка комментариев:</p>
-        <p style="width: 690px">{{ item.commentary_preparation }}</p>
-    </div></td></tr>
-    </table>
+<div id="{{item.pk}}{{item|get_class}}"class="item" draggable="true" ondragstart="drag(event)" data-pk="{{item.pk}}" data-model="{{ item|get_class }}">
+    <p>Блок - {{ item.pk }}</p>
+    <div class="item-info">
+        <div class="content">
+            <div class="label"><p>Оригинал:</p></div>
+            <div class="value"><p data-callable="1" data-pk="{{item.pk}}" data-model="{{ item|get_class }}">Оригинал</p></div>
+            <div class="label"><p>Название:</p></div>
+            <div class="value"><p>{{ item.title }}</p></div>
+            <div class="label"><p>Название на национальном языке:</p></div>
+            <div class="value"><p>{{ item.title_origin }}</p></div>
+            <div class="label"><p>Язык:</p></div>
+            <div class="value"><p>{{ item.language }}</p></div>
+            <div class="label"><p>Диалект:</p></div>
+            <div class="value"><p>{{ item.dialect }}</p></div>
+        </div>
+    </div>
 </div>
-
 
 
 

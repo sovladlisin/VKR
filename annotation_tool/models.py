@@ -44,7 +44,7 @@ class Link(models.Model):
         return self.relation.__str__()
 
     class Meta:
-        unique_together = ("first_item", "second_item")
+        unique_together = ("first_item", "second_item", "relation")
 
 
 # Класс с иерархией
