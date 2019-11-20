@@ -85,19 +85,18 @@ class WC {
             helper: "clone",
             appendTo: "body",
             zIndex: 1000,
+            connectToSortable: ".placeholder",
+            revert: "true",
             start: function (event, ui) {
-                $(ui.helper).animate({
-                    width: "30px"
-                }, 200, function () {
-                    // Animation complete.
-                });
                 $(ui.helper).find('div').animate({
                     opacity: "0"
                 }, 200, function () {
                     // Animation complete.
                 });
-                $(ui.helper).find('p').animate({
-                    opacity: "0"
+            },
+            stop: function (event, ui) {
+                $(ui.helper).find('div').animate({
+                    opacity: "1"
                 }, 200, function () {
                     // Animation complete.
                 });
@@ -120,6 +119,7 @@ class WC {
         this.hidden_windows[id] = undefined;
         window.show();
     }
+
 
     createWindow(pk, model) {
         var check = this.windows["window" + pk + model];

@@ -62,7 +62,6 @@ class Window {
     }, 500, function () {
     });
   }
-
   close() {
     this.WC.windows[this.id] = undefined;
     $(this.node).remove();
