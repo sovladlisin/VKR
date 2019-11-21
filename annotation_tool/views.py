@@ -231,9 +231,29 @@ def Workspace(request, pk):
 
 # else:
 #     return HttpResponse('Not Authorized', status=403)
+def SearchWindow(request):
+    if request.is_ajax():
+        html = render_to_string('annotation_tool/search.html',)
+        response = {}
+        response['template'] = html
+        return HttpResponse(json.dumps(response))
 
 
-def Info(request):
+def Search(request):
+    if request.is_ajax():
+        phrase = request.GET.get('phrase')
+        print(phrase)
+        html = ''
+        for block in Block.objects.all():
+            html += showcase(block.pk, 'Block')
+        for line in Line.objects.all():
+            html += showcase(line.pk, 'Line')
+        response = {}
+        response['template'] = html
+        return HttpResponse(json.dumps(response))
+
+
+def InfoWindow(request):
     if request.is_ajax():
         pk = request.GET.get('pk')
         model_name = request.GET.get('model_name')

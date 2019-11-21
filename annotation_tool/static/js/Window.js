@@ -1,11 +1,13 @@
 class Window {
 
-  constructor(body, id, WindowsController) {
+  constructor(title, body, id, WindowsController, isInfo) {
     this.id = id;
     this.body = body;
     this.saved_item = {}
     this.WC = WindowsController;
     this.node = null;
+    this.title = title;
+    this.isInfo = isInfo;
   }
 
   draw(container) {
@@ -13,33 +15,39 @@ class Window {
 
     $(container).append(this.body);
     console.log('drawing: in', container);
-    var window = document.getElementById(self.id);
+    var window = $(container).find('.window[data-new$="True"]');
     console.log('window is created', window);
     self.node = window;
+    $(self.node).attr('data-new', 'False');
+    $(self.node).attr('id', self.id);
+    var header = $(self.node).find('.window-header');
+    $(header).attr('id', self.id);
+    $(header).find('p').first().text(this.title);
 
 
     this.makeDraggable();
     this.makePlaceholdersDraggable($(window).find('.placeholder'));
     this.makeItemsDraggable($(window).find('.item'));
 
-    var titles = $(this.node).find('.title');
-    $(titles).each(function () {
-      var title = this;
-      $(this).tipso({
-        background: '#232d41',
-        speed: 1,
-        width: "350px",
-        animationIn: 'fadeInDown',
-        animationOut: 'fadeOutUp',
-        position: 'top',
-        useTitle: false,
-        tooltipHover: true,
-        content: function () {
-          return '<div class="dep-input"><input type="text" size="40"><div class="add-dep" data-placeholder-role="' + $(title).data('role') + '" data-window-pk="' + self.id + '"><p><i class="fas fa-plus"></i></p></div></div>';
-        }
-      });
-    })
-
+    if (this.isInfo === 'True') {
+      var titles = $(this.node).find('.title');
+      $(titles).each(function () {
+        var title = this;
+        $(this).tipso({
+          background: '#232d41',
+          speed: 1,
+          width: "350px",
+          animationIn: 'fadeInDown',
+          animationOut: 'fadeOutUp',
+          position: 'top',
+          useTitle: false,
+          tooltipHover: true,
+          content: function () {
+            return '<div class="dep-input"><input type="text" size="40"><div class="add-dep" data-placeholder-role="' + $(title).data('role') + '" data-window-pk="' + self.id + '"><p><i class="fas fa-plus"></i></p></div></div>';
+          }
+        });
+      })
+    }
   }
 
   hide() {
@@ -163,39 +171,9 @@ class Window {
       $(this).attr('id', guidGenerator());
     });
   }
-  // makeItemsDraggable(nodes) {
-  //   $(nodes).draggable({
-  //     cursor: 'move',
-  //     helper: "clone",
-  //     appendTo: "body",
-  //     zIndex: 1000,
-  //     start: function (event, ui) {
-  //       $(ui.helper).animate({
-  //         width: "30px"
-  //       }, 200, function () {
-  //         // Animation complete.
-  //       });
-  //       $(ui.helper).find('div').animate({
-  //         opacity: "0"
-  //       }, 200, function () {
-  //         // Animation complete.
-  //       });
-  //       $(ui.helper).find('p').animate({
-  //         opacity: "0"
-  //       }, 200, function () {
-  //         // Animation complete.
-  //       });
-  //     }
-  //   });
-  //   $(nodes).each(function (i) {
-  //     $(this).attr('id', guidGenerator());
-  //   });
-  // }
-
-
 
   makeDraggable() {
-    dragElement(document.getElementById(this.id))
+    dragElement(this.node)
   }
 
   addItem(placeholder, item) {
@@ -250,19 +228,43 @@ class Window {
     //     $(nodes).sortable({ revert: true });
     $(nodes).disableSelection();
   }
+
+  search() {
+    var self = this;
+    var input = $(self.node).find('input');
+    var phrase = $(input).val();
+    var template = null;
+    var data = {
+      phrase: phrase,
+    };
+
+    $.ajax({
+      type: "GET",
+      url: self.WC.search_url,
+      async: false,
+      data: data,
+      success: function (result) {
+        template = result.template;
+        $(self.node).find('.placeholder').empty();
+        $(self.node).find('.placeholder').append(template);
+        self.makeItemsDraggable($(self.node).find('.item'));
+      }, dataType: "json",
+      error: function (response, error) {
+        alert(error);
+      }
+    });
+  }
 }
 
 function dragElement(elmnt) {
+  console.log('test1', elmnt);
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (document.getElementById(elmnt.id + "-header")) {
-    // if present, the header is where you move the DIV from:
-    document.getElementById(elmnt.id + "-header").onmousedown = dragMouseDown;
-  } else {
-    // otherwise, move the DIV from anywhere inside the DIV:
-    elmnt.onmousedown = dragMouseDown;
-  }
+  var header = $(elmnt).find('.window-header');
+  console.log('HUI', header)
+  $(header).mousedown(dragMouseDown);
 
   function dragMouseDown(e) {
+    console.log('test2', elmnt);
     // $("[id^='window']").css("z-index", "1");
     // $(elmnt).css("z-index", "99");
 
@@ -285,8 +287,10 @@ function dragElement(elmnt) {
     pos3 = e.clientX;
     pos4 = e.clientY;
     // set the element's new position:
-    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    var offset = elmnt.offset();
+    var top = (offset.top - pos2) + "px";
+    var left = (offset.left - pos1) + "px";
+    $(elmnt).css({ top: top, left: left });
   }
 
   function closeDragElement() {

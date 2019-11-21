@@ -66,21 +66,33 @@
     border: 0;
 }
 
-.articlelink{
+.articlelink, #hide-all-windows, #close-all-windows, #open-search{
     position: fixed;
-    bottom: 125px;
     left: 30px;
-    background-color: #00bfa5;
     border: none;
-    width: 70px;
-    height: 70px;
-    padding: 10px -1px;
-    font-size: 24px;
-    line-height: 1.33;
+    width: 50px;
+    height: 50px;
+    font-size: 12pt;
     border-radius: 35px;
 }
+.articlelink{
+    bottom: 30px;
+    background-color: #00bfa5;
+}
+#hide-all-windows{
+    bottom: 90px;
+    background-color: #232d41;
+}
+#close-all-windows{
+    bottom: 150px;
+    background-color: #ff4641;
+}
+#open-search{
+    bottom: 210px;
+    background-color: rgb(64,196,255);
+}
 
-.articlelink:hover{
+.articlelink:hover, #hide-all-windows:hover, #close-all-windows:hover, #open-search:hover{
     cursor: pointer;
     width: 250px;
     transition: 0.2s;
@@ -88,31 +100,40 @@
 
 }
 
-.articlelink p{
-    width: 250px;
-    display: table-cell;
-    vertical-align: middle;
+.articlelink p, #hide-all-windows p,  #close-all-windows p, #open-search p, #open-search p{
     color: white;
     text-align: center;
-    padding: 0;
-    line-height: 70px;
-    text-decoration: none;
-    text-underline: none;
-    font-size: 30pt;
+    line-height: 53px;
+    width: inherit;
+    height:inherit;
 }
 
-.articlelink:hover p:after{
+.articlelink:hover p, #hide-all-windows:hover p, #close-all-windows:hover p, #open-search:hover p{
+    font-size: 12pt;
+    visibility: hidden;
+}
+
+.articlelink:hover p:after, #hide-all-windows:hover p:after, #close-all-windows:hover p:after, #open-search:hover p:after{
     visibility: visible;
-    content: 'Ð¡Ð¿Ð¸ÑÐ¾Ðº Ñ‚ÐµÐºÑÑ‚Ð¾Ð²';
     animation: fadein 2s;
     -moz-animation: fadein 2s; /* Firefox */
     -webkit-animation: fadein 2s; /* Safari and Chrome */
     -o-animation: fadein 2s; /* Opera */
 }
 
-.articlelink:hover p{
-    font-size: 12pt;
-    visibility: hidden;
+.articlelink:hover p:after{
+    content: 'Список текстов';
 }
+#hide-all-windows:hover p:after{
+    content: 'Свернуть все окна';
+}
+#close-all-windows:hover p:after{
+    content: 'Закрыть все окна';
+}
+#open-search:hover p:after{
+    content: 'Поиск';
+}
+
+
 
 

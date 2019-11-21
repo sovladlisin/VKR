@@ -2,7 +2,11 @@ $(document).ready(function () {
     let tooltips = [];
     window.links = [];
     downloadLinkedItems();
-    let WindowController = new WC($('#window-container'), $('#hidden-window-container'), '/annotation_tool/info');
+    let WindowController =
+        new WC($('#window-container'), $('#hidden-window-container'),
+            '/annotation_tool/infoWindow',
+            '/annotation_tool/searchWindow',
+            '/annotation_tool/search');
 
 
     $(".block .item").hover(

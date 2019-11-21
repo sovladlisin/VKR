@@ -1,20 +1,40 @@
 class WC {
 
-    constructor(container, hidden_container, url) {
+    constructor(container, hidden_container, info_window_url, search_window_url, search_url) {
         this.container = container;
         this.hidden_container = hidden_container;
         console.log('creating', container);
-        this.url = url;
+        this.info_window_url = info_window_url;
+        this.search_window_url = search_window_url;
+        this.search_url = search_url;
         this.windows = {};
         this.hidden_windows = {};
-
         this.assign();
+
+        this.search_counter = 0;
 
 
     }
 
     assign() {
         var self = this;
+        $("body").on("click", "#confirm-search", function () {
+            console.log('searchWindow');
+            var window = self.findWindow(this);
+            window.search();
+        });
+        $("body").on("click", "#open-search", function () {
+            console.log('searchWindow');
+            self.createWindow(null, null, self.search_window_url);
+        });
+        $("body").on("click", "#hide-all-windows", function () {
+            console.log('hidingAll');
+            self.hideAllWindows();
+        });
+        $("body").on("click", "#close-all-windows", function () {
+            console.log('hidingAll');
+            self.closeAllWindows();
+        });
         $("body").on("click", ".hide-window", function () {
             console.log('hiding');
             var window = self.findWindow(this);
@@ -23,7 +43,6 @@ class WC {
         $("body").on("click", ".hidden-window", function () {
             console.log('showing');
             self.showWindow($(this).attr('id'));
-            $(this).remove();
         });
         $("body").on("click", ".add-dep", function () {
             console.log('addingDEP');
@@ -51,7 +70,13 @@ class WC {
         $("body").on("click", ".item-open", function () {
             console.log('opening');
             var item = $(this).parent();
-            self.createWindow($(item).attr('data-pk'), $(item).attr('data-model'));
+            var id = $(item).attr('data-pk') + $(item).attr('data-model');
+            if (self.hidden_windows['window' + id] === undefined) {
+                self.createWindow($(item).attr('data-pk'), $(item).attr('data-model'), self.info_window_url);
+            }
+            else {
+                self.showWindow('window' + id);
+            }
         })
         $("body").on("mouseenter", ".item", function () {
             var info = $(this).find('.item-info').clone();
@@ -73,7 +98,7 @@ class WC {
         $("body").on("click", ".close-window", function () {
             console.log('closing');
             var window = self.findWindow(this);
-            window.close();
+            self.closeWindow(window.id);
         });
         $("body").on("click", ".save-window", function () {
             console.log('saving');
@@ -109,71 +134,100 @@ class WC {
         return this.windows[win_id];
     }
     hideWindow(id) {
-        var window = this.windows[id];
-        window.hide();
-        this.hidden_windows[id] = window;
-        $(this.hidden_container).append('<div class="hidden-window" id="' + id + '"><p>' + id + '</p></div>');
+        if (this.windows[id] != undefined) {
+            var window = this.windows[id];
+            window.hide();
+            this.hidden_windows[id] = window;
+            this.windows[id] = undefined;
+            $(this.hidden_container).append('<div class="hidden-window" id="' + id + '"><p>' + window.title + '</p></div>');
+        }
     }
     showWindow(id) {
         var window = this.hidden_windows[id];
         this.hidden_windows[id] = undefined;
+        this.windows[id] = window;
+        var hidden_helper = $(this.hidden_container).find('#' + id);
+        $(hidden_helper).remove();
         window.show();
     }
-
-
-    createWindow(pk, model) {
-        var check = this.windows["window" + pk + model];
-        if (check === undefined) {
-            var self = this;
-            var container = this.container;
-            var data = {
-                pk: pk,
-                model_name: model
-            };
-            $.ajax({
-                type: "GET",
-                url: self.url,
-                async: false,
-                data: data,
-                success: function (result) {
-                    if (result.template.length > 10) {
-
-                        let new_window = new Window(result.template, 'window' + pk + model, self);
-                        console.log('sending to', container);
-                        new_window.draw(container);
-                        self.windows["window" + pk + model] = new_window;
-                    }
-                }, dataType: "json",
-                error: function (response, error) {
-                    alert(error);
-                }
-            });
-
+    closeWindow(id) {
+        if (this.windows[id] != undefined) {
+            this.hideWindow(id);
         }
-        else {
-            console.log('Window is opened');
+        if (this.hidden_windows[id] != undefined) {
+            $(this.hidden_windows[id].node).remove();
+            this.hidden_windows[id] = undefined;
+            $(this.hidden_container).find('#' + id).remove();
         }
     }
+    hideAllWindows() {
+        for (var key in this.windows) {
+            this.hideWindow(key);
+        }
+    }
+    closeAllWindows() {
+        for (var key in this.windows) {
+            this.hideWindow(key);
+            this.closeWindow(key);
+        }
+        this.windows = {};
+        this.hidden_windows = {};
+    }
 
-    assignCallableToCreateWindow(nodes) {
+
+    // if isInfo false -> pk=phrase, model=model
+    createWindow(pk, model, url) {
         var self = this;
-        $(nodes).click(function (event) {
-            event.preventDefault();
-            self.createWindow($(this).attr('data-pk'), $(this).attr('data-model'));
-        })
+        if (url === self.info_window_url) {
+            var check = this.windows["window" + pk + model];
+            if (check === undefined) {
 
-    };
-
-
-    closeWindow(window) {
-        this.windows[window.id] = undefined;
-        var current_window = document.getElementById(window.id);
-        console.log('deleting window', window);
-        $(current_window).remove()
-
+                var data = {
+                    pk: pk,
+                    model_name: model
+                };
+                var template = self.ajax(url, data);
+                let new_window = new Window(pk + model, template, 'window' + pk + model, self, 'True');
+                console.log('sending to', self.container);
+                new_window.draw(self.container);
+                $(new_window.node).data('pk', pk);
+                $(new_window.node).data('model', model);
+                self.windows["window" + pk + model] = new_window;
+            }
+            else {
+                console.log('Window is opened');
+            }
+        }
+        if (url === self.search_window_url) {
+            var data = {
+            };
+            self.search_counter++;
+            var template = self.ajax(url, data);
+            let new_window = new Window('Окно поиска ' + self.search_counter, template, 'search' + self.search_counter, self, 'False');
+            new_window.draw(self.container);
+            $(new_window.node).data('search', 'True');
+            self.windows["search" + self.search_counter] = new_window;
+        }
     }
 
-
-
-
+    ajax(url, data) {
+        var template = null;
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            data: data,
+            success: function (result) {
+                if (result.template.length > 10) {
+                    template = result.template;
+                    console.log(template);
+                }
+            }, dataType: "json",
+            error: function (response, error) {
+                console.log('BLYAT');
+                alert(error);
+            }
+        });
+        return template;
+    }
 }

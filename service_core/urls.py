@@ -3,7 +3,6 @@ from django.urls import include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from annotation_tool import views
 
 urlpatterns = [
     url(r'^annotation_tool/', include('annotation_tool.urls')),

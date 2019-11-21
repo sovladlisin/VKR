@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/tooltip-style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/window-style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/search-style.css' %}">
 
 
 
@@ -30,9 +31,10 @@
 <div id="hidden-window-container"></div>
 <div id="side-item-info"></div>
 
-<a href="{% url 'annotation_tool:blocks'%}" class="articlelink"  style="background-color:rgb(255,103,102);font-size:30px;cursor:pointer;bottom: 222px;"><p>&#9870;</p></a>
-<button class="openbtn"  style="font-size:30px;cursor:pointer"><p>&#9741;</p></button>
-
+<a href="{% url 'annotation_tool:blocks'%}" class="articlelink"><p>&#9870;</p></a>
+<div id="hide-all-windows"><p><i class="fas fa-eye-slash"></i></p></div>
+<div id="close-all-windows"><p><i class="fas fa-times"></i></p></div>
+<div id="open-search"><p><i class="fas fa-search"></i></p></div>
     <div class="block" id="block" data-pk="{{ pk }}">
         {% if lines %}
             {% for line in lines %}

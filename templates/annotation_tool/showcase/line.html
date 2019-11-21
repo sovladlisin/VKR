@@ -5,10 +5,8 @@
     <div class="item-open"><p><i class="far fa-sticky-note"></i></p></div>
     <div class="item-info">
         <div class="content">
-            <div class="label"><p>Оригинал:</p></div>
-            <div class="value"><p data-callable="1" data-pk="{{item.pk}}" data-model="{{ item|get_class }}">Оригинал</p></div>
             <div class="label"><p>Содержится в блоке::</p></div>
-            <div class="value"><p data-callable="1" data-pk="{{item.block.pk}}" data-model="{{ item.block|get_class }}">{{ item.block.title }}</p></div>
+            <div class="value"><p>{{ item.block.title }}</p></div>
             <div class="label"><p>Позиция:</p></div>
             <div class="value"><p>{{ item.position }}</p></div>
             <div class="label"><p>Оригинальный текст:</p></div>
