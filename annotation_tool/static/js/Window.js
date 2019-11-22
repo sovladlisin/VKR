@@ -15,7 +15,7 @@ class Window {
 
     $(container).append(this.body);
     console.log('drawing: in', container);
-    var window = $(container).find('.window[data-new$="True"]');
+    var window = $(container).find('.window[data-new="True"]');
     console.log('window is created', window);
     self.node = window;
     $(self.node).attr('data-new', 'False');
@@ -134,7 +134,7 @@ class Window {
     if (Object.keys(self.saved_item).length) {
       var dep_name = self.saved_item['dep-name'];
       var dep_role = self.saved_item['dep-role'];
-      var placeholder = $(this.node).find(".placeholder[data-dep-name$='" + dep_name + "'][data-dep-role$='" + dep_role + "']");
+      var placeholder = $(this.node).find(".placeholder[data-dep-name='" + dep_name + "'][data-dep-role='" + dep_role + "']");
       // $(placeholder).append(self.saved_item['item']);
       // this.makeItemsDraggable([self.saved_item['item']]);
       self.addItem(placeholder, self.saved_item['item']);
@@ -188,11 +188,11 @@ class Window {
     var html = '';
     html += '<div class="item-dep"> <p>' + name + ':</p>'
     html += '<div class ="placeholder"  data-dep-name="' + name + '" data-dep-role="' + role + '">'
-    var title = $(self.node).find(".title[data-role$='" + role + "']");
+    var title = $(self.node).find(".title[data-role='" + role + "']");
     var dep_container = $(title).next();
     $(dep_container).append(html);
 
-    var placeholder = $(self.node).find(".placeholder[data-dep-name$='" + name + "'][data-dep-role$='" + role + "']");
+    var placeholder = $(self.node).find(".placeholder[data-dep-name='" + name + "'][data-dep-role='" + role + "']");
     self.makePlaceholdersDraggable(placeholder);
 
   }
@@ -207,8 +207,8 @@ class Window {
       console.log('test1')
       $(item).remove();
     }
-    else if ($(placeholder).find("div[data-pk$='" + pk + "'][data-model$='" + model + "']").length > 1) {
-      console.log($(placeholder).find("div[data-pk$='" + pk + "'][data-model$='" + model + "']").length)
+    else if ($(placeholder).find("div[data-pk='" + pk + "'][data-model='" + model + "']").length > 1) {
+      console.log($(placeholder).find("div[data-pk='" + pk + "'][data-model='" + model + "']").length)
       $(item).remove();
     }
     else { self.makeItemsDraggable([item]) }
