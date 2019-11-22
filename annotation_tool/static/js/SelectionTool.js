@@ -53,10 +53,10 @@ function getLineLinkedItems(item) {
     var result = [];
     window.links.forEach(function (el) {
         if (el.first_item__object_id === pk) {
-            slaves.push([$(".block .item[data-pk$='" + el.second_item__object_id + "']"), el.relation__name]);
+            slaves.push([$(".block .item[data-pk='" + el.second_item__object_id + "']"), el.relation__name]);
         }
         if (el.second_item__object_id === pk)
-            masters.push([$(".block .item[data-pk$='" + el.first_item__object_id + "']"), el.relation__name])
+            masters.push([$(".block .item[data-pk='" + el.first_item__object_id + "']"), el.relation__name])
     });
     result[0] = masters;
     result[1] = slaves;
