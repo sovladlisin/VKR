@@ -81,19 +81,19 @@ function getLineLinkedItems(item) {
 function highlightElements(elements, color, text_color, apply_tooltip, type) {
 
     elements.forEach(function (node, i, masters) {
-        // if (apply_tooltip) {
-        //     $(node[0]).tipso({
-        //         background: color,
-        //         speed: 1,
-        //         width: "150px",
-        //         animationIn: 'fadeInLeft',
-        //         animationOut: 'fadeOutLeft',
-        //         position: 'left',
-        //         useTitle: false,
-        //         content: node[1]
-        //     });
-        //     $(node[0]).tipso('show');
-        // }
+        if (apply_tooltip) {
+            $(node[0]).tipso({
+                background: color,
+                speed: 1,
+                width: "150px",
+                animationIn: 'fadeInLeft',
+                animationOut: 'fadeOutLeft',
+                position: 'left',
+                useTitle: false,
+                content: node[1]
+            });
+            $(node[0]).tipso('show');
+        }
 
         $(node[0]).next().find('p').css("background-color", color);
         $(node[0]).next().find('p').css("color", text_color);
