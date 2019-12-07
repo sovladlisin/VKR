@@ -55,6 +55,6 @@ function buttonHandlers(WW) {
         WW.buildWindowFromUrl(WW.tree_window_url, 'Иерархия классов');
     });
     $("body").on("click", "#open-search", function () {
-        WW.buildWindowFromUrl(WW.search_window_url);
+        WW.buildWindowFromUrl(WW.search_window_url, 'Поиск');
     });
 }
