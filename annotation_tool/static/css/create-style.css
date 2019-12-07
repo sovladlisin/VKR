@@ -62,11 +62,19 @@
     text-align: center;
     overflow: hidden;
 }
-#confirm-select>p, #save-object>p{
-    line-height: 33px;
+#create-pin{
+    width: 30px;
+    height: 30px;
+    float: left;
+    margin-left: 6px;
+    border-radius: 15px;
+    text-align: center;
+}
+#create-pin>p{
+    line-height: 30px;
     font-size: 10pt;
 }
-#confirm-select:hover, #save-object:hover{
+#create-pin:hover{
     background:rgb(35,45,65);
     color:white;
 }

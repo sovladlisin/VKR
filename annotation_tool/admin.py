@@ -1,16 +1,15 @@
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 from annotation_tool.models import Class, Object, Phrase, Line, Block, Relation, \
-    TaggedItem, Link
-
-
-
+    TaggedItem, Link, Description
 
 
 class ObjectAdmin(admin.ModelAdmin):
     model = Object
 
 
+class DescriptionAdmin(admin.ModelAdmin):
+    model = Description
 
 
 class BlockAdmin(admin.ModelAdmin):
@@ -32,6 +31,7 @@ class RelationAdmin(admin.ModelAdmin):
 class TaggedItemAdmin(admin.ModelAdmin):
     model = TaggedItem
 
+
 class LinkAdmin(admin.ModelAdmin):
     model = Link
 
@@ -46,6 +46,4 @@ admin.site.register(Line, LineAdmin)
 admin.site.register(Relation, RelationAdmin)
 admin.site.register(TaggedItem, TaggedItemAdmin)
 admin.site.register(Link, LinkAdmin)
-
-
-
+admin.site.register(Description, DescriptionAdmin)

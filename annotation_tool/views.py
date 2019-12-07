@@ -12,7 +12,7 @@ from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from docx import Document
 
-from annotation_tool.forms import UploadFileForm, RelationForm, LineForm, BlockForm, ObjectForm, ClassForm
+from annotation_tool.forms import UploadFileForm, RelationForm, LineForm, BlockForm, ObjectForm, ClassForm, DescriptionForm
 from annotation_tool.models import Block, Relation, Class, Line, Link, TaggedItem, Object
 
 
@@ -143,6 +143,27 @@ def ClassTree(request):
     if request.is_ajax():
         html = render_to_string(
             'annotation_tool/tree.html', {'genres': Class.objects.all()})
+        response = {}
+        response['template'] = html
+        return HttpResponse(json.dumps(response))
+
+
+def PinFactory(request):
+    if request.is_ajax():
+        model = request.GET.get('model')
+        Model = apps.get_model(
+            app_label="annotation_tool", model_name=model)
+        item = Model()
+        item.save()
+        item_html = showcase(item.pk, model)
+        response = {}
+        response['template'] = item_html
+        return HttpResponse(json.dumps(response))
+
+
+def PinFactoryWindow(request):
+    if request.is_ajax():
+        html = render_to_string('annotation_tool/pinFactory.html')
         response = {}
         response['template'] = html
         return HttpResponse(json.dumps(response))
@@ -305,6 +326,6 @@ def getForm(model):
         'Block': BlockForm,
         'Object': ObjectForm,
         'Class': ClassForm,
-        # 'Decription': DescriptionForm
+        'Description': DescriptionForm
     }
     return forms[model]

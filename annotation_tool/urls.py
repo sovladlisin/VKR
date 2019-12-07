@@ -12,6 +12,8 @@ urlpatterns = [
     path('saveWindow', views.SaveWindow, name='saveWindow'),
     path('blocks', views.BlockSelection, name='blocks'),
     path('uploadDOCX', views.UploadDOCX, name='uploadDOCX'),
+    path('pinFactory', views.PinFactory, name='pinFactory'),
+    path('pinFactoryWindow', views.PinFactoryWindow, name='pinFactoryWindow'),
     # path('saveEntity', views.SaveEntity, name='saveEntity'),
     url(r'^save/(?P<pk>\d+)/(?P<model>\w+)/Entity/$',
         views.SaveEntity, name='saveEntity'),

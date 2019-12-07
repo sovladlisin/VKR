@@ -1,13 +1,15 @@
 class WindowWorkflow {
 
     constructor(WindowController, info_window_url, search_window_url, tree_window_url,
-        search_url, save_window_data_url) {
+        search_url, save_window_data_url, pin_window_url, pin_factory_url) {
         this.WC = WindowController;
         this.info_window_url = info_window_url;
         this.search_window_url = search_window_url;
         this.tree_window_url = tree_window_url;
         this.search_url = search_url;
         this.save_window_data_url = save_window_data_url;
+        this.pin_window_url = pin_window_url;
+        this.pin_factory_url = pin_factory_url;
 
         this.assignHandlers();
         this.saved_items = {};
@@ -38,7 +40,19 @@ class WindowWorkflow {
         var selectedClass = $($node).find('p').text();
     }
 
+    pinFactory($node) {
+        var window = this.WC.getWindowByInnerNode($node);
+        var $select = $(window.$node).find('select');
+        var selected = $($select).val();
 
+        var data = {
+            model: selected
+        };
+
+        var pin = this.ajax(this.pin_factory_url, data);
+        $(window.$node).find('.input-container:first').append(pin.template);
+        this.makeItemsDraggable($(window.$node).find('.item'));
+    }
     addPlaceholder($node) {
         var name = $($node).prev().val();
         var role = $($node).data('placeholder-role');
@@ -103,6 +117,13 @@ class WindowWorkflow {
             return new_window
         }
         if (url === this.tree_window_url) {
+            var id = guidGenerator();
+            var data = {};
+            var body = this.ajax(url, data);
+            var new_window = this.sendWindowToWC(id, title, body.template);
+            return new_window
+        }
+        if (url === this.pin_window_url) {
             var id = guidGenerator();
             var data = {};
             var body = this.ajax(url, data);

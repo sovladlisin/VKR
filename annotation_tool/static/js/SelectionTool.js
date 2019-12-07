@@ -18,7 +18,9 @@ $(document).ready(function () {
         '/annotation_tool/searchWindow',
         '/annotation_tool/tree',
         '/annotation_tool/search',
-        '/annotation_tool/saveWindow')
+        '/annotation_tool/saveWindow',
+        '/annotation_tool/pinFactoryWindow',
+        '/annotation_tool/pinFactory')
 
     WW.makeItemsDraggable($('.item'));
     $(".block .item").hover(

@@ -10,6 +10,9 @@ div.item[data-model='Object']{
 div.item[data-model='Block']{
     background-color: rgb(64,196,255);
 }
+div.item[data-model='Description']{
+    background-color: rgb(250,90,151);
+}
 .item{
     height: 30px;
     margin: 10px 5px;
@@ -318,8 +321,6 @@ div.item[data-model='Block']{
 }
 .edit-container .label p{line-height: 27px;}
 .edit-container input{
-    background-color: none;
-    /* display: inline-block; */
     width: 650px;
     border-radius: 25px;
     border: none;
@@ -342,7 +343,6 @@ div.item[data-model='Block']{
 }
 .edit-container label{
     background:none;
-    line-height: 26px;
     border-radius: 25px;
     border: none;
     background: #e5e5e5;
@@ -351,4 +351,18 @@ div.item[data-model='Block']{
     width: 150px;
     text-align: right;
     padding: 7px 15px 7px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.edit-container textarea{
+    width: 650px;
+    border-radius: 25px;
+    border: none;
+    background: white;
+    height: auto;
+    margin: 5px 15px;
+    color: #232d41;
+    padding: 15px;
+    resize: none;
 }

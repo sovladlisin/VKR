@@ -66,7 +66,7 @@
     border: 0;
 }
 
-.articlelink, #hide-all-windows, #close-all-windows, #open-search, #open-tree, #create-object{
+.articlelink, #hide-all-windows, #close-all-windows, #open-search, #open-tree, #pin-factory{
     position: fixed;
     border: none;
     width: 50px;
@@ -99,12 +99,12 @@
     left: 30px;
     background-color: rgb(64,196,255);
 }
-#create-object{
+#pin-factory{
     bottom: 30px;
     right: 30px;
     background-color: rgb(64,196,255);
 }
-.articlelink:hover, #hide-all-windows:hover, #close-all-windows:hover, #open-search:hover, #open-tree:hover, #create-object:hover{
+.articlelink:hover, #hide-all-windows:hover, #close-all-windows:hover, #open-search:hover, #open-tree:hover, #pin-factory:hover{
     cursor: pointer;
     width: 250px;
     transition: 0.2s;
@@ -112,7 +112,7 @@
 
 }
 
-.articlelink p, #hide-all-windows p,  #close-all-windows p, #open-search p, #open-tree p, #create-object p{
+.articlelink p, #hide-all-windows p,  #close-all-windows p, #open-search p, #open-tree p, #pin-factory p{
     color: white;
     text-align: center;
     line-height: 53px;
@@ -120,12 +120,12 @@
     height:inherit;
 }
 
-.articlelink:hover p, #hide-all-windows:hover p, #close-all-windows:hover p, #open-search:hover p, #open-tree:hover p, #create-object:hover p{
+.articlelink:hover p, #hide-all-windows:hover p, #close-all-windows:hover p, #open-search:hover p, #open-tree:hover p, #pin-factory:hover p{
     font-size: 12pt;
     visibility: hidden;
 }
 
-.articlelink:hover p:after, #hide-all-windows:hover p:after, #close-all-windows:hover p:after, #open-search:hover p:after, #open-tree:hover p:after, #create-object:hover p:after{
+.articlelink:hover p:after, #hide-all-windows:hover p:after, #close-all-windows:hover p:after, #open-search:hover p:after, #open-tree:hover p:after, #pin-factory:hover p:after{
     visibility: visible;
     animation: fadein 2s;
     -moz-animation: fadein 2s; /* Firefox */
@@ -148,7 +148,7 @@
 #open-tree:hover p:after{
     content: 'Дерево классов';
 }
-#create-object:hover p:after{
+#pin-factory:hover p:after{
     content: 'Создать объект';
 }
 

@@ -48,7 +48,9 @@ function windowHandlers(WW) {
     $('body').on('click', "#example_tree div", function () {
         WW.tree(this);
     });
-
+    $('body').on('click', "#create-pin", function () {
+        WW.pinFactory(this);
+    });
 }
 function buttonHandlers(WW) {
     $("body").on("click", "#open-tree", function () {
@@ -57,4 +59,8 @@ function buttonHandlers(WW) {
     $("body").on("click", "#open-search", function () {
         WW.buildWindowFromUrl(WW.search_window_url, 'Поиск');
     });
+    $('body').on('click', "#pin-factory", function () {
+        WW.buildWindowFromUrl(WW.pin_window_url, 'Фабрика пинов');
+    });
+
 }
