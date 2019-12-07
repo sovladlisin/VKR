@@ -23,12 +23,14 @@ class WindowController {
 
     // Arg - window class object
     hideWindow(window) {
-        window.hide();
-        this.hidden_windows[window.id] = window;
-        this.opened_windows[window.id] = undefined;
+        if (window != undefined) {
+            window.hide();
+            this.hidden_windows[window.id] = window;
+            this.opened_windows[window.id] = undefined;
 
-        var hidden_window = $('<div class="hidden-window" id="' + window.id + '"><p>' + window.title + '</p></div>');
-        $(this.$hidden_container).append(hidden_window);
+            var hidden_window = $('<div class="hidden-window" id="' + window.id + '"><p>' + window.title + '</p></div>');
+            $(this.$hidden_container).append(hidden_window);
+        }
     }
 
     // Arg - window class object
