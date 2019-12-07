@@ -163,4 +163,192 @@ div.item[data-model='Block']{
     margin: 5px 15px;
     color:#232d41;
     padding-left: 15px;
+}div.item[data-model='Line']{
+    background-color: #00bfa5;
+}
+div.item[data-model='Class']{
+    background-color: rgb(255,103,102);
+}
+div.item[data-model='Object']{
+    background-color: rgb(235, 144, 26);
+}
+div.item[data-model='Block']{
+    background-color: rgb(64,196,255);
+}
+.item{
+    height: 30px;
+    margin: 10px 5px;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 30px;
+    margin: 10px;
+}
+.item>p{
+    line-height: 30px;
+    color: white;
+    border-radius: 30px;
+    padding: 0 5px;
+    font-size: 8pt;
+    text-align: center;
+    cursor: pointer;
+    float: left;
+    height: 30px;
+}
+.item:hover .item-delete{
+    width: 30px;
+}
+.item:hover .item-open{
+    width: 30px;
+}
+.item:hover .item-delete>p{
+    opacity: 1;
+}
+.item:hover .item-open>p{
+    opacity: 1;
+}
+.item .item-info{
+    display: none;
+}
+.item-info{
+    width: 900px;
+    max-height: 650px;
+    color: black;
+    overflow: auto;
+}
+.item-info .content{
+    width: 300px;
+    height: auto;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 8px;
+    grid-auto-rows: minmax(30px, auto);
+}
+.item-info .content .label{
+    grid-column: 1;
+    grid-row: auto;
+    width: 100px;
+    height: auto;
+    text-align: center;
+    background: rgb(255, 255, 255);
+    border-radius: 6px;
+}
+.item-info .content .label p{
+    font-size: 10pt;
+    color: rgb(36,51,60);
+    line-height: 20px;
+}
+.item-info .content .value{
+    grid-column: 2;
+    grid-row: auto;
+    width: 240px;
+    height: auto;
+    border-radius: 6px;
+    text-align: center;
+    background: #eaeaea;
+}
+.item-info .content .value p{
+    font-size: 10pt;
+    color: rgb(36,51,60);
+    line-height: 20px;
+}
+.item-delete, .item-open{
+    cursor: pointer;
+    float: right;
+    height: 30px;
+    width: 0px;
+    transition: 0.3s;
+}
+.item-open{
+    margin-right: -10px;
+}
+.item-delete>p, .item-open>p{
+    cursor: pointer;
+    opacity: 0;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 30px;
+    color: white;
+    
+    font-size: 8pt;
+    
+    transition: 0.3s;
+}
+.item-delete>p{
+    margin: 5px;
+    background-color: rgb(255,103,102);
+}
+.item-open>p{
+    margin: 5px 5px 5px 0;
+    background-color: rgb(36,51,60);
+}
+.item:hover .item-delete>p{
+    opacity: 1;
+    transition: 0.5s;
+}
+.item-edit{
+    color:black;
+    width: 880px;
+    margin: 10px auto;
+}
+.pin-container{
+    background-color: none;
+    height: 50px;
+    width: 450px;
+    border-radius: 25px;
+    background: white;
+    /* padding: 10px; */
+    -webkit-box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.3);
+    box-shadow: 0px 2px 0px 0px rgb(35,45,65, 0.3);
+}
+.pin-container>p{
+    background-color: none;
+    float: left;
+    height: 50px;
+    line-height: 50px;
+    padding-left: 20px;
+}
+.edit-container{width: 880px;font-size: 10pt;text-align: right;line-height: 30px;height: auto;display: grid;margin: 10px auto;grid-template-columns: 180px auto;grid-auto-rows: minmax(30px, auto);justify-items: right;border-radius: 15px;background: rgb(255, 255, 255,0.4);-webkit-box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.3);-moz-box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.3);box-shadow: 0px 2px 0px 0px rgb(35,45,65, 0.3);}
+.edit-container .label{
+    height: 27px;
+    margin: 5px;
+    font-size: 10pt;
+}
+.edit-container .label p{line-height: 27px;}
+.edit-container input{
+    background-color: none;
+    /* display: inline-block; */
+    width: 650px;
+    border-radius: 25px;
+    border: none;
+    background: white;
+    height: auto;
+    margin: 5px 15px;
+    color:#232d41;
+    padding-left: 15px;
+}
+.edit-container select{
+    background: none;
+    width: 665px;
+    border-radius: 25px;
+    border: none;
+    background: white;
+    height: 27px;
+    margin: 5px 15px;
+    color: #232d41;
+    padding-left: 15px;
+}
+.edit-container label{
+    background:none;
+    line-height: 26px;
+    border-radius: 25px;
+    border: none;
+    background: #e5e5e5;
+    min-height: 26px;
+    margin: 5px 0px;
+    width: 150px;
+    text-align: right;
+    padding: 7px 15px 7px 0px;
 }

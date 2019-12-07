@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
-from annotation_tool.models import UserProfileInfo, Relation, Object, Line, Block
+from annotation_tool.models import UserProfileInfo, Relation, Object, Line, Block, Class
 
 
 class UploadFileForm(forms.Form):
@@ -98,4 +98,14 @@ class BlockForm(forms.ModelForm):
             'translation': _('Перевод на русский язык'),
             'manager': _('Редактор'),
             'commentary_preparation': _('Подготовка комментариев'),
+        }
+
+
+class ClassForm(forms.ModelForm):
+    class Meta:
+        model = Class
+        fields = ('name', 'parent',)
+        labels = {
+            'parent': _('Родитель'),
+            'name': _('Название'),
         }

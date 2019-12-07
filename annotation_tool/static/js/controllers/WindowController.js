@@ -33,36 +33,42 @@ class WindowController {
 
     // Arg - window class object
     showWindow(window) {
-        window.show();
-        this.hidden_windows[window.id] = undefined;
-        this.opened_windows[window.id] = window;
-        $('#' + window.id + '.hidden-window').remove();
+        if (window != undefined) {
+            window.show();
+            this.hidden_windows[window.id] = undefined;
+            this.opened_windows[window.id] = window;
+            $('#' + window.id + '.hidden-window').remove();
+        }
     }
 
     // Arg - window class object
     closeWindow(window) {
-        if (this.opened_windows[window.id] != undefined) {
-            window.close();
-            this.opened_windows[window.id] = undefined;
-        }
-        if (this.hidden_windows[window.id] != undefined) {
-            window.close();
-            $('#' + window.id + '.hidden-window').remove();
-            this.hidden_windows[window.id] = undefined;
+        if (window != undefined) {
+            if (this.opened_windows[window.id] != undefined) {
+                window.close();
+                this.opened_windows[window.id] = undefined;
+            }
+            if (this.hidden_windows[window.id] != undefined) {
+                window.close();
+                $('#' + window.id + '.hidden-window').remove();
+                this.hidden_windows[window.id] = undefined;
+            }
         }
     }
 
     hideAllWindows() {
+        var self = this;
         for (var id in this.opened_windows) {
-            this.hideWindow(this.opened_windows[id])
+            self.hideWindow(self.opened_windows[id])
         }
     }
     closeAllWindows() {
+        var self = this;
         for (var id in this.opened_windows) {
-            this.closeWindow(this.opened_windows[id])
+            self.closeWindow(self.opened_windows[id])
         }
         for (var id in this.hidden_windows) {
-            this.closeWindow(this.hidden_windows[id])
+            self.closeWindow(self.hidden_windows[id])
         }
     }
 

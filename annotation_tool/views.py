@@ -12,7 +12,7 @@ from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from docx import Document
 
-from annotation_tool.forms import UploadFileForm, RelationForm, LineForm, BlockForm, ObjectForm
+from annotation_tool.forms import UploadFileForm, RelationForm, LineForm, BlockForm, ObjectForm, ClassForm
 from annotation_tool.models import Block, Relation, Class, Line, Link, TaggedItem, Object
 
 
@@ -304,7 +304,7 @@ def getForm(model):
         'Line': LineForm,
         'Block': BlockForm,
         'Object': ObjectForm,
-        # 'Class': ClassForm,
+        'Class': ClassForm,
         # 'Decription': DescriptionForm
     }
     return forms[model]

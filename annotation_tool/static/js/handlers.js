@@ -44,7 +44,9 @@ function windowHandlers(WW) {
         WW.saveWindow(this);
     });
     $('body').on('submit', ".save-entity-form", function () {
-        console.log('hiu');
+    });
+    $('body').on('click', "#example_tree div", function () {
+        WW.tree(this);
     });
 
 }

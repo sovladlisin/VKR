@@ -31,6 +31,14 @@ class WindowWorkflow {
         this.makeItemsDraggable($(search_window.$node).find('.item'));
     }
 
+    tree($node) {
+        if ($($node).parent().children('UL').length > 0) {
+            $($node).parent().children('UL').toggle();
+        }
+        var selectedClass = $($node).find('p').text();
+    }
+
+
     addPlaceholder($node) {
         var name = $($node).prev().val();
         var role = $($node).data('placeholder-role');
