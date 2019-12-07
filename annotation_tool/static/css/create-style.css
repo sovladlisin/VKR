@@ -1,0 +1,77 @@
+.create-container{
+
+}
+.select-container{
+    width: 800px;
+    height: 30px;
+    margin: 10px auto;
+}
+.create-container tr{
+    width: 750px;
+    height:30px;
+    margin: 10px;
+}
+.create-container th{
+    line-height:30px;
+    padding-left:10px;
+    padding-right:10px;
+    font-weight:normal;
+    font-size:10pt;
+    width:150px;
+    text-align:right;
+}
+.create-container td{
+    width:650px;
+}
+.create-container input{
+    width:650px;
+    height:30px;
+    background: white;
+    border-radius: 25px;
+    font-size: 10pt;
+    padding-left: 10px;
+    -webkit-appearance: none;
+    -webkit-box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.3);
+    box-shadow: 0px 2px 0px 0px rgb(35,45,65, 0.3);
+}
+.model-select{
+    border-radius: 0;
+    height: 30px;
+    padding-left: 10px;
+    border: 0;
+    font-size: 16px;
+    line-height: 30px;
+    -webkit-appearance: none;
+    width: 300px;
+    float: left;
+    background: white;
+    border-radius: 25px;
+    -webkit-box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.3);
+    box-shadow: 0px 2px 0px 0px rgb(35,45,65, 0.3);
+}
+#confirm-select, #save-object{
+    float: left;
+    height: 30px;
+    width: 30px;
+    border-radius: 30px;
+    margin-left: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+    text-align: center;
+    overflow: hidden;
+}
+#confirm-select>p, #save-object>p{
+    line-height: 33px;
+    font-size: 10pt;
+}
+#confirm-select:hover, #save-object:hover{
+    background:rgb(35,45,65);
+    color:white;
+}
+.input-container{
+    height: 400px;
+    width: 800px;
+    margin: 10px auto;
+}

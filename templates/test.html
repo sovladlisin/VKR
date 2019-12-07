@@ -32,26 +32,7 @@
 
 </div>
 
-{% load mptt_tags %}
-<div id="nav-block">
-    <ul class="root" id="example_tree">
-        {% recursetree genres %}
-            <li>
-                <div class="nav-element">
-                    <p style="padding-left: {{node.level}}9px;">{{ node.name }}</p>
-                    <a href="" class="nav-link">&plus;</a>
-                    <a href="" class="nav-link">&#9881;</a>
-                </div>
-                {% if not node.is_leaf_node %}
-                    <ul style="display: none">
-                        {{ children }}
-                    </ul>
-                {% endif %}
-            </li>
-        {% endrecursetree %}
-    </ul>
-    <button id="nav-btn-confirm"><p>Подтвердить выбор</p></button>
-</div>
+
 
 </body>
 </html>

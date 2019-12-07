@@ -2,13 +2,25 @@ $(document).ready(function () {
     let tooltips = [];
     window.links = [];
     downloadLinkedItems();
-    let WindowController =
-        new WC($('#window-container'), $('#hidden-window-container'),
-            '/annotation_tool/infoWindow',
-            '/annotation_tool/searchWindow',
-            '/annotation_tool/search');
+    // let WindowController =
+    //     new WC($('#window-container'), $('#hidden-window-container'),
+    //         '/annotation_tool/infoWindow',
+    //         '/annotation_tool/searchWindow',
+    //         '/annotation_tool/search',
+    //         '/annotation_tool/tree',
+    //         '/annotation_tool/createWindow',
+    //         '/annotation_tool/getFields',
+    //         '/annotation_tool/createAny');
+    let WC =
+        new WindowController($('#window-container'), $('#hidden-window-container'));
+    let WW = new WindowWorkflow(WC,
+        '/annotation_tool/infoWindow',
+        '/annotation_tool/searchWindow',
+        '/annotation_tool/tree',
+        '/annotation_tool/search',
+        '/annotation_tool/saveWindow')
 
-
+    WW.makeItemsDraggable($('.item'));
     $(".block .item").hover(
         function () {
             highlightElements([[$(this), 0]], "rgb(36,51,60)", "white", false);
@@ -26,6 +38,7 @@ $(document).ready(function () {
         }
     );
 });
+
 
 function downloadLinkedItems() {
     var data = {
@@ -66,19 +79,19 @@ function getLineLinkedItems(item) {
 function highlightElements(elements, color, text_color, apply_tooltip, type) {
 
     elements.forEach(function (node, i, masters) {
-        if (apply_tooltip) {
-            $(node[0]).tipso({
-                background: color,
-                speed: 1,
-                width: "150px",
-                animationIn: 'fadeInLeft',
-                animationOut: 'fadeOutLeft',
-                position: 'left',
-                useTitle: false,
-                content: node[1]
-            });
-            $(node[0]).tipso('show');
-        }
+        // if (apply_tooltip) {
+        //     $(node[0]).tipso({
+        //         background: color,
+        //         speed: 1,
+        //         width: "150px",
+        //         animationIn: 'fadeInLeft',
+        //         animationOut: 'fadeOutLeft',
+        //         position: 'left',
+        //         useTitle: false,
+        //         content: node[1]
+        //     });
+        //     $(node[0]).tipso('show');
+        // }
 
         $(node[0]).next().find('p').css("background-color", color);
         $(node[0]).next().find('p').css("color", text_color);

@@ -72,7 +72,6 @@ class Class(MPTTModel):
 
 # Объект класса
 class Object(models.Model):
-    linked_class = models.ForeignKey(Class, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, unique=True)
     tags = GenericRelation(TaggedItem, null=True)
 

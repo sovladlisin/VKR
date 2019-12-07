@@ -80,6 +80,7 @@
     width: 30px;
     height: 30px;
     top: 8px;
+    background: none;
 }
 .hide-window{
     right: 80px;
@@ -121,101 +122,7 @@
     background-color: rgb(64,196,255);
 }
 
-div.item[data-model='Line']{
-    background-color: #00bfa5;
-}
-div.item[data-model='Class']{
-    background-color: rgb(255,103,102);
-}
-div.item[data-model='Object']{
-    background-color: rgb(235, 144, 26);
-}
-div.item[data-model='Block']{
-    background-color: rgb(64,196,255);
-}
 
-.item-carry{
-    width: 30px;
-}
-.item-carry div, .item-carry p{
-    visibility: hidden;
-    opacity: 0;
-}
-.item{
-    height: 30px;
-    margin: 10px 5px;
-    cursor: pointer;
-    display: inline-block;
-    border-radius: 30px;
-    margin: 10px;
-}
-.item>p{
-    line-height: 30px;
-    color: white;
-    border-radius: 30px;
-    padding: 0 5px;
-    font-size: 8pt;
-    text-align: center;
-    cursor: pointer;
-    float: left;
-    height: 30px;
-}
-.item:hover .item-delete{
-    width: 30px;
-}
-.item:hover .item-open{
-    width: 30px;
-}
-.item:hover .item-delete>p{
-    opacity: 1;
-}
-.item:hover .item-open>p{
-    opacity: 1;
-}
-.item .item-info{
-    display: none;
-}
-.item-info{
-    width: 300px;
-    height: auto;
-    color: black;
-}
-.item-info .content{
-    width: 300px;
-    height: auto;
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-gap: 8px;
-    grid-auto-rows: minmax(30px, auto);
-}
-.item-info .content .label{
-    grid-column: 1;
-    grid-row: auto;
-    width: 100px;
-    height: auto;
-    text-align: center;
-    background: rgb(255, 255, 255);
-    border-radius: 6px;
-}
-.item-info .content .label p{
-    font-size: 10pt;
-    color: rgb(36,51,60);
-    line-height: 20px;
-}
-.item-info .content .value{
-    grid-column: 2;
-    grid-row: auto;
-    width: 240px;
-    height: auto;
-    border-radius: 6px;
-    text-align: center;
-    background: #eaeaea;
-}
-.item-info .content .value p{
-    font-size: 10pt;
-    color: rgb(36,51,60);
-    line-height: 20px;
-}
 
 .placeholder{
     width: 260px;
@@ -304,62 +211,11 @@ div.item[data-model='Block']{
     line-height: 30px;
     /* background-color: beige; */
 }
-table.item-info-table{
-    width: 900px;
-}
-table.item-info-table tr{
-    border-bottom: 1px solid;
-    border-color: rgb(36,51,60);
-}
+
 
 .item-masters .masters-placeholder, .item-slaves .slaves-placeholder{
     width: 900px;
     float: left;
-}
-.item-delete, .item-open{
-    cursor: pointer;
-    float: right;
-    height: 30px;
-    width: 0px;
-    transition: 0.3s;
-}
-.item-open{
-    margin-right: -10px;
-}
-.item-delete>p{
-    cursor: pointer;
-    opacity: 0;
-    width: 20px;
-    height: 20px;
-    text-align: center;
-    line-height: 20px;
-    border-radius: 30px;
-    color: white;
-    background-color: rgb(255,103,102);
-    font-size: 8pt;
-    margin: 5px;
-    transition: 0.3s;
-}
-.item-open>p{
-    cursor: pointer;
-    opacity: 0;
-    width: 20px;
-    height: 20px;
-    text-align: center;
-    line-height: 20px;
-    border-radius: 30px;
-    color: white;
-    background-color: rgb(36,51,60);
-    font-size: 8pt;
-    margin: 5px 5px 5px 0;
-    transition: 0.3s;
-}
-
-.item:hover .item-delete>p{
-    /* width: 22px;
-    height: 22px; */
-    opacity: 1;
-    transition: 0.5s;
 }
 
 .dep-input{
@@ -390,4 +246,23 @@ table.item-info-table tr{
 .dep-input div.add-dep p{
     line-height: 33px;
     font-size: 10pt;
+}
+.window-notification{
+    width: 900px;
+    height: 650px;
+    background: rgb(35,45,65,0.9);
+    z-index: 9999;
+    position: absolute;
+    bottom: 0;
+    display: none;
+    opacity: 0;
+}
+.window-notification p{
+    background: none;
+    width: inherit;
+    height: inherit;
+    line-height: 650px;
+    text-align: center;
+    color: white;
+    font-size: 35pt;
 }

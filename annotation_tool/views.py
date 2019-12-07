@@ -3,8 +3,8 @@ from django.contrib.contenttypes.models import ContentType
 import json
 from django.db.models import Q
 from django.apps import apps
-from django.http import StreamingHttpResponse, HttpResponse, JsonResponse, HttpResponseNotFound
-from django.shortcuts import render, redirect
+from django.http import StreamingHttpResponse, HttpResponse, JsonResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 # main annotation_tool
 from django.template import loader
@@ -12,29 +12,12 @@ from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from docx import Document
 
-from annotation_tool.forms import UploadFileForm, RelationForm
+from annotation_tool.forms import UploadFileForm, RelationForm, LineForm, BlockForm, ObjectForm
 from annotation_tool.models import Block, Relation, Class, Line, Link, TaggedItem, Object
 
 
 def handler404(request, exception):
     return redirect('annotation_tool:blocks')
-
-
-def addRelation(request):
-    # if this is a POST request we need to process the form data
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = RelationForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            patient = form.save(commit=False)
-            patient.save()
-            return redirect('annotation_tool:blocks')
-        else:
-            return HttpResponse("Ошибка в форме")
-    else:
-        form = RelationForm()
-        return render(request, 'addRelation.html', {'form': form})
 
 
 def BlockSelection(request):
@@ -45,36 +28,6 @@ def BlockSelection(request):
 
 # else:
 #     return HttpResponse('Not Authorized', status=403)
-
-def UploadXLS(request):
-    if "GET" == request.method:
-        form = UploadFileForm()
-        return render(request, 'annotation_tool/uploadXLS.html', {'form': form})
-    else:
-        # blocks = Block.objects.all()
-        # form = UploadFileForm(request.POST, request.FILES)
-        # # check whether it's valid:
-        # if form.is_valid():
-        #     block = Block()
-        #     block.title = form.cleaned_data['title']
-        #     block.save()
-        #     excel_file = form.cleaned_data['file']
-        #     wb = openpyxl.load_workbook(excel_file)
-        #     # Получаем первый лист
-        #     worksheet = wb.worksheets[0]
-        #     # iterating over the rows and
-        #     # getting value from each cell in row
-        #     i = 0
-        #     for row in worksheet.iter_rows():
-        #         line = Line()
-        #         line.block = block
-        #         line.text_left = row[0].value
-        #         line.text_right = row[1].value
-        #         line.position = i
-        #         line.save()
-        #         i = i + 1
-        blocks = Block.objects.all()
-        return render(request, 'annotation_tool/blocks.html', {'blocks': blocks})
 
 
 def UploadDOCX(request):
@@ -92,29 +45,18 @@ def UploadDOCX(request):
         return render(request, 'annotation_tool/blocks.html', {'blocks': blocks})
 
 
-def Test(request):
-    # r = Relation.objects.get(name="Должность")
-    # line1 = Line.objects.all().first()
-    # line2 = Line.objects.get(text_right="От одной головёшки")
-    # line3 = Line.objects.filter(text_right="Сборы его такими были:").first()
-    #
-    # Link(first_item=line1.tags.first(), second_item=line2.tags.first(), relation=r).save()
-    # Link(first_item=line1.tags.first(), second_item=line3.tags.first(), relation=r).save()
-    # Link(first_item=line3.tags.first(), second_item=line2.tags.first(), relation=r).save()
-    #
-    # r = Relation.objects.get(name="Должность")
-    # obj = Object.objects.get(name="Полководец")
-    # line2 = Line.objects.get(text_right="От одной головёшки")
-    #
-    # Link(first_item=obj.tags.first(), second_item=line2.tags.first(), relation=r).save()
-
-    return render(request, "test.html", {'genres': Class.objects.all()})
-
-
 def destroyAllLinks(element):
     tag = element.tags.first()
     Link.objects.filter(first_item=tag).delete()
     Link.objects.filter(second_item=tag).delete()
+
+
+def CreateWindow(request):
+    if request.is_ajax():
+        html = render_to_string('annotation_tool/create.html',)
+        response = {}
+        response['template'] = html
+        return HttpResponse(json.dumps(response))
 
 
 @csrf_exempt
@@ -164,64 +106,6 @@ def SaveWindow(request):
         return HttpResponse("Success!")
 
 
-@csrf_exempt
-def CreateLink(request):
-    if request.is_ajax():
-        master_pk = request.POST.get('master_pk')
-        master_model_name = request.POST.get('master_model_name')
-        slave_pk = request.POST.get('slave_pk')
-        slave_model_name = request.POST.get('slave_model_name')
-        relation_pk = request.POST.get('relation_pk')
-        block_pk = request.POST.get('block_pk')
-
-        master = slave = relation = None
-        if (master_pk is not None) & (master_model_name is not None):
-            master = showcase(master_pk, master_model_name)
-        if (slave_pk is not None) & (slave_model_name is not None):
-            slave = showcase(slave_pk, slave_model_name)
-        if relation_pk is not None:
-            relation = Relation.objects.get(pk=relation_pk)
-
-        block = Block.objects.get(pk=block_pk)
-        lines = Line.objects.all().filter(block=block).order_by('position')
-        relations = Relation.objects.all()
-
-        return render(request, 'annotation_tool/createLink.html',
-                      {'master': master, 'slave': slave, 'relation': relation, 'lines': lines, 'relations': relations})
-
-
-@csrf_exempt
-def AddLink(request):
-    if request.is_ajax():
-        master_pk = request.POST.get('master_pk')
-        master_model_name = request.POST.get('master_model_name')
-        slave_pk = request.POST.get('slave_pk')
-        slave_model_name = request.POST.get('slave_model_name')
-        relation_pk = request.POST.get('relation_pk')
-
-        master = slave = relation = None
-        if (master_pk is not None) & (master_model_name is not None):
-            Model = apps.get_model(
-                app_label="annotation_tool", model_name=master_model_name)
-            master = Model.objects.get(pk=master_pk)
-
-        if (slave_pk is not None) & (slave_model_name is not None):
-            Model = apps.get_model(
-                app_label="annotation_tool", model_name=slave_model_name)
-            slave = Model.objects.get(pk=slave_pk)
-
-        if relation_pk is not None:
-            relation = Relation.objects.get(pk=relation_pk)
-
-        if (master is not None) & (slave is not None) & (relation is not None):
-            link = Link(relation=relation, first_item=master.tags.first(
-            ), second_item=slave.tags.first())
-            link.save()
-            return HttpResponse("Success!")
-
-        return HttpResponseNotFound("Item is not present")
-
-
 def Workspace(request, pk):
     # if request.user.is_authenticated:
     block = Block.objects.get(pk=pk)
@@ -248,9 +132,36 @@ def Search(request):
             html += showcase(block.pk, 'Block')
         for line in Line.objects.all():
             html += showcase(line.pk, 'Line')
+        for obj in Object.objects.all():
+            html += showcase(obj.pk, 'Object')
         response = {}
         response['template'] = html
         return HttpResponse(json.dumps(response))
+
+
+def ClassTree(request):
+    if request.is_ajax():
+        html = render_to_string(
+            'annotation_tool/tree.html', {'genres': Class.objects.all()})
+        response = {}
+        response['template'] = html
+        return HttpResponse(json.dumps(response))
+
+
+@csrf_exempt
+def SaveEntity(request, pk, model):
+    Model = apps.get_model(
+        app_label="annotation_tool", model_name=model)
+    item = get_object_or_404(Model, pk=pk)
+    if request.method == "POST":
+        GenericForm = getForm(model)
+        form = GenericForm(request.POST, instance=item)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.save()
+            return HttpResponse("Сохранено")
+        else:
+            return HttpResponse("Ошибка в форме")
 
 
 def InfoWindow(request):
@@ -263,7 +174,11 @@ def InfoWindow(request):
         if Model.objects.filter(pk=pk).exists():
             obj = Model.objects.get(pk=pk)
             slaves, masters = getAllLinks(obj)
-            item_html = showcase(pk, model_name)
+
+            GenericForm = getForm(model_name)
+            form = GenericForm(instance=obj)
+
+            item_html = showcase(pk, model_name, False)
             slaves_html = ""
             masters_html = ""
 
@@ -284,44 +199,21 @@ def InfoWindow(request):
                 masters_html += '</div></div>'
 
             html = render_to_string('annotation_tool/info.html',
-                                    {'item': item_html, 'masters': masters_html, 'slaves': slaves_html, 'obj': obj, 'id': window_id})
+                                    {'item': item_html, 'masters': masters_html, 'slaves': slaves_html, 'obj': obj, 'id': window_id, 'form': form})
             response = {}
             response['template'] = html
             return HttpResponse(json.dumps(response))
         return HttpResponseNotFound("Item is not present")
 
 
-def showcase(pk, model_name):
+def showcase(pk, model_name, pin=True):
     Model = apps.get_model(app_label="annotation_tool", model_name=model_name)
     if Model.objects.filter(pk=pk).exists():
         name = model_name.lower()
         item = Model.objects.get(pk=pk)
         html = render_to_string(
-            'annotation_tool/showcase/' + name + '.html', {'item': item})
+            'annotation_tool/showcase/' + name + '.html', {'item': item, 'pin': pin})
         return html
-
-
-def showcase_test(request):
-    if request.is_ajax():
-        pk = request.GET.get('pk')
-        model_name = request.GET.get('model_name')
-        Model = apps.get_model(
-            app_label="annotation_tool", model_name=model_name)
-        if Model.objects.filter(pk=pk).exists():
-            name = model_name.lower()
-            item = Model.objects.get(pk=pk)
-            html = render_to_string(
-                'annotation_tool/showcase/' + name + '.html', {'item': item})
-            response = {}
-            response['template'] = html
-            return HttpResponse(json.dumps(response))
-        return HttpResponseNotFound("Item is not present")
-
-
-def History(request, pk):
-    types = 0
-    lines = Line.objects.all().filter(article=Article.objects.get(pk=pk))
-    return render(request, 'annotation_tool/history.html', {'lines': lines, 'pk': pk})
 
 
 @csrf_exempt
@@ -405,3 +297,14 @@ def readDOCX(block, file):
         Line(text_left=row.cells[0].text,
              text_right=row.cells[2].text, block=block, position=i).save()
         i = i + 1
+
+
+def getForm(model):
+    forms = {
+        'Line': LineForm,
+        'Block': BlockForm,
+        'Object': ObjectForm,
+        # 'Class': ClassForm,
+        # 'Decription': DescriptionForm
+    }
+    return forms[model]

@@ -8,19 +8,14 @@ urlpatterns = [
     path('infoWindow', views.InfoWindow, name='infoWindow'),
     path('searchWindow', views.SearchWindow, name='searchWindow'),
     path('search', views.Search, name='search'),
-    # path('createLink', views.CreateLink, name='createLink'),
+    path('tree', views.ClassTree, name='tree'),
     path('saveWindow', views.SaveWindow, name='saveWindow'),
-    # path('showcase_test', views.showcase_test, name='showcase_test'),
     path('blocks', views.BlockSelection, name='blocks'),
-    # path('uploadXLS', views.UploadXLS, name='uploadXLS'),
     path('uploadDOCX', views.UploadDOCX, name='uploadDOCX'),
-    # path('addRelation', views.addRelation, name='addRelation'),
-    # path('addLink', views.AddLink, name='addLink'),
-    # url(r'^history/(?P<pk>\d+)/edit/$', views.History, name='history'),
-    # path('history', views.History, name='history'),
+    # path('saveEntity', views.SaveEntity, name='saveEntity'),
+    url(r'^save/(?P<pk>\d+)/(?P<model>\w+)/Entity/$',
+        views.SaveEntity, name='saveEntity'),
     path('getLineDependencies', views.getLineDependencies,
          name='getLineDependencies'),
-    # path('sendRecords', views.sendRecords, name='sendRecords'),
 
-    # path('test', views.Test, name='test')
 ]

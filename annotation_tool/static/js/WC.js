@@ -1,17 +1,23 @@
 class WC {
 
-    constructor(container, hidden_container, info_window_url, search_window_url, search_url) {
+    constructor(container, hidden_container, info_window_url, search_window_url, search_url, tree_url, create_window_url, fields_url, create_any_url) {
         this.container = container;
         this.hidden_container = hidden_container;
         console.log('creating', container);
         this.info_window_url = info_window_url;
         this.search_window_url = search_window_url;
         this.search_url = search_url;
+        this.tree_url = tree_url;
+        this.create_window_url = create_window_url;
+        this.fields_url = fields_url;
+        this.create_any_url = create_any_url
         this.windows = {};
         this.hidden_windows = {};
         this.assign();
 
         this.search_counter = 0;
+        this.is_tree_exists = false;
+        this.is_create_exists = false;
 
 
     }
@@ -22,6 +28,24 @@ class WC {
             console.log('searchWindow');
             var window = self.findWindow(this);
             window.search();
+        });
+        $("body").on("click", "#confirm-select", function () {
+            console.log('confirm-select');
+            var window = self.findWindow(this);
+            window.confirmSelect();
+        });
+        $("body").on("click", "#save-object", function () {
+            console.log('save-select');
+            var window = self.findWindow(this);
+            window.saveSelect();
+        });
+        $("body").on("click", "#create-object", function () {
+            console.log('creatingObject');
+            self.createWindow(null, null, self.create_window_url);
+        });
+        $("body").on("click", "#open-tree", function () {
+            console.log('treeWindow');
+            self.createWindow(null, null, self.tree_url);
         });
         $("body").on("click", "#open-search", function () {
             console.log('searchWindow');
@@ -155,6 +179,8 @@ class WC {
             this.hideWindow(id);
         }
         if (this.hidden_windows[id] != undefined) {
+            if (id === 'classTree') { this.is_tree_exists = false }
+            if (id === 'createObject') { this.is_create_exists = false }
             $(this.hidden_windows[id].node).remove();
             this.hidden_windows[id] = undefined;
             $(this.hidden_container).find('#' + id).remove();
@@ -199,14 +225,35 @@ class WC {
             }
         }
         if (url === self.search_window_url) {
-            var data = {
-            };
+            var data = {};
             self.search_counter++;
             var template = self.ajax(url, data);
             let new_window = new Window('Окно поиска ' + self.search_counter, template, 'search' + self.search_counter, self, 'False');
             new_window.draw(self.container);
             $(new_window.node).data('search', 'True');
             self.windows["search" + self.search_counter] = new_window;
+        }
+        if (url === self.tree_url) {
+            if (self.is_tree_exists != true) {
+                var data = {};
+                self.is_tree_exists = true;
+                var template = self.ajax(url, data);
+                let new_window = new Window('Дерево классов', template, 'classTree', self, 'False');
+                new_window.draw(self.container);
+                $(new_window.node).data('classTree', 'True');
+                self.windows["classTree"] = new_window;
+            }
+        }
+        if (url === self.create_window_url) {
+            if (self.is_create_exists != true) {
+                var data = {};
+                self.is_create_exists = true;
+                var template = self.ajax(url, data);
+                let new_window = new Window('Создание', template, 'createObject', self, 'False');
+                new_window.draw(self.container);
+                $(new_window.node).data('createObject', 'True');
+                self.windows["createObject"] = new_window;
+            }
         }
     }
 

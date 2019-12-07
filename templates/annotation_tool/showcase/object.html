@@ -1,4 +1,7 @@
 {% load tags %}
+{% if info %}
+<div>hui</div>
+{% else %}
 <div id="{{item.pk}}{{item|get_class}}"class="item" data-pk="{{item.pk}}" data-model="{{ item|get_class }}">
     <p>Объект - {{ item.pk }}</p>
     <div class="item-delete"><p><i class="fas fa-times"></i></p></div>
@@ -10,6 +13,8 @@
         </div>
     </div>
 </div>
+{% endif %}
+
 
 
 

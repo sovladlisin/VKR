@@ -24,6 +24,7 @@ class Window {
     $(header).attr('id', self.id);
     $(header).find('p').first().text(this.title);
 
+    if (self.id === "classTree") { self.tree() }
 
     this.makeDraggable();
     this.makePlaceholdersDraggable($(window).find('.placeholder'));
@@ -50,6 +51,35 @@ class Window {
     }
   }
 
+  saveSelect() {
+    var current_data = {};
+    var select = $(this.node).find('.model-select');
+    var model = $(select).val();
+    var inputs = $(this.node).find('input');
+    $(inputs).each(function () {
+      current_data[$(this).attr('name')] = $(this).val();
+    })
+
+    var data = {
+      data: JSON.stringify(current_data),
+      model: model,
+    };
+    var template = this.WC.ajax(this.WC.create_any_url, data);
+    $(this.node).find('.select-container').append(template);
+    this.makeItemsDraggable($(this.node).find('.item'));
+
+  }
+  confirmSelect() {
+    var select = $(this.node).find('.model-select');
+    var model = $(select).val();
+    var data = {
+      model: model
+    };
+    var template = this.WC.ajax(this.WC.fields_url, data);
+    var container = $(this.node).find('.input-container');
+    $(container).empty();
+    $(container).append(template);
+  }
   hide() {
     this.width = $(this.node).width();
     this.height = $(this.node).height();
@@ -229,6 +259,18 @@ class Window {
     $(nodes).disableSelection();
   }
 
+  tree() {
+    let selectedClass;
+    $('#example_tree').find('DIV').click(function (e) {
+      if ($(this).parent().children('UL').length > 0) {
+        // $('ul').css("border-left", "0px solid");
+        $(this).parent().children('UL').toggle();
+        // $(this).parent().children('UL').css("border-left", "1px solid");
+      }
+      selectedClass = $(this).find('p').text();
+      console.log(selectedClass);
+    });
+  }
   search() {
     var self = this;
     var input = $(self.node).find('input');

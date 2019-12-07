@@ -7,10 +7,11 @@
         <div class="content">
             <div class="label"><p>Название:</p></div>
             <div class="value"><p>{{ item.name }}</p></div>
-            <div class="label"><p>Название на национальном языке:</p></div>
-            <div class="value"><p>{{ item.title_origin }}</p></div>
-            <div class="label"><p>Родитель:</p></div>
-            <div class="value"><p data-callable="1" data-pk="{{item.parent.pk}}" data-model="{{ item.parent|get_class }}" style="width: 690px">{{item.parent.pk}}</p></div>
+            {% if item.parent %}
+                <div class="label"><p>Родитель:</p></div>
+                <div class="value"><p data-callable="1" data-pk="{{item.parent.pk}}" data-model="{{ item.parent|get_class }}">{{item.parent.pk}}</p></div>
+            {% endif %}
+            
         </div>
     </div>
 </div>

@@ -66,9 +66,8 @@
     border: 0;
 }
 
-.articlelink, #hide-all-windows, #close-all-windows, #open-search{
+.articlelink, #hide-all-windows, #close-all-windows, #open-search, #open-tree, #create-object{
     position: fixed;
-    left: 30px;
     border: none;
     width: 50px;
     height: 50px;
@@ -77,22 +76,35 @@
 }
 .articlelink{
     bottom: 30px;
+    left: 30px;
     background-color: #00bfa5;
 }
 #hide-all-windows{
     bottom: 90px;
+    left: 30px;
     background-color: #232d41;
 }
 #close-all-windows{
     bottom: 150px;
+    left: 30px;
     background-color: #ff4641;
 }
 #open-search{
     bottom: 210px;
+    left: 30px;
     background-color: rgb(64,196,255);
 }
-
-.articlelink:hover, #hide-all-windows:hover, #close-all-windows:hover, #open-search:hover{
+#open-tree{
+    bottom: 270px;
+    left: 30px;
+    background-color: rgb(64,196,255);
+}
+#create-object{
+    bottom: 30px;
+    right: 30px;
+    background-color: rgb(64,196,255);
+}
+.articlelink:hover, #hide-all-windows:hover, #close-all-windows:hover, #open-search:hover, #open-tree:hover, #create-object:hover{
     cursor: pointer;
     width: 250px;
     transition: 0.2s;
@@ -100,7 +112,7 @@
 
 }
 
-.articlelink p, #hide-all-windows p,  #close-all-windows p, #open-search p, #open-search p{
+.articlelink p, #hide-all-windows p,  #close-all-windows p, #open-search p, #open-tree p, #create-object p{
     color: white;
     text-align: center;
     line-height: 53px;
@@ -108,12 +120,12 @@
     height:inherit;
 }
 
-.articlelink:hover p, #hide-all-windows:hover p, #close-all-windows:hover p, #open-search:hover p{
+.articlelink:hover p, #hide-all-windows:hover p, #close-all-windows:hover p, #open-search:hover p, #open-tree:hover p, #create-object:hover p{
     font-size: 12pt;
     visibility: hidden;
 }
 
-.articlelink:hover p:after, #hide-all-windows:hover p:after, #close-all-windows:hover p:after, #open-search:hover p:after{
+.articlelink:hover p:after, #hide-all-windows:hover p:after, #close-all-windows:hover p:after, #open-search:hover p:after, #open-tree:hover p:after, #create-object:hover p:after{
     visibility: visible;
     animation: fadein 2s;
     -moz-animation: fadein 2s; /* Firefox */
@@ -133,7 +145,12 @@
 #open-search:hover p:after{
     content: 'Поиск';
 }
-
+#open-tree:hover p:after{
+    content: 'Дерево классов';
+}
+#create-object:hover p:after{
+    content: 'Создать объект';
+}
 
 
 

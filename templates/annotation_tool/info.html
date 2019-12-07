@@ -2,12 +2,23 @@
 {% load tags %}
 
 {% block content %}
-<div class"item-info">
+<div class="item-info">
         <div class="item-current"><p>Текущий элемент:</p></div>
-        {% autoescape off %}
-        {{item}}
-        {% endautoescape %}
+        
       
+        <div class="item-edit">
+            {% autoescape off %}
+            {{ item }}
+            {% endautoescape %}
+            <form class="save-entity-form" target="dump" action="{% url 'annotation_tool:saveEntity' model=obj|get_class  pk=obj.pk %}" method="post">
+                <div class="edit-container">
+                {% csrf_token %}
+                {{ form }}
+                </div>
+                {% comment %} <input type="submit" value="Submit"> {% endcomment %}
+            </form>
+        </div>
+
         <div class="item-slaves">
             <div class="title" data-role="slaves">
                 <p><span>Потомки</span></p>

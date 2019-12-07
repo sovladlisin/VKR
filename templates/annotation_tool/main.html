@@ -16,14 +16,19 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/window-style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/search-style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tree-style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/create-style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/item-style.css' %}">
 
 
-
+    <script src= "{% static 'js/Tree.js' %}"></script>
     <script src= "{% static 'js/tooltip.js' %}"></script>
     <script src= "{% static 'js/preload.js' %}"></script>
     <script src= "{% static 'js/SelectionTool.js' %}"></script>
-    <script src= "{% static 'js/WC.js' %}"></script>
-    <script src= "{% static 'js/Window.js' %}"></script>
+    <script src= "{% static 'js/classes/Window.js' %}"></script>
+    <script src= "{% static 'js/controllers/WindowController.js' %}"></script>
+    <script src= "{% static 'js/controllers/WindowWorkFlow.js' %}"></script>
+    <script src= "{% static 'js/handlers.js' %}"></script>
 </head>
 <body>
 <div class="se-pre-con"></div>
@@ -31,10 +36,13 @@
 <div id="hidden-window-container"></div>
 <div id="side-item-info"></div>
 
-<a href="{% url 'annotation_tool:blocks'%}" class="articlelink"><p><i class="fas fa-list-alt"></p></i></a>
+<a href="{% url 'annotation_tool:blocks'%}" class="articlelink"><p><i class="fas fa-list-alt"></i></p></a>
 <div id="hide-all-windows"><p><i class="fas fa-eye-slash"></i></p></div>
 <div id="close-all-windows"><p><i class="fas fa-times"></i></p></div>
 <div id="open-search"><p><i class="fas fa-search"></i></p></div>
+<div id="open-tree"><p><i class="fas fa-project-diagram"></i></p></div>
+<div id="create-object"><p><i class="fas fa-plus"></i></p></div>
+<iframe name="dump" width="0" height="0"></iframe>    
     <div class="block" id="block" data-pk="{{ pk }}">
         {% if lines %}
             {% for line in lines %}
@@ -44,7 +52,7 @@
                     </div> {% endcomment %}
                     <div class="item" data-pk="{{line.pk}}" data-model="{{ line|get_class }}">
                         <p>Строка - {{ line.position }}</p>
-                        <div class="item-delete"><p><i class="fas fa-times"></i></p></div>
+                        <div class="item-delete" style="display: none"><p><i class="fas fa-times"></i></p></div>
                         <div class="item-open"><p><i class="far fa-sticky-note"></i></p></div>
                         <div class="item-info">
                             <div class="content">
