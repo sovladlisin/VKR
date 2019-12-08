@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
+from urllib.parse import urlparse
 import dj_database_url
 import os
 
@@ -24,8 +25,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'b_=69lzr9o=3c*j+fea=(v!*9)=b(dgdpt)d#5(hg%9f-(-07p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-DEBUG_PROPAGATE_EXCEPTIONS = False
+DEBUG = True
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -77,17 +78,19 @@ TEMPLATES = [
         },
     },
 ]
-
 WSGI_APPLICATION = 'service_core.wsgi.application'
 ASGI_APPLICATION = 'service_core.routing.application'
+redis_url = urlparse(os.environ.get('REDISCLOUD_URL'))
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('redis-12020.c2.eu-west-1-3.ec2.cloud.redislabs.com', 12020)],
+            "hosts": [(redis_url.hostname, redis_url.port)],
         },
     },
 }
+# '%s:%s' % (redis_url.hostname, redis_url.port),
+# "hosts": [('127.0.0.1', 447)],
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases

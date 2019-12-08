@@ -17,6 +17,7 @@ $(document).ready(function () {
     $('.item').click(function () {
         var template = 'hui';
         chatSocket.send(JSON.stringify({
+            'type': 'Line',
             'pk': '1',
             'model_name': 'Line'
         }));
