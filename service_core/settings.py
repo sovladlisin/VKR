@@ -80,12 +80,12 @@ TEMPLATES = [
 ]
 WSGI_APPLICATION = 'service_core.wsgi.application'
 ASGI_APPLICATION = 'service_core.routing.application'
-redis_url = urlparse(os.environ.get('REDISCLOUD_URL'))
+
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [(redis_url.hostname, redis_url.port)],
+            [os.environ.get('REDIS_URL', 'redis://localhost:6379')]
         },
     },
 }
