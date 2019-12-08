@@ -2,7 +2,7 @@ $(document).ready(function () {
     var user = 'user1'
 
     var chatSocket = new WebSocket(
-        'ws://' + window.location.host + '/window'
+        'wss://' + window.location.host + '/window'
         + '/');
 
     chatSocket.onmessage = function (e) {
