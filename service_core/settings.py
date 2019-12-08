@@ -77,7 +77,7 @@ TEMPLATES = [
         },
     },
 ]
-WSGI_APPLICATION = 'service_core.wsgi.application'
+# WSGI_APPLICATION = 'service_core.wsgi.application'
 ASGI_APPLICATION = 'service_core.routing.application'
 
 CHANNEL_LAYERS = {
