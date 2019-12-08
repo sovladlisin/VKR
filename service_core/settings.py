@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'widget_tweaks',
     # утилита для работы с деревьями
     'mptt',
+
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -77,7 +79,15 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'service_core.wsgi.application'
-
+ASGI_APPLICATION = 'service_core.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('redis-12020.c2.eu-west-1-3.ec2.cloud.redislabs.com', 12020)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases

@@ -1,4 +1,4 @@
-#!C:\Projects\service_core\service_core_venv\Scripts\python.exe
+#!c:\projects\service_core\service_core_venv\scripts\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'autopep8==1.4.4','console_scripts','autopep8'
 __requires__ = 'autopep8==1.4.4'
 import re

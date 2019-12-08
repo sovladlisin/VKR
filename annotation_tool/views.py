@@ -185,46 +185,40 @@ def SaveEntity(request, pk, model):
             return HttpResponse("Ошибка в форме")
 
 
-def InfoWindow(request):
-    if request.is_ajax():
-        pk = request.GET.get('pk')
-        model_name = request.GET.get('model_name')
-        window_id = pk + model_name
-        Model = apps.get_model(
-            app_label="annotation_tool", model_name=model_name)
-        if Model.objects.filter(pk=pk).exists():
-            obj = Model.objects.get(pk=pk)
-            slaves, masters = getAllLinks(obj)
+def InfoWindow(pk, model_name):
+    window_id = pk + model_name
+    Model = apps.get_model(
+        app_label="annotation_tool", model_name=model_name)
+    if Model.objects.filter(pk=pk).exists():
+        obj = Model.objects.get(pk=pk)
+        slaves, masters = getAllLinks(obj)
 
-            GenericForm = getForm(model_name)
-            form = GenericForm(instance=obj)
+        GenericForm = getForm(model_name)
+        form = GenericForm(instance=obj)
 
-            item_html = showcase(pk, model_name, False)
-            slaves_html = ""
-            masters_html = ""
+        item_html = showcase(pk, model_name, False)
+        slaves_html = ""
+        masters_html = ""
 
-            for key, item in slaves.items():
-                slaves_html += '<div class="item-dep"> <p>' + key + ':</p>'
-                slaves_html += '<div class ="placeholder"  data-dep-name="' + \
-                    key+'" data-dep-role="slaves">'
-                for i in item:
-                    slaves_html += showcase(i.pk, i.__class__.__name__)
-                slaves_html += '</div></div>'
+        for key, item in slaves.items():
+            slaves_html += '<div class="item-dep"> <p>' + key + ':</p>'
+            slaves_html += '<div class ="placeholder"  data-dep-name="' + \
+                key+'" data-dep-role="slaves">'
+            for i in item:
+                slaves_html += showcase(i.pk, i.__class__.__name__)
+            slaves_html += '</div></div>'
 
-            for key, item in masters.items():
-                masters_html += '<div class="item-dep"> <p>' + key + ':</p>'
-                masters_html += '<div class ="placeholder" data-dep-name="' + \
-                    key+'" data-dep-role="masters">'
-                for i in item:
-                    masters_html += showcase(i.pk, i.__class__.__name__)
-                masters_html += '</div></div>'
+        for key, item in masters.items():
+            masters_html += '<div class="item-dep"> <p>' + key + ':</p>'
+            masters_html += '<div class ="placeholder" data-dep-name="' + \
+                key+'" data-dep-role="masters">'
+            for i in item:
+                masters_html += showcase(i.pk, i.__class__.__name__)
+            masters_html += '</div></div>'
 
-            html = render_to_string('annotation_tool/info.html',
-                                    {'item': item_html, 'masters': masters_html, 'slaves': slaves_html, 'obj': obj, 'id': window_id, 'form': form})
-            response = {}
-            response['template'] = html
-            return HttpResponse(json.dumps(response))
-        return HttpResponseNotFound("Item is not present")
+        html = render_to_string('annotation_tool/info.html',
+                                {'item': item_html, 'masters': masters_html, 'slaves': slaves_html, 'obj': obj, 'id': window_id, 'form': form})
+        return html
 
 
 def showcase(pk, model_name, pin=True):

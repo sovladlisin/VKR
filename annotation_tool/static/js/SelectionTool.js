@@ -1,4 +1,30 @@
 $(document).ready(function () {
+    var user = 'user1'
+
+    var chatSocket = new WebSocket(
+        'ws://' + window.location.host + '/window'
+        + '/');
+
+    chatSocket.onmessage = function (e) {
+        var data = JSON.parse(e.data);
+        var message = data['template'];
+        console.log(message)
+    };
+
+    chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+    $('.item').click(function () {
+        var template = 'hui';
+        chatSocket.send(JSON.stringify({
+            'pk': '1',
+            'model_name': 'Line'
+        }));
+
+    });
+
+
+
     let tooltips = [];
     window.links = [];
     downloadLinkedItems();
