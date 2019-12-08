@@ -1,8 +1,7 @@
 $(document).ready(function () {
     var user = 'user1'
-
-    var chatSocket = new WebSocket(
-        'wss://' + window.location.host + '/window/');
+    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+    var chatSocket = new WebSocket(ws_scheme + '://' + window.location.host + "/window/");
 
     chatSocket.onmessage = function (e) {
         var data = JSON.parse(e.data);
