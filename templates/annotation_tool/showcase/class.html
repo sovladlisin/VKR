@@ -1,4 +1,5 @@
 {% load tags %}
+{% if pin %}
 <div id="{{item.pk}}{{item|get_class}}"class="item" data-pk="{{item.pk}}" data-model="{{ item|get_class }}">
     <p>Класс - {{ item.pk }}</p>
     <div class="item-delete"><p><i class="fas fa-times"></i></p></div>
@@ -15,6 +16,28 @@
         </div>
     </div>
 </div>
+{% else %}
+<div class="pin-container">
+    <p>Пин для манипулирования: </p>
+    <div id="{{item.pk}}{{item|get_class}}"class="item" data-pk="{{item.pk}}" data-model="{{ item|get_class }}">
+        <p>Класс - {{ item.pk }}</p>
+        <div class="item-delete" style="display: none"><p><i class="fas fa-times"></i></p></div>
+        <div class="item-open" style="display: none"><p><i class="far fa-sticky-note"></i></p></div>
+        <div class="item-info">
+            <div class="content">
+                <div class="label"><p>Название:</p></div>
+                <div class="value"><p>{{ item.name }}</p></div>
+                {% if item.parent %}
+                    <div class="label"><p>Родитель:</p></div>
+                    <div class="value"><p data-callable="1" data-pk="{{item.parent.pk}}" data-model="{{ item.parent|get_class }}">{{item.parent.pk}}</p></div>
+                {% endif %}
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 
 
 
