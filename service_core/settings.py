@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'b_=69lzr9o=3c*j+fea=(v!*9)=b(dgdpt)d#5(hg%9f-(-07p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", True)
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -84,7 +84,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [os.environ.get('REDIS_URL')]
+            "hosts": 'redis://h:p07f051962ab917bef050db1da8cc19f6acd98fd3224312ae710cc3c14329878b@ec2-52-51-164-88.eu-west-1.compute.amazonaws.com:22799'
         },
     },
 }
