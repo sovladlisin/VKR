@@ -5,6 +5,7 @@ class WindowController {
 
         this.opened_windows = {};
         this.hidden_windows = {};
+
     }
 
     getWindowByInnerNode($node) {
@@ -74,9 +75,9 @@ class WindowController {
         }
     }
 
-    createWindow(id, title, body) {
+    createWindow(id, body) {
         if (this.getWindowById(id) === null) {
-            var new_window = new Window(id, title, body);
+            var new_window = new Window(id, body);
             this.opened_windows[id] = new_window;
             new_window.draw(this.$container);
             return new_window

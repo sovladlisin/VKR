@@ -1,7 +1,6 @@
 class Window {
-    constructor(id, title, body) {
+    constructor(id, body) {
         this.id = id;
-        this.title = title;
         this.body = body;
         this.$node = null;
     }
@@ -11,7 +10,7 @@ class Window {
         this.$node = $($container).find('.window[data-new="True"]');
         $(this.$node).attr("data-new", 'False');
         $(this.$node).attr('id', this.id);
-        $(this.$node).find('.window-header:first').find('p:first').text(this.title);
+        this.title = $(this.$node).find('.window-header:first').find('p:first').text();
         $(this.$node).draggable({
             handle: ".window-header",
             start: function (event, ui) {

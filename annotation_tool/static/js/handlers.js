@@ -1,9 +1,13 @@
 function itemHandlers(WW) {
     $("body").on("click", ".item-open", function () {
         var $item = $(this).parent();
-        if (WW.buildWindowFromUrl(WW.info_window_url, $($item).find('p:first').text(), $($item).data('pk'), $($item).data('model')) === null) {
-            WW.WC.showWindow(WW.WC.getWindowById('window' + $($item).data('model') + $($item).data('pk')))
-        }
+        var data = {
+            'type': 'Info',
+            'pk': $($item).data('pk'),
+            'model_name': $($item).data('model'),
+        };
+        WW.windowWebSocket.send(JSON.stringify(data));
+        WW.WC.showWindow(WW.WC.getWindowById('window' + $($item).data('model') + $($item).data('pk')))
     });
     $("body").on("click", ".item-delete", function () {
         WW.deleteItem(this);
@@ -54,13 +58,16 @@ function windowHandlers(WW) {
 }
 function buttonHandlers(WW) {
     $("body").on("click", "#open-tree", function () {
-        WW.buildWindowFromUrl(WW.tree_window_url, 'Иерархия классов');
+        var data = { 'type': 'Tree', 'pk': null, 'model_name': null, };
+        WW.windowWebSocket.send(JSON.stringify(data));
     });
     $("body").on("click", "#open-search", function () {
-        WW.buildWindowFromUrl(WW.search_window_url, 'Поиск');
+        var data = { 'type': 'Search', 'pk': null, 'model_name': null, };
+        WW.windowWebSocket.send(JSON.stringify(data));
     });
     $('body').on('click', "#pin-factory", function () {
-        WW.buildWindowFromUrl(WW.pin_window_url, 'Фабрика пинов');
+        var data = { 'type': 'PinFactoryWindow', 'pk': null, 'model_name': null, };
+        WW.windowWebSocket.send(JSON.stringify(data));
     });
 
 }

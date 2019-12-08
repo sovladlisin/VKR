@@ -1,15 +1,46 @@
 .content {
     width: 900px;
+    display: flex;
+    justify-content: center;
     margin: 50px auto;
 }
 
-.block-file input[type="file"]{
-    display: none;
+.content input[type="file"]{
+    width: auto;
+    background: white;
+    padding: 13px;
+    border-radius: 30px;
+    float: left;
 }
+
+.content button{
+	float:left;
+	width: 50px;
+	margin-left: 10px;
+	content: none;
+	color: rgb(255,255,255,0);
+	background: rgb(0,191,165);
+	height: 50px;
+	border-radius: 25px;
+	transition: 0.5s;
+}
+.content button p{
+	background:none;
+	color: white;
+	height: 50px;
+	width: 50px;
+	font-size: 12pt;
+	line-height: 50px;
+}
+.content button:hover{
+	background:rgb(35,45,65);
+	color: white;
+}
+
 
 .block-file {
     overflow: hidden;
-    width: 200px;
+    width: 250px;
     height: 50px;
     background: #00bfa5;
     color: #fff;
@@ -17,6 +48,7 @@
     border-radius: 35px;
     font-size: 10pt;
     margin: 0 auto;
+    float: left;
 }
 
 .block-file:hover {

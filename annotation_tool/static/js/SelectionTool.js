@@ -1,51 +1,40 @@
 $(document).ready(function () {
     var user = 'user1'
     var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-    var chatSocket = new WebSocket(ws_scheme + '://' + window.location.host + "/window/");
+    // var chatSocket = new WebSocket(ws_scheme + '://' + window.location.host + "/window/");
 
-    chatSocket.onmessage = function (e) {
-        var data = JSON.parse(e.data);
-        var message = data['template'];
-        console.log(message)
-    };
+    // chatSocket.onmessage = function (e) {
+    //     var data = JSON.parse(e.data);
+    //     var message = data['template'];
+    //     console.log(message)
+    // };
 
-    chatSocket.onclose = function (e) {
-        console.error('Chat socket closed unexpectedly');
-    };
-    $('.item').click(function () {
-        var template = 'hui';
-        chatSocket.send(JSON.stringify({
-            'type': 'Line',
-            'pk': '1',
-            'model_name': 'Line'
-        }));
+    // chatSocket.onclose = function (e) {
+    //     console.error('Chat socket closed unexpectedly');
+    // };
+    // $('.item').click(function () {
+    //     var template = 'hui';
+    //     var data = {
+    //         'type': 'Line',
+    //         'pk': '1',
+    //         'model_name': 'Line'
+    //     };
+    //     chatSocket.send(JSON.stringify(data));
 
-    });
+    // });
 
 
 
     let tooltips = [];
     window.links = [];
     downloadLinkedItems();
-    // let WindowController =
-    //     new WC($('#window-container'), $('#hidden-window-container'),
-    //         '/annotation_tool/infoWindow',
-    //         '/annotation_tool/searchWindow',
-    //         '/annotation_tool/search',
-    //         '/annotation_tool/tree',
-    //         '/annotation_tool/createWindow',
-    //         '/annotation_tool/getFields',
-    //         '/annotation_tool/createAny');
-    let WC =
-        new WindowController($('#window-container'), $('#hidden-window-container'));
-    let WW = new WindowWorkflow(WC,
-        '/annotation_tool/infoWindow',
-        '/annotation_tool/searchWindow',
-        '/annotation_tool/tree',
-        '/annotation_tool/search',
-        '/annotation_tool/saveWindow',
-        '/annotation_tool/pinFactoryWindow',
-        '/annotation_tool/pinFactory')
+    let WW = new WindowWorkflow(
+        new WindowController($('#window-container'), $('#hidden-window-container')),
+        new WebSocket(ws_scheme + '://' + window.location.host + "/window/"),
+        new WebSocket(ws_scheme + '://' + window.location.host + "/windowSave/"),
+        new WebSocket(ws_scheme + '://' + window.location.host + "/createPin/"),
+        new WebSocket(ws_scheme + '://' + window.location.host + "/search/"),
+    );
 
     WW.makeItemsDraggable($('.item'));
     $(".block .item").hover(

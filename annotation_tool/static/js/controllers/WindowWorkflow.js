@@ -1,20 +1,48 @@
 class WindowWorkflow {
 
-    constructor(WindowController, info_window_url, search_window_url, tree_window_url,
-        search_url, save_window_data_url, pin_window_url, pin_factory_url) {
+    constructor(WindowController,
+        windowWebSocket,
+        windowSaveWebSocket,
+        pinFactoryWebSocket,
+        searchWebSocket) {
+
         this.WC = WindowController;
-        this.info_window_url = info_window_url;
-        this.search_window_url = search_window_url;
-        this.tree_window_url = tree_window_url;
-        this.search_url = search_url;
-        this.save_window_data_url = save_window_data_url;
-        this.pin_window_url = pin_window_url;
-        this.pin_factory_url = pin_factory_url;
+        this.windowWebSocket = windowWebSocket;
+        this.windowSaveWebSocket = windowSaveWebSocket;
+        this.pinFactoryWebSocket = pinFactoryWebSocket;
+        this.searchWebSocket = searchWebSocket;
 
         this.assignHandlers();
+        this.assignWebSockets();
+
         this.saved_items = {};
     }
 
+
+    assignWebSockets() {
+        var self = this;
+        this.windowWebSocket.onmessage = function (e) {
+            var data = JSON.parse(e.data);
+            var body = data['body'];
+            var pk = data['pk'];
+            var model = data['model'];
+            var id = data['id'];
+            self.buildWindow(id, body, pk, model)
+        };
+        this.pinFactoryWebSocket.onmessage = function (e) {
+            var data = JSON.parse(e.data);
+            $('#window-PinFactory').find('.input-container:first').append(data['pin']);
+            self.makeItemsDraggable($('#window-PinFactory').find('.item'));
+        };
+        this.searchWebSocket.onmessage = function (e) {
+            var data = JSON.parse(e.data);
+            $('#window-Search').find('.placeholder').empty().append(data['template']);
+            self.makeItemsDraggable($('#window-Search').find('.item'));
+        };
+        this.windowWebSocket.onclose = function (e) {
+            console.error('Socket closed unexpectedly');
+        };
+    }
 
     assignHandlers() {
         itemHandlers(this);
@@ -27,10 +55,7 @@ class WindowWorkflow {
         var phrase = $(search_window.$node).find('input:first').val();
 
         var data = { phrase: phrase, };
-        var template_result = this.ajax(this.search_url, data);
-        $(search_window.$node).find('.placeholder').empty().append(template_result.template);
-
-        this.makeItemsDraggable($(search_window.$node).find('.item'));
+        this.searchWebSocket.send(JSON.stringify(data));
     }
 
     tree($node) {
@@ -44,15 +69,10 @@ class WindowWorkflow {
         var window = this.WC.getWindowByInnerNode($node);
         var $select = $(window.$node).find('select');
         var selected = $($select).val();
-
-        var data = {
-            model: selected
-        };
-
-        var pin = this.ajax(this.pin_factory_url, data);
-        $(window.$node).find('.input-container:first').append(pin.template);
-        this.makeItemsDraggable($(window.$node).find('.item'));
+        var data = { model: selected };
+        this.pinFactoryWebSocket.send(JSON.stringify(data));
     }
+
     addPlaceholder($node) {
         var name = $($node).prev().val();
         var role = $($node).data('placeholder-role');
@@ -88,74 +108,33 @@ class WindowWorkflow {
         })
     }
 
-    buildWindowFromUrl(url, title, pk = null, model = null) {
-        if (url === this.info_window_url) {
-            var id = 'window' + model + pk;
-            if (this.WC.getWindowById(id) === null) {
-                var data = {
-                    pk: pk,
-                    model_name: model
-                };
-                var body = this.ajax(url, data);
-                var new_window = this.sendWindowToWC(id, title, body.template);
-                $(new_window.$node).data('pk', pk);
-                $(new_window.$node).data('model', model);
-                this.addTipsoToTitles(new_window);
-                var form_id = guidGenerator();
-                $(new_window.$node).find('form:first').attr('id', form_id);
-                $(new_window.$node).find('button.save-window:first').attr('type', 'submit');
-                $(new_window.$node).find('button.save-window:first').attr('form', form_id);
-                return new_window
+    buildWindow(id, body, pk = null, model = null) {
+        if (this.WC.getWindowById(id) === null) {
+            var new_window = this.sendWindowToWC(id, body);
+            $(new_window.$node).data('pk', pk);
+            $(new_window.$node).data('model', model);
+            if (pk != null) {
+                var title = $(new_window.$node).find('.pin-container:first').find('.item:first').find('p:first').text();
+                $(new_window.$node).find('.window-header:first').find('p:first').text(title);
+                new_window.title = title;
             }
-            return null
         }
-        if (url === this.search_window_url) {
-            var id = guidGenerator();
-            var data = {};
-            var body = this.ajax(url, data);
-            var new_window = this.sendWindowToWC(id, title, body.template);
-            return new_window
-        }
-        if (url === this.tree_window_url) {
-            var id = guidGenerator();
-            var data = {};
-            var body = this.ajax(url, data);
-            var new_window = this.sendWindowToWC(id, title, body.template);
-            return new_window
-        }
-        if (url === this.pin_window_url) {
-            var id = guidGenerator();
-            var data = {};
-            var body = this.ajax(url, data);
-            var new_window = this.sendWindowToWC(id, title, body.template);
-            return new_window
-        }
-        return null;
     }
 
-    sendWindowToWC(id, title, body) {
-        var new_window = this.WC.createWindow(id, title, body);
+    sendWindowToWC(id, body) {
+        var new_window = this.WC.createWindow(id, body);
         this.makeItemsDraggable($(new_window.$node).find('.item'));
         this.makePlaceholdersDroppable($(new_window.$node).find('.placeholder'));
         $(new_window.$node).append('<div class="window-notification"><p><i class="far fa-check-circle"></i></p></div>')
-        return new_window
-    }
+        this.addTipsoToTitles(new_window);
 
-    ajax(url, data, type = "GET") {
-        var answer = null;
-        $.ajax({
-            type: type,
-            url: url,
-            async: false,
-            data: data,
-            success: function (result) {
-                answer = result;
-            }, dataType: "json",
-            error: function (response, error) {
-                console.log(response, error);
-            }
-        });
-        return answer;
+
+
+        var form_id = guidGenerator();
+        $(new_window.$node).find('form:first').attr('id', form_id);
+        $(new_window.$node).find('button.save-window:first').attr('type', 'submit');
+        $(new_window.$node).find('button.save-window:first').attr('form', form_id);
+        return new_window
     }
 
     makeItemsDraggable($nodes) {
@@ -289,9 +268,7 @@ class WindowWorkflow {
             model: model,
             pk: pk,
         };
-
-        var result = this.ajax(this.save_window_data_url, data, 'POST');
-        console.log(result);
+        this.windowSaveWebSocket.send(JSON.stringify(data));
         var $notification = $(window.$node).find('.window-notification:first');
         $($notification).css('display', 'block');
         setTimeout(function () {

@@ -9,6 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'css/fixer-style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/all.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/upload-style.css' %}">
     
     <script src= "{% static 'js/uploadFile.js' %}"></script>
@@ -18,13 +19,8 @@
     <div class="content">
         <form enctype="multipart/form-data" action="" method="post">
             {% csrf_token %}
-            <div class="block-file">
-                <label>
-                    {% render_field form.file %}
-                    <span>Выберите DOCX документ</span>
-                </label>
-            </div>
-            <input type="submit" style="opacity: 0">
+            {% render_field form.file %}
+            <button type="submit"><p><i class="fas fa-file-upload"></i></p></button>
         </form>
     </div>
 

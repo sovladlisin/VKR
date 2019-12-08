@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from docx import Document
 
 from annotation_tool.forms import UploadFileForm, RelationForm, LineForm, BlockForm, ObjectForm, ClassForm, DescriptionForm
-from annotation_tool.models import Block, Relation, Class, Line, Link, TaggedItem, Object
+from annotation_tool.models import Block, Relation, Class, Line, Link, TaggedItem, Object, Description
 
 
 def handler404(request, exception):
@@ -59,51 +59,47 @@ def CreateWindow(request):
         return HttpResponse(json.dumps(response))
 
 
-@csrf_exempt
-def SaveWindow(request):
-    if request.is_ajax():
-        pk = request.POST.get('pk')
-        model = request.POST.get('model')
-        masters = json.loads(request.POST.get('masters'))
-        slaves = json.loads(request.POST.get('slaves'))
+def SaveWindow(data):
+    pk = data['pk']
+    model = data['model']
+    masters = json.loads(data['masters'])
+    slaves = json.loads(data['slaves'])
 
-        Model = apps.get_model(app_label="annotation_tool", model_name=model)
-        current_item = Model.objects.get(pk=pk)
-        destroyAllLinks(current_item)
+    Model = apps.get_model(app_label="annotation_tool", model_name=model)
+    current_item = Model.objects.get(pk=pk)
+    destroyAllLinks(current_item)
 
-        master_links = []
-        if masters is not None:
-            for k, elements in masters.items():
-                if Relation.objects.filter(name=k).exists():
-                    relation = Relation.objects.get(name=k)
-                else:
-                    relation = Relation(name=k)
-                    relation.save()
-                for item in elements:
-                    Model = apps.get_model(
-                        app_label="annotation_tool", model_name=item[0])
-                    object = Model.objects.get(pk=item[1])
-                    link = Link(relation=relation, first_item=object.tags.first(
-                    ), second_item=current_item.tags.first())
-                    link.save()
+    master_links = []
+    if masters is not None:
+        for k, elements in masters.items():
+            if Relation.objects.filter(name=k).exists():
+                relation = Relation.objects.get(name=k)
+            else:
+                relation = Relation(name=k)
+                relation.save()
+            for item in elements:
+                Model = apps.get_model(
+                    app_label="annotation_tool", model_name=item[0])
+                object = Model.objects.get(pk=item[1])
+                link = Link(relation=relation, first_item=object.tags.first(
+                ), second_item=current_item.tags.first())
+                link.save()
 
-        slave_links = []
-        if slaves is not None:
-            for k, elements in slaves.items():
-                if Relation.objects.filter(name=k).exists():
-                    relation = Relation.objects.get(name=k)
-                else:
-                    relation = Relation(name=k)
-                    relation.save()
-                for item in elements:
-                    Model = apps.get_model(
-                        app_label="annotation_tool", model_name=item[0])
-                    object = Model.objects.get(pk=item[1])
-                    link = Link(relation=relation, first_item=current_item.tags.first(
-                    ), second_item=object.tags.first())
-                    link.save()
-
-        return HttpResponse("Success!")
+    slave_links = []
+    if slaves is not None:
+        for k, elements in slaves.items():
+            if Relation.objects.filter(name=k).exists():
+                relation = Relation.objects.get(name=k)
+            else:
+                relation = Relation(name=k)
+                relation.save()
+            for item in elements:
+                Model = apps.get_model(
+                    app_label="annotation_tool", model_name=item[0])
+                object = Model.objects.get(pk=item[1])
+                link = Link(relation=relation, first_item=current_item.tags.first(
+                ), second_item=object.tags.first())
+                link.save()
 
 
 def Workspace(request, pk):
@@ -115,58 +111,45 @@ def Workspace(request, pk):
 
 # else:
 #     return HttpResponse('Not Authorized', status=403)
-def SearchWindow(request):
-    if request.is_ajax():
-        html = render_to_string('annotation_tool/search.html',)
-        response = {}
-        response['template'] = html
-        return HttpResponse(json.dumps(response))
+def SearchWindow():
+    html = render_to_string('annotation_tool/windows/search.html',)
+    return html
 
 
-def Search(request):
-    if request.is_ajax():
-        phrase = request.GET.get('phrase')
-        print(phrase)
-        html = ''
-        for block in Block.objects.all():
-            html += showcase(block.pk, 'Block')
-        for line in Line.objects.all():
-            html += showcase(line.pk, 'Line')
-        for obj in Object.objects.all():
-            html += showcase(obj.pk, 'Object')
-        response = {}
-        response['template'] = html
-        return HttpResponse(json.dumps(response))
+def Search(data):
+    phrase = data['phrase']
+    print(phrase)
+    html = ''
+    for block in Block.objects.all():
+        html += showcase(block.pk, 'Block')
+    for line in Line.objects.all():
+        html += showcase(line.pk, 'Line')
+    for obj in Object.objects.all():
+        html += showcase(obj.pk, 'Object')
+    for desc in Description.objects.all():
+        html += showcase(desc.pk, 'Description')
+    return html
 
 
-def ClassTree(request):
-    if request.is_ajax():
-        html = render_to_string(
-            'annotation_tool/tree.html', {'genres': Class.objects.all()})
-        response = {}
-        response['template'] = html
-        return HttpResponse(json.dumps(response))
+def ClassTree():
+    html = render_to_string(
+        'annotation_tool/windows/tree.html', {'genres': Class.objects.all()})
+    return html
 
 
-def PinFactory(request):
-    if request.is_ajax():
-        model = request.GET.get('model')
-        Model = apps.get_model(
-            app_label="annotation_tool", model_name=model)
-        item = Model()
-        item.save()
-        item_html = showcase(item.pk, model)
-        response = {}
-        response['template'] = item_html
-        return HttpResponse(json.dumps(response))
+def PinFactory(data):
+    model = data['model']
+    Model = apps.get_model(
+        app_label="annotation_tool", model_name=model)
+    item = Model()
+    item.save()
+    item_html = showcase(item.pk, model)
+    return item_html
 
 
-def PinFactoryWindow(request):
-    if request.is_ajax():
-        html = render_to_string('annotation_tool/pinFactory.html')
-        response = {}
-        response['template'] = html
-        return HttpResponse(json.dumps(response))
+def PinFactoryWindow():
+    html = render_to_string('annotation_tool/windows/pinFactory.html')
+    return html
 
 
 @csrf_exempt
@@ -186,7 +169,6 @@ def SaveEntity(request, pk, model):
 
 
 def InfoWindow(pk, model_name):
-    window_id = pk + model_name
     Model = apps.get_model(
         app_label="annotation_tool", model_name=model_name)
     if Model.objects.filter(pk=pk).exists():
@@ -216,8 +198,8 @@ def InfoWindow(pk, model_name):
                 masters_html += showcase(i.pk, i.__class__.__name__)
             masters_html += '</div></div>'
 
-        html = render_to_string('annotation_tool/info.html',
-                                {'item': item_html, 'masters': masters_html, 'slaves': slaves_html, 'obj': obj, 'id': window_id, 'form': form})
+        html = render_to_string('annotation_tool/windows/info.html',
+                                {'item': item_html, 'masters': masters_html, 'slaves': slaves_html, 'obj': obj, 'form': form})
         return html
 
 

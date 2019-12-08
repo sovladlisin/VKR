@@ -1,7 +1,7 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 from channels.consumer import AsyncConsumer
-from annotation_tool.views import InfoWindow
+from annotation_tool.views import InfoWindow, ClassTree, SearchWindow, PinFactoryWindow, SaveWindow, PinFactory, Search
 
 
 class Window2Consumer(AsyncWebsocketConsumer):
@@ -75,10 +75,75 @@ class WindowConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data=None, bytes_data=None):
         text_data_json = json.loads(text_data)
-        type = text_data_json['type']
-        pk = text_data_json['pk']
-        model_name = text_data_json['model_name']
+        self.type = text_data_json['type']
+        self.pk = text_data_json['pk']
+        self.model_name = text_data_json['model_name']
+
+        self.body = None
+        if self.type == 'Info':
+            self.id = "window-Info" + self.model_name + str(self.pk)
+            self.body = InfoWindow(self.pk, self.model_name)
+
+        if self.type == 'Search':
+            self.id = 'window-Search'
+            self.body = SearchWindow()
+
+        if self.type == 'Tree':
+            self.id = 'window-Tree'
+            self.body = ClassTree()
+
+        if self.type == 'PinFactoryWindow':
+            self.id = 'window-PinFactory'
+            self.body = PinFactoryWindow()
 
         await self.send(text_data=json.dumps({
-            'template': InfoWindow(pk, model_name)
+            'body': self.body,
+            'pk': self.pk,
+            'model': self.model_name,
+            'id': self.id
+
+        }))
+
+
+class WindowSaveConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        await self.accept()
+
+    async def disconnect(self, close_code):
+        pass
+
+    async def receive(self, text_data=None, bytes_data=None):
+        text_data_json = json.loads(text_data)
+        SaveWindow(text_data_json)
+
+
+class PinFactoryConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        await self.accept()
+
+    async def disconnect(self, close_code):
+        pass
+
+    async def receive(self, text_data=None, bytes_data=None):
+        text_data_json = json.loads(text_data)
+        pin = PinFactory(text_data_json)
+
+        await self.send(text_data=json.dumps({
+            'pin': pin,
+        }))
+
+
+class SearchConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        await self.accept()
+
+    async def disconnect(self, close_code):
+        pass
+
+    async def receive(self, text_data=None, bytes_data=None):
+        text_data_json = json.loads(text_data)
+        result = Search(text_data_json)
+
+        await self.send(text_data=json.dumps({
+            'template': result,
         }))
