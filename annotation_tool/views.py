@@ -81,18 +81,21 @@ def BlockSelection(request):
 
 
 def UploadDOCX(request):
-    if "GET" == request.method:
-        form = UploadFileForm()
-        return render(request, 'annotation_tool/uploadDOC.html', {'form': form})
+    if request.user.is_authenticated:
+        if "GET" == request.method:
+            form = UploadFileForm()
+            return render(request, 'annotation_tool/uploadDOC.html', {'form': form})
+        else:
+            blocks = Block.objects.all()
+            form = UploadFileForm(request.POST, request.FILES)
+            # check whether it's valid:
+            if form.is_valid():
+                block = Block()
+                file = form.cleaned_data['file']
+                readDOCX(block, file)
+                return render(request, 'annotation_tool/blocks.html', {'blocks': blocks})
     else:
-        blocks = Block.objects.all()
-        form = UploadFileForm(request.POST, request.FILES)
-        # check whether it's valid:
-        if form.is_valid():
-            block = Block()
-            file = form.cleaned_data['file']
-            readDOCX(block, file)
-            return render(request, 'annotation_tool/blocks.html', {'blocks': blocks})
+        return redirect('annotation_tool:user_login')
 
 
 def destroyAllLinks(element):
