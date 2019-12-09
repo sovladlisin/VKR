@@ -92,7 +92,7 @@ def UploadDOCX(request):
             block = Block()
             file = form.cleaned_data['file']
             readDOCX(block, file)
-        return render(request, 'annotation_tool/blocks.html', {'blocks': blocks})
+            return render(request, 'annotation_tool/blocks.html', {'blocks': blocks})
 
 
 def destroyAllLinks(element):
