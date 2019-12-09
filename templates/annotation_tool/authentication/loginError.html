@@ -1,0 +1,16 @@
+{% extends "annotation_tool/authentication/base.html" %}
+{% block title %}
+Ошибка входа
+{% endblock title %}
+
+
+{% block content %}
+        <div class="title-error"><p>Ошибка входа</p></div>
+        <p class="headline-error">Возможные причины:</p>
+        <div class="causes">
+            <p>&bull; Ошибка при вводе логина и пароля</p>
+            <p>&bull; Ваша учетная запись была деактивирована</p>
+            <p>&bull; Если вы новый пользователь сети, то обратитесь к администратору для активации вашей учетной записи</p>
+        </div>
+        <div class="return"><a href="{% url 'annotation_tool:user_login' %}">Вернуться на страницу входа</a> </div>
+{% endblock content %}

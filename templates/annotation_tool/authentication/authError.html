@@ -1,0 +1,13 @@
+{% extends "annotation_tool/authentication/base.html" %}
+{% block title %}
+Ошибка аутентификации
+{% endblock title %}
+
+        <div class="title-error"><p>Ошибка входа</p></div>
+        <p class="headline-error">Причина:</p>
+        <div class="causes" style="height: 52px;">
+            <p>Данный ресурс предназначен для администратора сети</p>
+        </div>
+        <div class="return"><a href="{% url 'annotation_tool:blocks' %}">Вернуться на главную страницу</a> </div>
+{% block content %}
+{% endblock content %}

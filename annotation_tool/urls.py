@@ -4,6 +4,9 @@ from . import views
 
 app_name = 'annotation_tool'
 urlpatterns = [
+    url(r'^register/$', views.register, name='register'),
+    url(r'^user_login/$', views.user_login, name='user_login'),
+
     url(r'^workspace/(?P<pk>\d+)/edit/$', views.Workspace, name='workspace'),
     path('blocks', views.BlockSelection, name='blocks'),
     path('uploadDOCX', views.UploadDOCX, name='uploadDOCX'),

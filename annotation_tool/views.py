@@ -1,5 +1,6 @@
 import openpyxl
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth import authenticate, login, logout
 import json
 from django.db.models import Q
 from django.apps import apps
@@ -12,22 +13,71 @@ from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from docx import Document
 
-from annotation_tool.forms import UploadFileForm, RelationForm, LineForm, BlockForm, ObjectForm, ClassForm, DescriptionForm
-from annotation_tool.models import Block, Relation, Class, Line, Link, TaggedItem, Object, Description
+from annotation_tool.forms import UploadFileForm, RelationForm, LineForm, BlockForm, ObjectForm, ClassForm, DescriptionForm, UserForm, UserProfileInfoForm
+from annotation_tool.models import Block, Relation, Class, Line, Link, TaggedItem, Object, Description, UserProfileInfo
+
+
+def register(request):
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+        profile_form = UserProfileInfoForm(data=request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            user.set_password(user.password)
+            user.is_active = False
+            user.save()
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            return redirect('annotation_tool:user_login')
+        else:
+            mark = True
+            return render(request, 'annotation_tool/authentication/registration.html',
+                          {'user_form': user_form,
+                           'profile_form': profile_form, 'mark': mark
+                           })
+    else:
+        user_form = UserForm()
+        profile_form = UserProfileInfoForm()
+    return render(request, 'annotation_tool/authentication/registration.html',
+                  {'user_form': user_form,
+                           'profile_form': profile_form,
+                   })
+
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return redirect('annotation_tool:blocks')
+            else:
+                return render(request, 'annotation_tool/authentication/loginError.html', {})
+        else:
+            print("Someone tried to login and failed.")
+            print("They used username: {} and password: {}".format(
+                username, password))
+            return render(request, 'annotation_tool/authentication/loginError.html', {})
+    else:
+        return render(request, 'annotation_tool/authentication/login.html', {})
 
 
 def handler404(request, exception):
-    return redirect('annotation_tool:blocks')
+    if request.user.is_authenticated:
+        return redirect('annotation_tool:blocks')
+    else:
+        return redirect('annotation_tool:user_login')
 
 
 def BlockSelection(request):
-    # if request.user.is_authenticated:
-    blocks = Block.objects.all()
-    return render(request, 'annotation_tool/blocks.html', {'blocks': blocks})
-
-
-# else:
-#     return HttpResponse('Not Authorized', status=403)
+    if request.user.is_authenticated:
+        blocks = Block.objects.all()
+        return render(request, 'annotation_tool/blocks.html', {'blocks': blocks})
+    else:
+        return redirect('annotation_tool:user_login')
 
 
 def UploadDOCX(request):
@@ -49,14 +99,6 @@ def destroyAllLinks(element):
     tag = element.tags.first()
     Link.objects.filter(first_item=tag).delete()
     Link.objects.filter(second_item=tag).delete()
-
-
-def CreateWindow(request):
-    if request.is_ajax():
-        html = render_to_string('annotation_tool/create.html',)
-        response = {}
-        response['template'] = html
-        return HttpResponse(json.dumps(response))
 
 
 def SaveWindow(data):
@@ -103,14 +145,17 @@ def SaveWindow(data):
 
 
 def Workspace(request, pk):
-    # if request.user.is_authenticated:
-    block = Block.objects.get(pk=pk)
-    lines = Line.objects.all().filter(block=block).order_by('position')
-    return render(request, 'annotation_tool/main.html', {'lines': lines, 'pk': pk})
-
+    if request.user.is_authenticated:
+        block = Block.objects.get(pk=pk)
+        lines = Line.objects.all().filter(block=block).order_by('position')
+        return render(request, 'annotation_tool/main.html', {'lines': lines, 'pk': pk})
+    else:
+        return redirect('annotation_tool:user_login')
 
 # else:
 #     return HttpResponse('Not Authorized', status=403)
+
+
 def SearchWindow():
     html = render_to_string('annotation_tool/windows/search.html',)
     return html
@@ -154,18 +199,21 @@ def PinFactoryWindow():
 
 @csrf_exempt
 def SaveEntity(request, pk, model):
-    Model = apps.get_model(
-        app_label="annotation_tool", model_name=model)
-    item = get_object_or_404(Model, pk=pk)
-    if request.method == "POST":
-        GenericForm = getForm(model)
-        form = GenericForm(request.POST, instance=item)
-        if form.is_valid():
-            item = form.save(commit=False)
-            item.save()
-            return HttpResponse("Сохранено")
-        else:
-            return HttpResponse("Ошибка в форме")
+    if request.user.is_authenticated:
+        Model = apps.get_model(
+            app_label="annotation_tool", model_name=model)
+        item = get_object_or_404(Model, pk=pk)
+        if request.method == "POST":
+            GenericForm = getForm(model)
+            form = GenericForm(request.POST, instance=item)
+            if form.is_valid():
+                item = form.save(commit=False)
+                item.save()
+                return HttpResponse("Сохранено")
+            else:
+                return HttpResponse("Ошибка в форме")
+    else:
+        return redirect('annotation_tool:user_login')
 
 
 def InfoWindow(pk, model_name):
@@ -215,16 +263,19 @@ def showcase(pk, model_name, pin=True):
 
 @csrf_exempt
 def getLineDependencies(request):
-    if request.is_ajax():
-        block_pk = request.GET.get('pk')
-        if Block.objects.filter(pk=block_pk).exists():
-            block = Block.objects.get(pk=block_pk)
-            links = block.getLineLinks()
-            response = {}
-            response['links'] = list(
-                links[0].values('first_item__object_id', 'second_item__object_id', 'relation__name'))
-            return JsonResponse(response)
+    if request.user.is_authenticated:
+        if request.is_ajax():
+            block_pk = request.GET.get('pk')
+            if Block.objects.filter(pk=block_pk).exists():
+                block = Block.objects.get(pk=block_pk)
+                links = block.getLineLinks()
+                response = {}
+                response['links'] = list(
+                    links[0].values('first_item__object_id', 'second_item__object_id', 'relation__name'))
+                return JsonResponse(response)
         return HttpResponseNotFound("Block is not present")
+    else:
+        return redirect('annotation_tool:user_login')
 
 
 def getAllLinks(item):

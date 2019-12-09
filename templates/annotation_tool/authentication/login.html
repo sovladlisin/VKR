@@ -1,0 +1,19 @@
+{% extends "annotation_tool/authentication/base.html" %}
+{% block title %}
+Вход
+{% endblock title %}
+{% block content %}
+        <div class="title">
+            <p>Авторизация</p>
+        </div>
+        <form method="post" action="{% url 'annotation_tool:user_login' %}">
+                    {% csrf_token %}
+                    {# A more "HTML" way of creating the login form#}
+                    <div class="label-holder"><label for="username">Логин:</label></div>
+                    <input type="text" name="username" placeholder="Введите логин">
+                    <div class="label-holder"><label for="password">Пароль:</label></div>
+                    <input type="password" name="password" placeholder="Введите пароль">
+                    <button type="submit" name="" value="Login"><p>Войти в систему</p></button>
+                    <button style="background-color: rgb(255,70,65)"><a href="{% url 'annotation_tool:register'%}">Регистрация</a></button>
+        </form>
+{% endblock content %}

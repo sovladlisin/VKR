@@ -7,6 +7,11 @@ var sliderWidth;
 
 
 $(document).ready(function () {
+
+    $('.content button').click(function () {
+        $('.box').css('opacity', '1')
+    })
+
     pos = 0;
     totalSlides = $('#slider-wrap ul li').length;
     sliderWidth = $('#slider-wrap').width();

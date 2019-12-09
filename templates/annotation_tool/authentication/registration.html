@@ -1,0 +1,42 @@
+{% extends "annotation_tool/authentication/base.html" %}
+{% load widget_tweaks %}
+{% block title %}
+Регистрация
+{% endblock title %}
+
+
+{% block content %}
+        <div class="title"><p>Регистрация</p></div>
+            <form enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                <div class="label-holder">
+                    <label>{{ user_form.username.label }}:</label>
+                </div>
+                {% render_field user_form.username %}
+
+                <div class="label-holder">
+                    <label>{{ user_form.password.label }}:</label>
+                </div>
+                {% render_field user_form.password %}
+
+                <div class="label-holder">
+                    <label>{{ user_form.email.label }}:</label>
+                </div>
+                {% render_field user_form.email %}
+
+                 <div class="label-holder">
+                     <label>{{ profile_form.name.label }}:</label>
+                 </div>
+                {% render_field profile_form.name %}
+
+                 <div class="label-holder">
+                     <label>{{ profile_form.surname.label }}:</label>
+                 </div>
+                {% render_field profile_form.surname %}
+
+                <button style="background-color: rgb(255,70,65)" type="submit" name="" value="Register"><p>Создать учетную запись</p></button>
+            </form>
+         {% if mark %}
+             <div class="username-error"><p>Пользователь с данным логином уже существует</p></div>
+        {% endif %}
+{% endblock content %}
