@@ -1,0 +1,43 @@
+.TestSuccess, .TestError {
+    width: 300px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 14pt;
+    color: white;
+    border-radius: 30px;
+    margin: 10px;
+}
+.TestSuccess{
+    background: rgb(39,166,142);
+}
+.TestSuccess:hover {
+    background: rgb(52, 197, 169);
+    cursor:pointer;
+}
+.TestError{
+    background: rgb(255,70,65);
+}
+.TestError:hover {
+    background: rgb(165, 48, 44);
+    cursor:pointer;
+}
+
+
+.info {
+    display: block;
+    width: 400px;
+    height: auto;
+    overflow: auto;
+    background: wheat;
+    border-radius: 30px;
+    margin: 10px;
+    text-align: left;
+    font-size: 10pt;
+    padding: 16px;
+}
+
+img {
+    width: 400px;
+    height: 200px;
+}

@@ -1,0 +1,40 @@
+{% load tags %}
+{% if pin %}
+<div id="{{item.pk}}{{item|get_class}}"class="item" data-pk="{{item.pk}}" data-model="{{ item|get_class }}">
+    <p>Изображение - </p><p>{{ item.pk }}</p>
+    <div class="item-delete"><p><i class="fas fa-times"></i></p></div>
+    <div class="item-open"><p><i class="far fa-sticky-note"></i></p></div>
+    <div class="item-info">
+        <div class="content">
+            <div class="label"><p>Название:</p></div>
+            <div class="value"><p>{{ item.name }}</p></div>
+            <div class="label"><p>Изображение:</p></div>
+            <div class="image-holder"style="background-image: url({{ item.image.url }});"></div>
+        </div>
+    </div>
+</div>
+{% else %}
+    <div class="pin-container">
+        <p>Пин для манипулирования: </p>
+        <div id="{{item.pk}}{{item|get_class}}"class="item" data-pk="{{item.pk}}" data-model="{{ item|get_class }}">
+            <p>Изображение - </p><p>{{ item.pk }}</p>
+            <div class="item-delete" style="display: none"><p><i class="fas fa-times"></i></p></div>
+            <div class="item-open" style="display: none"><p><i class="far fa-sticky-note"></i></p></div>
+            <div class="item-info">
+                <div class="content">
+                    <div class="label"><p>Название:</p></div>
+                    <div class="value"><p>{{ item.name }}</p></div>
+                    <div class="label"><p>Изображение:</p></div>
+                    <div class="image-holder"style="background-image: url({{ item.image.url }});"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="image-container">
+        <div class="image-holder"style="background-image: url({{ item.image.url }});"></div>
+    </div>
+    
+{% endif %}
+
+
+

@@ -1,0 +1,268 @@
+.window {
+    position: fixed;
+    top: 10%;
+    left: 20%;
+    z-index: 9;
+    background-color: #eaf4f4;
+    text-align: left;
+    width: 900px;
+    overflow: hidden;
+    max-height: 700px;
+    /* border: 0px solid; */
+    border-color: #232d41;
+    border-radius: 20px;
+    -webkit-box-shadow: 0px 4px 0px 2px rgb(35,45,65, 0.3);
+    -moz-box-shadow: 0px 4px 0px 2px rgb(35,45,65, 0.3);
+    box-shadow: 0px 4px 0px 2px rgb(35,45,65, 0.3);
+}
+
+#hidden-window-container{
+    position: fixed;
+    margin: 10px;
+    width: 160px;
+    border-radius: 30px;
+    display: grid;
+    grid-template-columns: auto;
+    grid-gap: 5px;
+    justify-items: left;
+    top: 10px;
+    left: 10px;
+}
+#hidden-window-container .hidden-window{
+    height: 30px;
+    background: #232d41;
+    color: white;
+    border-radius: 15px;
+    margin: 0px 0;
+    font-size: 10pt;
+    transition: 0.5s;
+    -webkit-box-shadow: 0px 5px 0px 0px rgb(35,45,65, 0.4);
+    -moz-box-shadow: 0px 5px 0px 0px rgb(35,45,65, 0.4);
+    box-shadow: 0px 3px 0px 0px rgb(35,45,65, 0.4);
+}
+#hidden-window-container .hidden-window:hover{
+    margin-left: 15px;
+    cursor: pointer;
+    background-color:#ff4641;
+}
+#hidden-window-container .hidden-window>p{
+    line-height: 30px;
+    width: inherit;
+    text-align: center;
+    padding: 0 10px;
+}
+
+.window-header {
+    z-index: 10;
+    background-color: #232d41;
+    color: #fff;
+    height: 50px;
+    width: 900px;
+}
+.window-header p{
+    width: 900px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}
+[data-callable='1']{
+    cursor: pointer;
+}
+[data-callable='1']:hover{
+    color: rgb(255,103,102);
+    font-weight: bold;
+}
+
+
+.close-window, .save-window, .item-restore, .hide-window{
+    position: absolute;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    top: 8px;
+    background: none;
+}
+.hide-window{
+    right: 80px;
+}
+.close-window{
+    right: 10px;
+}
+.save-window{
+    right: 45px;
+}
+.item-restore{
+    opacity: 0;
+    right: 115px;
+}
+.item-restore>p, .close-window>p, .save-window>p, .hide-window>p{
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 33px;
+    border-radius: 50px;
+    color: white;
+    /* border: 3px solid; */
+    /* border-color: rgb(36,51,60); */
+    /* background-color: rgb(255,203,0); */
+    font-size: 10pt;
+    transition: 0.5s;
+}
+.item-restore p:hover{
+    background-color:  rgb(255,203,0);
+}
+.close-window p:hover{
+    background-color: #ff4641;
+}
+.save-window p:hover{
+    background-color: rgb(39,166,142);
+}
+.hide-window p:hover{
+    background-color: rgb(64,196,255);
+}
+
+
+
+.placeholder{
+    width: 260px;
+    height: 110px;
+    overflow: auto;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-items: center;
+}
+
+.item-current, .item-masters, .item-slaves, .item-dep{
+    width: 900px;
+    height: 30px;
+}
+.item-current p{
+    width: 900px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: beige;
+}
+.item-slaves, .item-masters{
+    width: 880px;
+    margin: 15px auto;
+    height: 210px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: rgb(255, 255, 255,0.4);
+    -webkit-box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.3);
+    box-shadow: 0px 2px 0px 0px rgb(35,45,65, 0.3);
+}
+.item-slaves .title, .item-masters .title{
+    height: 30px;
+}
+.item-slaves .title:hover p span, .item-masters .title:hover p span {
+    display:none
+}
+.item-slaves .title:hover p:before, .item-masters .title:hover p:before{
+    cursor: pointer;
+    content: "Добавить новый вид связи";
+}
+
+.item-slaves .title p{
+    width: 900px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: #00bfa5;
+    color: white;
+}
+.item-masters .title p{
+    width: 900px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: white;
+    background-color: #ff4641;
+}
+.dep-container{
+    grid-template-columns: 1fr 1fr 1fr;;
+    grid-gap: 20px;
+    display: grid;
+    height: 130px;
+    padding: 25px 28px;
+    overflow: auto;
+    justify-items: center;
+}
+.dep-container .item-dep{
+    border-radius: 30px;
+}
+
+
+.item-dep{
+    width: 260px;
+    /* display: inline-block; */
+    height: 130px;
+    background: white;
+    /* padding: 10px; */
+    -webkit-box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.3);
+    box-shadow: 0px 2px 0px 0px rgb(35,45,65, 0.3);
+}
+.item-dep>p{
+    text-align: center;
+    line-height: 30px;
+    /* background-color: beige; */
+}
+
+
+.item-masters .masters-placeholder, .item-slaves .slaves-placeholder{
+    width: 900px;
+    float: left;
+}
+
+.dep-input{
+    height: 30px;
+}
+.dep-input input{
+    float: left;
+    width: 273px;
+    height: 28px;
+    border-radius: 25px;
+    border: none;
+    background: white;
+    padding: 0px 13px;
+    color:#232d41;
+}
+.dep-input div.add-dep{
+    float: left;
+    height: 30px;
+    width: 30px;
+    border-radius: 30px;
+    margin-left: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+.dep-input div.add-dep:hover{
+    background: #00bfa5;
+}
+.dep-input div.add-dep p{
+    line-height: 33px;
+    font-size: 10pt;
+}
+.window-notification{
+    width: 900px;
+    height: 650px;
+    background: rgb(35,45,65,0.9);
+    z-index: 9999;
+    position: absolute;
+    bottom: 0;
+    display: none;
+    opacity: 0;
+}
+.window-notification p{
+    background: none;
+    width: inherit;
+    height: inherit;
+    line-height: 650px;
+    text-align: center;
+    color: white;
+    font-size: 35pt;
+}

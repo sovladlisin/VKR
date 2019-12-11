@@ -1,0 +1,156 @@
+#side-item-info{
+    height: auto;
+    width: 0;
+    z-index: 99;
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    margin: 10px;
+    transition: 0.3s;
+    opacity: 0;
+    background: white;
+    border-radius: 20px;
+}
+
+.tooltip{
+    left: -20px;
+    font-size: 10pt;
+    line-height: 15px;
+
+}
+.block{
+    width: 1000px;
+    margin: 50px auto;
+    display: grid;
+    grid-template-columns: 130px auto auto;
+    grid-gap: 8px;
+    grid-auto-rows: minmax(30px, auto);
+    justify-items: start;
+}
+.block .item{
+    margin:0;
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: end;
+}
+
+.line{
+    width: 425px;
+    float: left;
+
+}
+.line p{
+    padding-left: 20px;
+    line-height: 30px;
+    text-align: left;
+    vertical-align: middle;
+    color: black;
+    background-color: white;
+    border: 0;
+    border-radius: 15px;
+}
+.block .id{
+    float: left;
+    border-radius: 130px;
+}
+
+.block .id p{
+    border-radius: 15px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    vertical-align: middle;
+    color: black;
+    background-color: white;
+    border: 0;
+}
+
+.articlelink, #hide-all-windows, #close-all-windows, #open-search, #open-tree, #pin-factory{
+    position: fixed;
+    border: none;
+    width: 50px;
+    height: 50px;
+    font-size: 12pt;
+    border-radius: 35px;
+}
+.articlelink{
+    bottom: 30px;
+    left: 30px;
+    background-color: #00bfa5;
+}
+#hide-all-windows{
+    bottom: 90px;
+    left: 30px;
+    background-color: #232d41;
+}
+#close-all-windows{
+    bottom: 150px;
+    left: 30px;
+    background-color: #ff4641;
+}
+#open-search{
+    bottom: 210px;
+    left: 30px;
+    background-color: rgb(64,196,255);
+}
+#open-tree{
+    bottom: 270px;
+    left: 30px;
+    background-color: rgb(64,196,255);
+}
+#pin-factory{
+    bottom: 30px;
+    right: 30px;
+    background-color: rgb(64,196,255);
+}
+.articlelink:hover, #hide-all-windows:hover, #close-all-windows:hover, #open-search:hover, #open-tree:hover, #pin-factory:hover{
+    cursor: pointer;
+    width: 250px;
+    transition: 0.2s;
+    text-decoration: none;
+
+}
+
+.articlelink p, #hide-all-windows p,  #close-all-windows p, #open-search p, #open-tree p, #pin-factory p{
+    color: white;
+    text-align: center;
+    line-height: 53px;
+    width: inherit;
+    height:inherit;
+}
+
+.articlelink:hover p, #hide-all-windows:hover p, #close-all-windows:hover p, #open-search:hover p, #open-tree:hover p, #pin-factory:hover p{
+    font-size: 12pt;
+    visibility: hidden;
+}
+
+.articlelink:hover p:after, #hide-all-windows:hover p:after, #close-all-windows:hover p:after, #open-search:hover p:after, #open-tree:hover p:after, #pin-factory:hover p:after{
+    visibility: visible;
+    animation: fadein 2s;
+    -moz-animation: fadein 2s; /* Firefox */
+    -webkit-animation: fadein 2s; /* Safari and Chrome */
+    -o-animation: fadein 2s; /* Opera */
+}
+
+.articlelink:hover p:after{
+    content: 'Список текстов';
+}
+#hide-all-windows:hover p:after{
+    content: 'Свернуть все окна';
+}
+#close-all-windows:hover p:after{
+    content: 'Закрыть все окна';
+}
+#open-search:hover p:after{
+    content: 'Поиск';
+}
+#open-tree:hover p:after{
+    content: 'Дерево классов';
+}
+#pin-factory:hover p:after{
+    content: 'Создать объект';
+}
+
+
+
