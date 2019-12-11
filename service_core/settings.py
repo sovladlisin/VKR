@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'annotation_tool.apps.AnnotationToolConfig',
 
+    'annotation_tool',
     # утилита для работы с формами
     'widget_tweaks',
     # утилита для работы с деревьями
