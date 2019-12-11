@@ -1,7 +1,8 @@
+from django.forms.widgets import ClearableFileInput
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
-from annotation_tool.models import UserProfileInfo, Relation, Object, Line, Block, Class, Description
+from annotation_tool.models import UserProfileInfo, Relation, Object, Line, Block, Class, Description, Image
 
 
 class UploadFileForm(forms.Form):
@@ -118,3 +119,22 @@ class DescriptionForm(forms.ModelForm):
         labels = {
             'text': _('Содержание'),
         }
+
+
+class CustomImageFieldWidget(ClearableFileInput):
+    template_with_clear = '<label for="%(clear_checkbox_id)s">%(clear)s %(clear_checkbox_label)s</label>'
+
+
+class ImageForm(forms.ModelForm):
+    image = forms.ImageField(label=_('Обновить изображение'), required=False, error_messages={
+        'invalid': _("Image files only")}, widget=forms.FileInput)
+
+    class Meta:
+        model = Image
+        fields = ('name', 'image',)
+        labels = {
+            'name': _('Название'),
+        }
+        # widgets = {
+        #     'image': CustomImageFieldWidget(),
+        # }

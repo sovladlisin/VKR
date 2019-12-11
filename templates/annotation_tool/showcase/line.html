@@ -2,7 +2,7 @@
 {% load widget_tweaks %}
 {% if pin %}
     <div id="{{item.pk}}{{item|get_class}}"class="item" data-pk="{{item.pk}}" data-model="{{ item|get_class }}">
-        <p>Строка - {{ item.position }}</p>
+        <p>Строка - </p><p>{{ item.position }}</p>
         <div class="item-delete"><p><i class="fas fa-times"></i></p></div>
         <div class="item-open"><p><i class="far fa-sticky-note"></i></p></div>
         <div class="item-info">
@@ -22,7 +22,7 @@
         <div class="pin-container">
             <p>Пин для манипулирования: </p>
             <div id="{{item.pk}}{{item|get_class}}"class="item" data-pk="{{item.pk}}" data-model="{{ item|get_class }}">
-                <p>Строка - {{ item.position }}</p>
+                <p>Строка - </p><p>{{ item.position }}</p>
                 <div class="item-delete" style="display: none"><p><i class="fas fa-times"></i></p></div>
                 <div class="item-open" style="display: none"><p><i class="far fa-sticky-note"></i></p></div>
                 <div class="item-info">

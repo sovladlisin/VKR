@@ -13,8 +13,8 @@ from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from docx import Document
 
-from annotation_tool.forms import UploadFileForm, RelationForm, LineForm, BlockForm, ObjectForm, ClassForm, DescriptionForm, UserForm, UserProfileInfoForm
-from annotation_tool.models import Block, Relation, Class, Line, Link, TaggedItem, Object, Description, UserProfileInfo
+from annotation_tool.forms import UploadFileForm, RelationForm, LineForm, BlockForm, ObjectForm, ClassForm, DescriptionForm, UserForm, UserProfileInfoForm, ImageForm
+from annotation_tool.models import Block, Relation, Class, Line, Link, TaggedItem, Object, Description, UserProfileInfo, Image
 
 
 def register(request):
@@ -176,6 +176,8 @@ def Search(data):
         html += showcase(obj.pk, 'Object')
     for desc in Description.objects.all():
         html += showcase(desc.pk, 'Description')
+    for img in Image.objects.all():
+        html += showcase(img.pk, 'Image')
     return html
 
 
@@ -208,7 +210,8 @@ def SaveEntity(request, pk, model):
         item = get_object_or_404(Model, pk=pk)
         if request.method == "POST":
             GenericForm = getForm(model)
-            form = GenericForm(request.POST, instance=item)
+            form = GenericForm(request.POST, instance=item,
+                               files=request.FILES)
             if form.is_valid():
                 item = form.save(commit=False)
                 item.save()
@@ -356,6 +359,7 @@ def getForm(model):
         'Block': BlockForm,
         'Object': ObjectForm,
         'Class': ClassForm,
-        'Description': DescriptionForm
+        'Description': DescriptionForm,
+        'Image': ImageForm
     }
     return forms[model]

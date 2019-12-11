@@ -115,6 +115,7 @@ class WindowWorkflow {
             $(new_window.$node).data('model', model);
             if (pk != null) {
                 var title = $(new_window.$node).find('.pin-container:first').find('.item:first').find('p:first').text();
+                title += $(new_window.$node).find('.pin-container:first').find('.item:first').find('>p:last').text();
                 $(new_window.$node).find('.window-header:first').find('p:first').text(title);
                 new_window.title = title;
             }
@@ -174,6 +175,7 @@ class WindowWorkflow {
                 var item = ui.item;
                 $(item).attr('style', '');
                 $(item).find('div').attr('style', '');
+                $(item).find('p').attr('style', '');
                 self.registerItem(this, item);
             }
         });

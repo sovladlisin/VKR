@@ -191,7 +191,7 @@ class Phrase(models.Model):
 
 # Описание любого объекта
 class Description(models.Model):
-    text = models.TextField(max_length=500)
+    text = models.TextField(max_length=500, default="Не указано")
     tags = GenericRelation(TaggedItem, null=True)
 
     def __str__(self):
@@ -210,7 +210,8 @@ class Description(models.Model):
 
 
 class Image(models.Model):
-    image = models.ImageField
+    image = models.ImageField(upload_to='images/',
+                              null=True, default='images/default.png')
     name = models.CharField(max_length=300, default="Не указано")
     tags = GenericRelation(TaggedItem, null=True)
 

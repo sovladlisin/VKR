@@ -5,7 +5,7 @@
     {% load tags %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Title</title>
+    <title>Интерфейс</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
@@ -30,7 +30,7 @@
     <script src= "{% static 'js/handlers.js' %}"></script>
 </head>
 <body>
-<div class="se-pre-con"></div>
+{% comment %} <div class="se-pre-con"></div> {% endcomment %}
 <div id="window-container"></div>
 <div id="hidden-window-container"></div>
 <div id="side-item-info"></div>
@@ -50,7 +50,7 @@
                         <div class="item-open" data-callable="1"><p>open</p></div>
                     </div> {% endcomment %}
                     <div class="item" data-pk="{{line.pk}}" data-model="{{ line|get_class }}">
-                        <p>Строка - {{ line.position }}</p>
+                        <p style="display: none">Строка - </p><p style="min-width: 20px">{{ line.position }}</p>
                         <div class="item-delete" style="display: none"><p><i class="fas fa-times"></i></p></div>
                         <div class="item-open"><p><i class="far fa-sticky-note"></i></p></div>
                         <div class="item-info">
